@@ -1,3 +1,4 @@
+const { EventEmitter } = require('events');
 const Greenlock = require('greenlock');
 const fs = require('fs');
 const path = require('path');
@@ -5,17 +6,11 @@ const path = require('path');
 const pkg = require('../../package.json');
 const { aliAccessKeyId, aliAccessKeySecret } = require('./env');
 
-const noop = () => {};
-
-class CertificatesManager {
-  constructor({ packageRoot, configDir, email, onIssued = noop, onRenewed = noop, staging = false }) {
-    if (typeof onIssued !== 'undefined' && typeof onRenewed !== 'function') {
-      throw new Error('onIssued must be a function');
-    }
-
+class CertificatesManager extends EventEmitter {
+  constructor({ packageRoot, configDir, email, staging = false }) {
+    super();
     this.configDir = configDir;
-    this.onIssued = onIssued;
-    this.onRenewed = onRenewed;
+    this.staging = staging;
 
     this.gl = Greenlock.create({
       packageRoot,
@@ -50,11 +45,11 @@ class CertificatesManager {
         }
 
         if (event === 'cert_issue') {
-          this.onIssued(details);
+          this.emit('cert.issued', details);
         }
 
         if (event === 'cert_renewal') {
-          this.onRenewed();
+          this.emit('cert.renewal', details);
         }
       },
     });
@@ -65,6 +60,7 @@ class CertificatesManager {
       challenges: {
         'dns-01': {
           module: 'acme-dns-01-ali',
+          propagationDelay: 10 * 1000,
           accessKeyId: aliAccessKeyId,
           accessKeySecret: aliAccessKeySecret,
         },
@@ -91,7 +87,7 @@ class CertificatesManager {
   }
 
   readCert(subject) {
-    const certDir = path.join(this.configDir, 'live', subject);
+    const certDir = path.join(this.configDir, this.staging ? 'staging' : 'live', subject);
     if (!fs.existsSync(certDir)) {
       return null;
     }
@@ -106,5 +102,24 @@ class CertificatesManager {
     };
   }
 }
+
+let instance = null;
+
+CertificatesManager.getInstance = () => {
+  if (instance !== null) {
+    return instance;
+  }
+
+  const rootDir = process.env.BLOCKLET_DATA_DIR || path.join(__dirname, '..');
+  const configDir = path.join(rootDir, './greenlock.d/');
+  instance = new CertificatesManager({
+    packageRoot: rootDir,
+    configDir,
+    email: 'polunzh@qq.com',
+    staging: process.env.NODE_ENV !== 'production',
+  });
+
+  return instance;
+};
 
 module.exports = CertificatesManager;
