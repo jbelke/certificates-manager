@@ -8,8 +8,8 @@ const { aliAccessKeyId, aliAccessKeySecret } = require('./env');
 const noop = () => {};
 
 class CertificatesManager {
-  constructor({ packageRoot, configDir, email, onIssued = noop, onRenewed = noop }) {
-    if (typeof onIssued !== 'undefined' && typeof onIssued !== 'function') {
+  constructor({ packageRoot, configDir, email, onIssued = noop, onRenewed = noop, staging = false }) {
+    if (typeof onIssued !== 'undefined' && typeof onRenewed !== 'function') {
       throw new Error('onIssued must be a function');
     }
 
@@ -19,10 +19,9 @@ class CertificatesManager {
 
     this.gl = Greenlock.create({
       packageRoot,
-      manager: '@greenlock/manager',
       configDir,
       renew: true,
-      staging: process.env.NODE_ENV !== 'production', // TODO: 这个配置最好能暴露到外部
+      staging,
       maintainerEmail: email,
       packageAgent: `${pkg.name}/${pkg.version}`,
       notify: (event, details) => {
@@ -65,7 +64,7 @@ class CertificatesManager {
       agreeToTerms: false,
       challenges: {
         'dns-01': {
-          module: 'acme-dns-01-alidns',
+          module: 'acme-dns-01-ali',
           accessKeyId: aliAccessKeyId,
           accessKeySecret: aliAccessKeySecret,
         },
@@ -93,6 +92,10 @@ class CertificatesManager {
 
   readCert(subject) {
     const certDir = path.join(this.configDir, 'live', subject);
+    if (!fs.existsSync(certDir)) {
+      return null;
+    }
+
     const chain = fs.readFileSync(path.join(certDir, 'fullchain.pem')).toString();
     const privkey = fs.readFileSync(path.join(certDir, 'privkey.pem')).toString();
 

@@ -1,1 +1,1 @@
-{"configDir":"/Users/zhenqiang/workcode/certificates-manager/greenlock.d/","manager":"@greenlock/manager"}
+{"configDir":"greenlock.d/","manager":"@greenlock/manager"}

@@ -61,11 +61,13 @@ const updateCert = async (certificatesManager, subject) => {
       packageRoot: rootDir,
       configDir,
       email: 'polunzh@qq.com',
+      staging: process.env.NODE_ENV !== 'production',
       onIssued: (data) => {
         console.log(data);
         return updateCert(certificatesManager, data.subject);
       },
     });
+
     await certificatesManager.addDomain({
       subject: 'polunzh.cn',
       altnames: ['polunzh.cn', '*.polunzh.cn'],

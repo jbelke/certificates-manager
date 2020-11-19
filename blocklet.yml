@@ -24,8 +24,8 @@ repository:
   url: >-
     https://github.com/ArcBlock/abt-node/tree/master/blocklets/certificates-manager
 support: support@arcblock.io
-hooks:
-  pre-deploy: npm run bundle
+# hooks:
+  # pre-deploy: npm run bundle
 hookFiles: []
 environments:
   - name: ALI_ACCESS_KEY_ID

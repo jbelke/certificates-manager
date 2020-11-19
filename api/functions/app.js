@@ -43,9 +43,10 @@ app.use(
 const router = express.Router();
 
 require('../routes/session').init(router);
+require('../routes/index').init(router);
 
 if (isProduction) {
-  const staticDir = process.env.BLOCKLET_APP_ID ? './' : '../../';
+  const staticDir = '../../';
 
   app.use(compression());
   app.use(router);
