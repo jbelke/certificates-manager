@@ -1,0 +1,48 @@
+name: certificates-manager
+description: Manage ABT Node SSL certificates
+specVersion: 1.0.0
+did: z8iZuGaHf4BxN4XxFWhjuX1zP99ySPmZUFNJf
+group: dapp
+version: 0.1.0
+main: api/index.js
+title: Certificates Manager
+publicUrl: ''
+adminUrl: /
+configUrl: ''
+docUrl: ''
+logo: logo.png
+author: 'polunzh <polunzh@gmail.com> (http://github.com/polunzh)'
+charging:
+  price: 0
+color: primary
+community: 'https://community.arcblockio.cn'
+keywords:
+  - dapp
+  - certificate
+repository:
+  type: git
+  url: >-
+    https://github.com/ArcBlock/abt-node/tree/master/blocklets/certificates-manager
+support: support@arcblock.io
+hooks:
+  pre-deploy: npm run bundle
+hookFiles: []
+environments:
+  - name: ALI_ACCESS_KEY_ID
+    description: Access key ID of Aliyun Cloud
+    required: true
+  - name: ALI_ACCESS_KEY_SECRET
+    description: Access key secret of Aliyun Cloud
+    required: true
+    secure: true
+  - name: NODE_ACCESS_KEY
+    description: Access key of ABT Node
+    required: true
+  - name: NODE_ACCESS_SECRET
+    description: Access key of ABT Node
+    required: true
+    secure: true
+capabilities:
+  dynamicPathPrefix: true
+scripts:
+  dev: npm run start
