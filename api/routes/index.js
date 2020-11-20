@@ -1,64 +1,28 @@
-const Client = require('@abtnode/client');
+/* eslint-disable no-loop-func */
 require('@greenlock/manager');
 
 const CertificatesManager = require('../libs/certificates-manager');
-const { abtnodeAccessKey, abtnodeAccessSecret, abtnodePort } = require('../libs/env');
-const domainState = require('../states/domain');
+const DomainState = require('../states/domain');
+const DnsProviderState = require('../states/dns_provider');
 
-const client = new Client(`http://127.0.0.1:${abtnodePort}/api/gql`.trim());
-client.setAuthAccessKey({
-  accessKeyId: abtnodeAccessKey,
-  accessKeySecret: abtnodeAccessSecret,
-});
+const domainState = new DomainState();
+const dnsProviderState = new DnsProviderState();
 
-const certificatesManager = CertificatesManager.getInstance();
+const initializeManager = async () => {
+  const domains = await domainState.find();
 
-const fixCert = (pem) => pem.split('\n').join('|');
-
-const updateAbtNodeCert = async (cert) => {
-  try {
-    const domain = cert.subject;
-    const certificate = cert.chain;
-    const privateKey = cert.privkey;
-
-    const result = await client.updateNginxHttpsCert({
-      input: {
-        domain,
-        privateKey: fixCert(privateKey),
-        certificate: fixCert(certificate),
-      },
+  // eslint-disable-next-line no-restricted-syntax
+  for (const domain of domains) {
+    CertificatesManager.getInstance({
+      challengeName: domain.dnsProvider.name,
+      challengeParams: domain.dnsProvider.credentials,
     });
-
-    console.log('update cert to ABT Node success:', result);
-  } catch (error) {
-    console.error('update cert to ABT Node failed:', error);
   }
 };
-
-const updateCert = async (subject) => {
-  // TODO: 这个地方应该先判断是否需要更新，不过修改为 Node 节点从 blocklet 读取证书信息就不需要了
-  const cert = certificatesManager.readCert(subject);
-  if (cert) {
-    await updateAbtNodeCert(cert);
-  }
-};
-
-certificatesManager.once('cert.issued', (data) => updateCert(data.subject));
-certificatesManager.once('cert.renewal', (data) => updateCert(data.subject));
 
 module.exports = {
   init(app) {
-    // updateCert(certificatesManager, 'polunzh.cn');
-    domainState
-      .find()
-      .then((domains) => {
-        (domains || []).forEach(({ domain }) => {
-          updateCert(domain);
-        });
-      })
-      .catch((error) => {
-        console.error('find domains failed', error);
-      });
+    initializeManager();
 
     app.get('/api/domains', async (req, res) => {
       const domains = await domainState.find();
@@ -67,13 +31,30 @@ module.exports = {
     });
 
     app.post('/api/domains', async (req, res) => {
-      const { domain, dnsService, accessKey, accessSecret } = req.body;
-      if (!domain || !accessKey || !dnsService || !accessSecret) {
+      const { domain, dnsProvider } = req.body;
+      if (!domain || !dnsProvider) {
         return res.status(400).json('invalid request body');
       }
 
-      const saveResult = await domainState.create({ domain, dnsService, accessKey, accessSecret });
+      const provider = await dnsProviderState.findOne({ name: dnsProvider });
+      if (!provider) {
+        return res.status(400).json(`${dnsProvider} provider does not exist`);
+      }
+
+      const saveResult = await domainState.insert({
+        domain,
+        dnsProvider: { name: provider.name, credentials: provider.credentials },
+      });
+
       console.log('add domain', { domain });
+
+      const certificatesManager = CertificatesManager.getInstance({
+        challengeName: dnsProvider,
+        challengeParams: {
+          accessKeyId: provider.credentials.accessKeyId,
+          accessKeySecret: provider.credentials.accessKeySecret,
+        },
+      });
 
       await certificatesManager.addDomain({
         subject: saveResult.domain,
@@ -81,6 +62,24 @@ module.exports = {
       });
 
       return res.json('ok');
+    });
+
+    app.post('/api/dns_providers', async (req, res) => {
+      const { name, accessKeyId, accessKeySecret } = req.body;
+      if (!name || !accessKeyId || !accessKeySecret) {
+        return res.status(400).json('invalid request body');
+      }
+
+      await dnsProviderState.insert({ name, credentials: { accessKeyId, accessKeySecret } });
+      console.log('add dns provider', { name });
+
+      return res.json('ok');
+    });
+
+    app.get('/api/dns_providers', async (req, res) => {
+      const result = await dnsProviderState.find();
+
+      return res.json(result);
     });
   },
 };

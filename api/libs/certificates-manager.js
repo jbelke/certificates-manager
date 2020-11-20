@@ -3,8 +3,8 @@ const Greenlock = require('greenlock');
 const fs = require('fs');
 const path = require('path');
 
+const { updateAbtNodeCert } = require('./abtnode');
 const pkg = require('../../package.json');
-const { aliAccessKeyId, aliAccessKeySecret } = require('./env');
 
 class CertificatesManager extends EventEmitter {
   constructor({ packageRoot, configDir, email, staging = false }) {
@@ -53,19 +53,6 @@ class CertificatesManager extends EventEmitter {
         }
       },
     });
-
-    this.gl.manager.defaults({
-      subscriberEmail: email,
-      agreeToTerms: false,
-      challenges: {
-        'dns-01': {
-          module: 'acme-dns-01-ali',
-          propagationDelay: 10 * 1000,
-          accessKeyId: aliAccessKeyId,
-          accessKeySecret: aliAccessKeySecret,
-        },
-      },
-    });
   }
 
   async addDomain({ subject, altnames }) {
@@ -80,10 +67,6 @@ class CertificatesManager extends EventEmitter {
 
   async renew() {
     return this.gl.renew();
-  }
-
-  async get(subject) {
-    return this.gl.get({ servername: subject });
   }
 
   readCert(subject) {
@@ -103,21 +86,77 @@ class CertificatesManager extends EventEmitter {
   }
 }
 
-let instance = null;
+const challengesMap = new Map([
+  [
+    'alibaba_cloud',
+    {
+      challenges: {
+        'dns-01': ({ accessKeyId, accessKeySecret }) => {
+          if (!accessKeyId || !accessKeySecret) {
+            throw new Error('accessKeyId and accessKeySecret is required by alibaba_cloud challenge');
+          }
 
-CertificatesManager.getInstance = () => {
-  if (instance !== null) {
-    return instance;
+          return {
+            module: 'acme-dns-01-ali',
+            propagationDelay: 10 * 1000,
+            accessKeyId,
+            accessKeySecret,
+          };
+        },
+      },
+    },
+  ],
+]);
+
+const instances = {};
+
+const email = 'polunzh@qq.com';
+
+const updateCert = async (certificatesManager, subject) => {
+  // TODO: 这个地方应该先判断是否需要更新，不过修改为 Node 节点从 blocklet 读取证书信息就不需要了
+  const cert = certificatesManager.readCert(subject);
+  if (cert) {
+    await updateAbtNodeCert(cert);
+  }
+};
+
+CertificatesManager.getInstance = ({ challengeName, challengeParams = {} }) => {
+  if (!challengeName) {
+    throw new Error('challengeName param is required');
+  }
+
+  if (!challengesMap.has(challengeName)) {
+    throw new Error(`currently ${challengeName} is not support`);
+  }
+
+  if (instances[challengeName]) {
+    return instances[challengeName];
   }
 
   const rootDir = process.env.BLOCKLET_DATA_DIR || path.join(__dirname, '..');
-  const configDir = path.join(rootDir, './greenlock.d/');
-  instance = new CertificatesManager({
+  if (!fs.existsSync(rootDir)) {
+    fs.mkdirSync(rootDir);
+  }
+
+  const configDir = path.join(rootDir, `./${challengeName}.d/`);
+  const instance = new CertificatesManager({
     packageRoot: rootDir,
     configDir,
-    email: 'polunzh@qq.com',
+    email,
     staging: process.env.NODE_ENV !== 'production',
   });
+
+  const dns01Challenge = challengesMap.get(challengeName).challenges['dns-01'](challengeParams);
+
+  instance.gl.manager.defaults({
+    subscriberEmail: email,
+    agreeToTerms: true,
+    challenges: { 'dns-01': dns01Challenge },
+  });
+
+  instances[challengeName] = instance;
+  instance.on('cert.issued', (data) => updateCert(instance, data.subject));
+  instance.on('cert.renewal', (data) => updateCert(instance, data.subject));
 
   return instance;
 };

@@ -11,7 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import api from '../libs/api';
 
-export default function DomainList() {
+export default function DomainList({ ...props }) {
   const state = useAsync(() => api.get('/domains').then((resp) => resp.data));
 
   if (state.loading) {
@@ -19,14 +19,14 @@ export default function DomainList() {
   }
 
   return (
-    <Div>
+    <Div {...props}>
       <div className="title">Domain List</div>
       <TableContainer className="table">
         <Table aria-label="domain list">
           <TableHead>
             <TableRow>
               <TableCell>Subject</TableCell>
-              <TableCell>DNS Service</TableCell>
+              <TableCell>DNS Provider</TableCell>
               <TableCell>Created At</TableCell>
               <TableCell>Operation</TableCell>
             </TableRow>
@@ -35,7 +35,7 @@ export default function DomainList() {
             {(state.value || []).map((row) => (
               <TableRow key={row.subject}>
                 <TableCell>{row.domain}</TableCell>
-                <TableCell>{row.dnsService}</TableCell>
+                <TableCell>{row.dnsProvider.name}</TableCell>
                 <TableCell>{row.createdAt}</TableCell>
                 <TableCell>Edit Delete</TableCell>
               </TableRow>

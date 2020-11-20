@@ -9,17 +9,18 @@ import Button from '@arcblock/ux/lib/Button';
 
 import api from '../libs/api';
 
-export default function AddDomain({ ...props }) {
-  const [dnsProvider, setDnsService] = useState('alibaba_cloud');
-  const [domain, setDomain] = useState('');
+export default function AddDnsProvider({ ...props }) {
+  const [name, setName] = useState('alibaba_cloud');
+  const [accessKeyId, setAccessKeyId] = useState('');
+  const [accessKeySecret, setAccessKeySecret] = useState('');
 
   const onSubmit = () => {
-    if (!domain || !dnsProvider) {
+    if (!name || !accessKeyId || !accessKeySecret) {
       return;
     }
 
     api
-      .post('/domains', { domain, dnsProvider })
+      .post('/dns_providers', { name, accessKeyId, accessKeySecret })
       .then(() => {
         console.log('save success');
       })
@@ -30,21 +31,23 @@ export default function AddDomain({ ...props }) {
 
   return (
     <Div {...props}>
-      <div className="title">Add Domain</div>
+      <div className="title">Add DNS Provider</div>
       <form className="form" autoComplete="off">
-        <InputLabel>Domain</InputLabel>
-        <TextField id="domain" value={domain} onChange={(event) => setDomain(event.target.value)} />
-        <InputLabel>DNS Service</InputLabel>
+        <InputLabel>DNS Service Name</InputLabel>
         <RadioGroup
           aria-label="dns resolver"
-          name="dns_resolver"
-          value={dnsProvider}
+          name="dns_service"
+          value={name}
           onChange={(event) => {
-            setDnsService(event.target.value);
+            setName(event.target.value);
           }}>
           <FormControlLabel value="alibaba_cloud" control={<Radio />} label="Alibaba Could" />
           <FormControlLabel value="google_cloud" control={<Radio />} label="Google Cloud" />
         </RadioGroup>
+        <InputLabel>Access Token</InputLabel>
+        <TextField id="accessToken" value={accessKeyId} onChange={(event) => setAccessKeyId(event.target.value)} />
+        <InputLabel>Access Secret</InputLabel>
+        <TextField id="accessSecret" value={accessKeySecret} onChange={(event) => setAccessKeySecret(event.target.value)} />
         <Button
           onClick={(e) => {
             e.stopPropagation();
@@ -88,6 +91,6 @@ const Div = styled.div`
   }
 `;
 
-AddDomain.propTypes = {};
+AddDnsProvider.propTypes = {};
 
-AddDomain.defaultProps = {};
+AddDnsProvider.defaultProps = {};
