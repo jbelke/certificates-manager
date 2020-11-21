@@ -28,7 +28,7 @@
     "@greenlock/manager": "^3.1.0",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "4.9.1",
-    "acme-dns-01-ali": "^0.1.0",
+    "acme-http-01-standalone": "^3.0.5",
     "axios": "^0.21.0",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",

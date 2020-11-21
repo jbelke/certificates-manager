@@ -4,9 +4,7 @@ import { LocaleContext } from '@arcblock/ux/lib/Locale/context';
 
 import Layout from '../components/layout';
 import DomainList from '../components/domain_list';
-import DnsProviderList from '../components/dns_provider_list';
 import AddDomain from '../components/add_domain';
-import AddDnsProvider from '../components/add_dns_provider';
 
 export default function IndexPage() {
   const { changeLocale, t } = useContext(LocaleContext);
@@ -23,9 +21,7 @@ export default function IndexPage() {
         <h1>{appName}</h1>
         <p style={{ fontSize: '1.2rem' }}>{t('description')}</p>
         <DomainList className="block" />
-        <DnsProviderList className="block" />
         <AddDomain className="block" />
-        <AddDnsProvider className="block" />
       </Main>
     </Layout>
   );

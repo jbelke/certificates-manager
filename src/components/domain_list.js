@@ -26,7 +26,7 @@ export default function DomainList({ ...props }) {
           <TableHead>
             <TableRow>
               <TableCell>Subject</TableCell>
-              <TableCell>DNS Provider</TableCell>
+              <TableCell>Challenge</TableCell>
               <TableCell>Created At</TableCell>
               <TableCell>Operation</TableCell>
             </TableRow>
@@ -35,7 +35,7 @@ export default function DomainList({ ...props }) {
             {(state.value || []).map((row) => (
               <TableRow key={row.subject}>
                 <TableCell>{row.domain}</TableCell>
-                <TableCell>{row.dnsProvider.name}</TableCell>
+                <TableCell>{row.challenge}</TableCell>
                 <TableCell>{row.createdAt}</TableCell>
                 <TableCell>Edit Delete</TableCell>
               </TableRow>

@@ -86,27 +86,7 @@ class CertificatesManager extends EventEmitter {
   }
 }
 
-const challengesMap = new Map([
-  [
-    'alibaba_cloud',
-    {
-      challenges: {
-        'dns-01': ({ accessKeyId, accessKeySecret }) => {
-          if (!accessKeyId || !accessKeySecret) {
-            throw new Error('accessKeyId and accessKeySecret is required by alibaba_cloud challenge');
-          }
-
-          return {
-            module: 'acme-dns-01-ali',
-            propagationDelay: 10 * 1000,
-            accessKeyId,
-            accessKeySecret,
-          };
-        },
-      },
-    },
-  ],
-]);
+const challengeMap = new Map([['http-01', () => ({ 'http-01': { module: 'acme-http-01-standalone' } })]]);
 
 const instances = {};
 
@@ -120,12 +100,12 @@ const updateCert = async (certificatesManager, subject) => {
   }
 };
 
-CertificatesManager.getInstance = ({ challengeName, challengeParams = {} }) => {
+CertificatesManager.getInstance = (challengeName) => {
   if (!challengeName) {
     throw new Error('challengeName param is required');
   }
 
-  if (!challengesMap.has(challengeName)) {
+  if (!challengeMap.has(challengeName)) {
     throw new Error(`currently ${challengeName} is not support`);
   }
 
@@ -146,12 +126,12 @@ CertificatesManager.getInstance = ({ challengeName, challengeParams = {} }) => {
     staging: process.env.NODE_ENV !== 'production',
   });
 
-  const dns01Challenge = challengesMap.get(challengeName).challenges['dns-01'](challengeParams);
+  const challenge = challengeMap.get(challengeName)();
 
   instance.gl.manager.defaults({
     subscriberEmail: email,
     agreeToTerms: true,
-    challenges: { 'dns-01': dns01Challenge },
+    challenges: challenge,
   });
 
   instances[challengeName] = instance;

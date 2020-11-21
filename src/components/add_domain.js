@@ -10,16 +10,15 @@ import Button from '@arcblock/ux/lib/Button';
 import api from '../libs/api';
 
 export default function AddDomain({ ...props }) {
-  const [dnsProvider, setDnsService] = useState('alibaba_cloud');
   const [domain, setDomain] = useState('');
 
   const onSubmit = () => {
-    if (!domain || !dnsProvider) {
+    if (!domain) {
       return;
     }
 
     api
-      .post('/domains', { domain, dnsProvider })
+      .post('/domains', { domain })
       .then(() => {
         console.log('save success');
       })
@@ -35,7 +34,7 @@ export default function AddDomain({ ...props }) {
         <InputLabel>Domain</InputLabel>
         <TextField id="domain" value={domain} onChange={(event) => setDomain(event.target.value)} />
         <InputLabel>DNS Service</InputLabel>
-        <RadioGroup
+        {/* <RadioGroup
           aria-label="dns resolver"
           name="dns_resolver"
           value={dnsProvider}
@@ -44,7 +43,7 @@ export default function AddDomain({ ...props }) {
           }}>
           <FormControlLabel value="alibaba_cloud" control={<Radio />} label="Alibaba Could" />
           <FormControlLabel value="google_cloud" control={<Radio />} label="Google Cloud" />
-        </RadioGroup>
+        </RadioGroup> */}
         <Button
           onClick={(e) => {
             e.stopPropagation();

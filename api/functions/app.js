@@ -42,6 +42,7 @@ app.use(
 
 const router = express.Router();
 
+require('../routes/well_known').init(router);
 require('../routes/session').init(router);
 require('../routes/index').init(router);
 
