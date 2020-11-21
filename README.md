@@ -1,8 +1,8 @@
 # Certificates Manager
 
-**WORK IN PROGRES**
-
 > Manage certificates in ABT Node.
+
+**WORK IN PROGRESS**
 
 ## Getting started
 
