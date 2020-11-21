@@ -1,7 +1,7 @@
 /* eslint-disable no-loop-func */
 require('@greenlock/manager');
 
-const CertificatesManager = require('../libs/certificates-manager');
+const CertificatesManager = require('../libs/manager');
 const DomainState = require('../states/domain');
 
 const domainState = new DomainState();
@@ -11,7 +11,8 @@ const initializeManager = async () => {
 
   // eslint-disable-next-line no-restricted-syntax
   for (const domain of domains) {
-    CertificatesManager.getInstance(domain.challenge);
+    // eslint-disable-next-line no-await-in-loop
+    await CertificatesManager.getInstance(domain.challenge);
   }
 };
 
@@ -38,9 +39,9 @@ module.exports = {
 
       console.log('add domain', { domain });
 
-      const certificatesManager = CertificatesManager.getInstance(challenge);
+      const certificatesManager = await CertificatesManager.getInstance(challenge);
 
-      await certificatesManager.addDomain({
+      await certificatesManager.add({
         subject: saveResult.domain,
         altnames: [saveResult.domain],
       });
