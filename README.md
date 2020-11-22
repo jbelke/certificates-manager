@@ -47,7 +47,7 @@ abtnode deploy .
 
 - [ ] renewal
 - [ ] logger
-- [ ] better http-01 memory plugin, base on `acme-http-01-standalone` plugin
+- [x] better http-01 memory plugin, base on `acme-http-01-standalone` plugin
 
 ### UI
 

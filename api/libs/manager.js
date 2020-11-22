@@ -3,10 +3,10 @@ const fs = require('fs');
 const path = require('path');
 const { updateAbtNodeCert } = require('./abtnode');
 const pkg = require('../../package.json');
+const http01 = require('./http_01').create();
 const AcmeWrapper = require('./acme_wrapper');
 
-const DIRECTORY_URL = 'https://acme-v02.api.letsencrypt.org/directory';
-const DIRECTORY_URL_STAGING = 'https://acme-staging-v02.api.letsencrypt.org/directory';
+const AGENT_NAME = 'abtnode';
 
 class CertificatesManager extends EventEmitter {
   constructor({ configDir, email, staging = false }) {
@@ -14,7 +14,7 @@ class CertificatesManager extends EventEmitter {
     this.acme = new AcmeWrapper({
       configDir,
       maintainerEmail: email,
-      packageAgent: `${pkg.name}/${pkg.version}`,
+      packageAgent: `${AGENT_NAME}/${pkg.version}`,
       staging,
     });
   }
@@ -41,7 +41,7 @@ class CertificatesManager extends EventEmitter {
   }
 }
 
-const challengeMap = new Map([['http-01', () => ({ 'http-01': { module: 'acme-http-01-standalone' } })]]);
+const challengeMap = new Map([['http-01', () => ({ 'http-01': http01 })]]);
 
 const instances = {};
 

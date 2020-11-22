@@ -1,5 +1,5 @@
 /**
- * from: https://www.npmjs.com/package/acme-http-01-standalone
+ * base on: https://www.npmjs.com/package/acme-http-01-standalone
  */
 
 const _memdb = {};
@@ -9,14 +9,16 @@ const create = (config = {}) => {
 
   return {
     init() {
+      console.log('---init');
       return Promise.resolve(null);
     },
 
     set(data) {
       return Promise.resolve().then(() => {
         const ch = data.challenge;
-        const key = `${ch.identifier.value}#${ch.token}`;
+        const key = ch.token;
         memdb[key] = ch.keyAuthorization;
+        console.log('---set', key);
 
         return null;
       });
@@ -24,10 +26,9 @@ const create = (config = {}) => {
 
     get(data) {
       return Promise.resolve().then(() => {
-        // console.log('List Key Auth URL', data);
-
         const ch = data.challenge;
-        const key = `${ch.identifier.value}#${ch.token}`;
+        const key = ch.token;
+        console.log('---get', key);
 
         if (memdb[key]) {
           return { keyAuthorization: memdb[key] };
@@ -39,10 +40,9 @@ const create = (config = {}) => {
 
     remove(data) {
       return Promise.resolve().then(() => {
-        // console.log('Remove Key Auth URL', data);
-
         const ch = data.challenge;
-        const key = `${ch.identifier.value}#${ch.token}`;
+        const key = ch.token;
+        console.log('---remove', key);
 
         delete memdb[key];
         return null;

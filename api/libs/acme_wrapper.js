@@ -7,9 +7,7 @@ const Keypairs = require('@root/keypairs');
 const CSR = require('@root/csr');
 const PEM = require('@root/pem');
 const punycode = require('punycode/');
-const http01 = require('acme-http-01-standalone').create({});
-
-const AGENT_NAME = 'abtnode';
+const http01 = require('./http_01').create({});
 
 const DIRECTORY_URL = 'https://acme-v02.api.letsencrypt.org/directory';
 const DIRECTORY_URL_STAGING = 'https://acme-staging-v02.api.letsencrypt.org/directory';
@@ -26,6 +24,7 @@ const ensureDir = (dir) => {
 class AcmeWrapper extends EventEmitter {
   constructor({ configDir, maintainerEmail, packageAgent, staging = false }) {
     super();
+
     this.acme = ACME.create({
       maintainerEmail,
       packageAgent,
