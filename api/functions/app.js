@@ -72,6 +72,7 @@ if (isProduction) {
     res.status(500).send('Something broke!');
   });
 } else {
+  app.use('/__meta__.js', (req, res) => res.type('js').send(''));
   app.use(router);
 }
 

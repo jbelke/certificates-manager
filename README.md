@@ -43,13 +43,12 @@ abtnode deploy .
 
 ## TODO
 
-### feature
-
+- [ ] save account [高优先级]
 - [ ] renewal
+- [ ] revoke
+- [ ] cron
 - [ ] logger
 - [x] better http-01 memory plugin, base on `acme-http-01-standalone` plugin
-
-### UI
-
+- [ ] 检查项目中的 TODO/FIXME
 - [ ] DNS(CNAME) configuration checking
 - [ ] Domain List

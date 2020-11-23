@@ -28,13 +28,6 @@ support: support@arcblock.io
   # pre-deploy: npm run bundle
 hookFiles: []
 environments:
-  - name: ALI_ACCESS_KEY_ID
-    description: Access key ID of Aliyun Cloud
-    required: true
-  - name: ALI_ACCESS_KEY_SECRET
-    description: Access key secret of Aliyun Cloud
-    required: true
-    secure: true
   - name: NODE_ACCESS_KEY
     description: Access key of ABT Node
     required: true
@@ -42,6 +35,9 @@ environments:
     description: Access key of ABT Node
     required: true
     secure: true
+  - name: NODE_DOMAIN
+    description: Domain name of current production node
+    required: true
 capabilities:
   dynamicPathPrefix: true
 scripts:

@@ -20,8 +20,8 @@ export default function IndexPage() {
       <Main>
         <h1>{appName}</h1>
         <p style={{ fontSize: '1.2rem' }}>{t('description')}</p>
-        <DomainList className="block" />
         <AddDomain className="block" />
+        <DomainList className="block" />
       </Main>
     </Layout>
   );

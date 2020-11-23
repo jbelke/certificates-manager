@@ -20,7 +20,7 @@ class Base {
       },
     });
 
-    this.instance = new Proxy(this.db, {
+    this.asyncDB = new Proxy(this.db, {
       get(target, property) {
         return util.promisify(target[property]).bind(target);
       },
@@ -28,23 +28,27 @@ class Base {
   }
 
   insert(...args) {
-    return this.instance.insert(...args);
+    return this.asyncDB.insert(...args);
   }
 
   find(...args) {
     if (args.length === 0) {
-      return this.instance.find({});
+      return this.asyncDB.find({});
     }
 
-    return this.instance.find(...args);
+    return this.asyncDB.find(...args);
   }
 
   findOne(...args) {
     if (args.length === 0) {
-      return this.instance.findOne({});
+      return this.asyncDB.findOne({});
     }
 
-    return this.instance.findOne(...args);
+    return this.asyncDB.findOne(...args);
+  }
+
+  remove(...args) {
+    return this.asyncDB.remove(...args);
   }
 }
 

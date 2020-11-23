@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Button from '@arcblock/ux/lib/Button';
+import Toast from '@arcblock/ux/lib/Toast';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
-// import RadioGroup from '@material-ui/core/RadioGroup';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Radio from '@material-ui/core/Radio';
-import Button from '@arcblock/ux/lib/Button';
+
+import DnsConfigReminder from './dns_config_reminder';
 
 import api from '../libs/api';
 
 export default function AddDomain({ ...props }) {
   const [domain, setDomain] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [openDnsConfigReminder, setOpenDnsConfigReminder] = useState(false);
 
   const onSubmit = () => {
     if (!domain) {
@@ -21,9 +24,12 @@ export default function AddDomain({ ...props }) {
       .post('/domains', { domain })
       .then(() => {
         console.log('save success');
+        setSuccess('Add domain successfully!');
+        setOpenDnsConfigReminder(true);
       })
-      .catch((error) => {
-        console.error('save failed', error);
+      .catch((err) => {
+        console.error('save failed', err);
+        setError(`Add domain failed: ${err.message}`);
       });
   };
 
@@ -33,17 +39,6 @@ export default function AddDomain({ ...props }) {
       <form className="form" autoComplete="off">
         <InputLabel>Domain</InputLabel>
         <TextField id="domain" value={domain} onChange={(event) => setDomain(event.target.value)} />
-        <InputLabel>DNS Service</InputLabel>
-        {/* <RadioGroup
-          aria-label="dns resolver"
-          name="dns_resolver"
-          value={dnsProvider}
-          onChange={(event) => {
-            setDnsService(event.target.value);
-          }}>
-          <FormControlLabel value="alibaba_cloud" control={<Radio />} label="Alibaba Could" />
-          <FormControlLabel value="google_cloud" control={<Radio />} label="Google Cloud" />
-        </RadioGroup> */}
         <Button
           onClick={(e) => {
             e.stopPropagation();
@@ -57,6 +52,9 @@ export default function AddDomain({ ...props }) {
           Submit
         </Button>
       </form>
+      {!!error && <Toast variant="error" message={error} onClose={() => setError('')} />}
+      {!!success && <Toast variant="success" duration={3000} message={success} onClose={() => setSuccess('')} />}
+      {openDnsConfigReminder && <DnsConfigReminder domain={domain} onClose={() => setOpenDnsConfigReminder(false)} />}
     </Div>
   );
 }

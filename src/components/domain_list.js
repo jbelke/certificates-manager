@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useAsync from 'react-use/lib/useAsync';
 import styled from 'styled-components';
 import Table from '@material-ui/core/Table';
@@ -9,14 +9,57 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import Button from '@arcblock/ux/lib/Button';
+import Toast from '@arcblock/ux/lib/Toast';
+
+import ConfirmDialog from './confirm';
+
 import api from '../libs/api';
 
 export default function DomainList({ ...props }) {
   const state = useAsync(() => api.get('/domains').then((resp) => resp.data));
+  const [confirmSetting, setConfirmSetting] = useState(null);
+  const [removeError, setRemoveError] = useState('');
+  const [removeSuccess, setRemoveSuccess] = useState('');
 
   if (state.loading) {
     return <CircularProgress />;
   }
+
+  const onConfirm = async (domain) => {
+    try {
+      await api.delete(`/domains/${domain}`);
+      setRemoveSuccess('Remove domain successfully!');
+    } catch (error) {
+      setRemoveError('Remove domain error:', error.message);
+    }
+
+    setConfirmSetting(null);
+  };
+
+  const onCancel = () => {
+    setConfirmSetting(null);
+  };
+
+  const handleRemoveDomain = (domain) => {
+    if (!domain) {
+      console.error('invalid domain');
+      return;
+    }
+
+    setConfirmSetting({
+      title: 'Remove Domain',
+      description: (
+        <p>
+          Confirm remove the doamin <b>{domain}</b>
+        </p>
+      ),
+      confirm: 'Confirm',
+      cancel: 'Cancel',
+      onConfirm: () => onConfirm(domain),
+      onCancel,
+    });
+  };
 
   return (
     <Div {...props}>
@@ -33,16 +76,32 @@ export default function DomainList({ ...props }) {
           </TableHead>
           <TableBody>
             {(state.value || []).map((row) => (
-              <TableRow key={row.subject}>
+              <TableRow key={row.domain}>
                 <TableCell>{row.domain}</TableCell>
                 <TableCell>{row.challenge}</TableCell>
                 <TableCell>{row.createdAt}</TableCell>
-                <TableCell>Edit Delete</TableCell>
+                <TableCell>
+                  <Button onClick={() => handleRemoveDomain(row.domain)}>Remove</Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      {confirmSetting && (
+        <ConfirmDialog
+          title={confirmSetting.title}
+          description={confirmSetting.description}
+          confirm={confirmSetting.confirm}
+          cancel={confirmSetting.cancel}
+          onConfirm={confirmSetting.onConfirm}
+          onCancel={confirmSetting.onCancel}
+        />
+      )}
+      {!!removeError && <Toast variant="error" message={removeError} onClose={() => setRemoveError('')} />}
+      {!!removeSuccess && (
+        <Toast variant="success" duration={3000} message={removeSuccess} onClose={() => setRemoveSuccess('')} />
+      )}
     </Div>
   );
 }

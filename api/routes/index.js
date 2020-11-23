@@ -1,7 +1,8 @@
 /* eslint-disable no-loop-func */
 require('@greenlock/manager');
+const { parseDomain, ParseResultType } = require('parse-domain');
 
-const CertificatesManager = require('../libs/manager');
+const Manager = require('../libs/manager');
 const DomainState = require('../states/domain');
 
 const domainState = new DomainState();
@@ -12,7 +13,7 @@ const initializeManager = async () => {
   // eslint-disable-next-line no-restricted-syntax
   for (const domain of domains) {
     // eslint-disable-next-line no-await-in-loop
-    await CertificatesManager.getInstance(domain.challenge);
+    await Manager.getInstance(domain.challenge);
   }
 };
 
@@ -27,25 +28,56 @@ module.exports = {
     });
 
     app.post('/api/domains', async (req, res) => {
-      const { domain, challenge = 'http-01' } = req.body;
-      if (!domain || !challenge) {
+      const { domain } = req.body;
+      if (!domain) {
         return res.status(400).json('invalid request body');
       }
 
-      const saveResult = await domainState.insert({
+      const parseResult = parseDomain(domain);
+
+      if (parseResult.type !== ParseResultType.Listed) {
+        return res.status(400).json('invalid domain');
+      }
+
+      console.log('add domain', { domain });
+
+      const exists = !!(await domainState.findOne({ domain }));
+      if (exists) {
+        return res.status(400).json(`domain ${domain} already exists`);
+      }
+
+      // TODO: ip.abtnet.ip dns-01 兼容
+      const challenge = 'http-01';
+      await domainState.insert({
         domain,
         challenge,
       });
 
       console.log('add domain', { domain });
 
-      const certificatesManager = await CertificatesManager.getInstance(challenge);
+      // const manager = await Manager.getInstance(challenge);
 
-      await certificatesManager.add({
-        subject: saveResult.domain,
-        altnames: [saveResult.domain],
+      // manager.add(saveResult.domain);
+
+      return res.json('ok');
+    });
+
+    app.delete('/api/domains/:domain', async (req, res) => {
+      const { domain } = req.params;
+      if (!domain) {
+        return res.status(400).json('domain is required');
+      }
+
+      const exists = !!(await domainState.findOne({ domain }));
+      if (!exists) {
+        return res.status(400).json(`domain ${domain} does not exists`);
+      }
+
+      const removeResult = await domainState.remove({
+        domain,
       });
 
+      console.log('remove result', removeResult);
       return res.json('ok');
     });
   },

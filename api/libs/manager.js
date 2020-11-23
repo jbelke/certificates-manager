@@ -20,8 +20,15 @@ class CertificatesManager extends EventEmitter {
   }
 
   // TODO: polish add domain
-  add(...args) {
-    this.acme.add(...args);
+  add(domain) {
+    if (!domain) {
+      throw new Error('domain is required when add domain');
+    }
+
+    return this.acme.add({
+      subject: domain,
+      altnames: [domain],
+    });
   }
 
   readCert(subject) {

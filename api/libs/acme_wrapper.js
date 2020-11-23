@@ -104,6 +104,7 @@ class AcmeWrapper extends EventEmitter {
 
     const fullchain = `${pems.cert}\n${pems.chain}\n`;
 
+    // TODO: 为什么要写文件，而不是直接写数据库呢？
     fs.writeFileSync(path.join(certDir, 'privkey.pem'), serverPem, 'ascii');
     fs.writeFileSync(path.join(certDir, 'cert.pem'), pems.cert, 'ascii');
     fs.writeFileSync(path.join(certDir, 'chain.pem'), pems.chain, 'ascii');

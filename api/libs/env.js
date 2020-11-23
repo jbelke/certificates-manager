@@ -33,4 +33,5 @@ module.exports = {
   abtnodeAccessKey: process.env.NODE_ACCESS_KEY,
   abtnodeAccessSecret: process.env.NODE_ACCESS_SECRET,
   abtnodePort: process.env.ABT_NODE_PORT,
+  nodeDomain: process.env.NODE_DOMAIN,
 };
