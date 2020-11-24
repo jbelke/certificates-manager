@@ -37,7 +37,7 @@ export default function AddDomain({ onConfirm, ...props }) {
       <Typography component="div">
         <TextField
           id="domain"
-          autoComplete={false}
+          autoComplete="off"
           value={params.domain}
           fullWidth
           onChange={(e) => setParams({ ...params, domain: e.target.value, __disableConfirm: !e.target.value })}
