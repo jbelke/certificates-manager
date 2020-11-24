@@ -1,5 +1,6 @@
 const flat = require('flat');
 
 module.exports = flat({
-  description: 'Automatically manage your ABT Node certificates, includes create, update, and revoke certificates.',
+  // eslint-disable-next-line quotes
+  description: "Manage your SSL certificate automatically with Let's Encrypt",
 });

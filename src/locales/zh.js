@@ -1,5 +1,6 @@
 const flat = require('flat');
 
 module.exports = flat({
-  description: '自动地管理您的 ABT Node 证书，包括创建、续期、撤销证书。',
+  // eslint-disable-next-line quotes
+  description: "使用 Let's Encrypt 自动地管理您的 SSL 证书",
 });
