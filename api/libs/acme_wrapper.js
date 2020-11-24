@@ -94,24 +94,30 @@ class AcmeWrapper extends EventEmitter {
       accountKey,
     });
 
-    const pems = await this.acme.certificates.create({
-      account,
-      accountKey,
-      csr,
-      domains,
-      challenges: { 'http-01': http01 },
-    });
+    try {
+      const pems = await this.acme.certificates.create({
+        account,
+        accountKey,
+        csr,
+        domains,
+        challenges: { 'http-01': http01 },
+      });
 
-    const fullchain = `${pems.cert}\n${pems.chain}\n`;
+      const fullchain = `${pems.cert}\n${pems.chain}\n`;
 
-    // TODO: 为什么要写文件，而不是直接写数据库呢？
-    fs.writeFileSync(path.join(certDir, 'privkey.pem'), serverPem, 'ascii');
-    fs.writeFileSync(path.join(certDir, 'cert.pem'), pems.cert, 'ascii');
-    fs.writeFileSync(path.join(certDir, 'chain.pem'), pems.chain, 'ascii');
-    fs.writeFileSync(path.join(certDir, 'fullchain.pem'), fullchain, 'ascii');
+      console.info('certificates generated!');
 
-    console.log('certificates generated!');
-    this.emit('cert.issued', { subject, expires: pems.expires });
+      this.emit('cert.issued', {
+        subject,
+        privkey: serverPem,
+        cert: pems.cert,
+        chain: pems.chain,
+        fullchain,
+        challenges: { 'http-01': { module: 'http_01' } },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async _createAccount() {

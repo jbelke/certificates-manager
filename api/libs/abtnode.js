@@ -11,7 +11,7 @@ const fixCert = (pem) => pem.split('\n').join('|');
 
 const updateAbtNodeCert = async (cert) => {
   try {
-    const domain = cert.subject;
+    const { domain } = cert;
     const certificate = cert.chain;
     const privateKey = cert.privkey;
 

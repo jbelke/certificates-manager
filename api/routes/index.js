@@ -2,11 +2,9 @@
 require('@greenlock/manager');
 const { parseDomain, ParseResultType } = require('parse-domain');
 
-const Manager = require('../libs/manager');
+const Manager = require('../libs/acme_factory');
 const { getDomainsDnsStatus } = require('../libs/util');
-const DomainState = require('../states/domain');
-
-const domainState = new DomainState();
+const domainState = require('../states/domain');
 
 const initializeManager = async () => {
   const domains = await domainState.find();
@@ -40,8 +38,6 @@ module.exports = {
         return res.status(400).json('invalid domain');
       }
 
-      console.log('add domain', { domain });
-
       const exists = !!(await domainState.findOne({ domain }));
       if (exists) {
         return res.status(400).json(`domain ${domain} already exists`);
@@ -56,9 +52,9 @@ module.exports = {
 
       console.log('add domain', { domain });
 
-      // const manager = await Manager.getInstance(challenge);
+      const manager = await Manager.getInstance(challenge);
 
-      // manager.add(saveResult.domain);
+      manager.add(domain);
 
       return res.json('ok');
     });

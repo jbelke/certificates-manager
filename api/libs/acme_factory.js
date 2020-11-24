@@ -5,12 +5,14 @@ const { updateAbtNodeCert } = require('./abtnode');
 const pkg = require('../../package.json');
 const http01 = require('./http_01').create();
 const AcmeWrapper = require('./acme_wrapper');
+const certificateState = require('../states/certificate');
 
 const AGENT_NAME = 'abtnode';
 
-class CertificatesManager extends EventEmitter {
+class AcmeFactory extends EventEmitter {
   constructor({ configDir, email, staging = false }) {
     super();
+
     this.acme = new AcmeWrapper({
       configDir,
       maintainerEmail: email,
@@ -31,8 +33,17 @@ class CertificatesManager extends EventEmitter {
     });
   }
 
-  readCert(subject) {
-    const certDir = path.join(this.acme.certDir, subject);
+  getCertState(domain) {
+    const certDir = path.join(this.acme.certDir, domain);
+    if (fs.existsSync(certDir)) {
+      return true;
+    }
+
+    return true;
+  }
+
+  readCert(domain) {
+    const certDir = path.join(this.acme.certDir, domain);
     if (!fs.existsSync(certDir)) {
       return null;
     }
@@ -41,7 +52,7 @@ class CertificatesManager extends EventEmitter {
     const privkey = fs.readFileSync(path.join(certDir, 'privkey.pem')).toString();
 
     return {
-      subject,
+      domain,
       chain,
       privkey,
     };
@@ -54,17 +65,20 @@ const instances = {};
 
 const email = 'polunzh@qq.com';
 
-const updateCert = async (certificatesManager, subject) => {
-  // TODO: 这个地方应该先判断是否需要更新，不过修改为 Node 节点从 blocklet 读取证书信息就不需要了
-  const cert = certificatesManager.readCert(subject);
+const updateCert = async (domain) => {
+  if (!domain) {
+    throw new Error('domain param is required');
+  }
+
+  const cert = await certificateState.findOne({ domain });
   if (!cert) {
-    console.warn('no certificate found', { subject });
+    console.warn('no certificate found', { domain });
   }
 
   await updateAbtNodeCert(cert);
 };
 
-CertificatesManager.getInstance = async (challengeName) => {
+AcmeFactory.getInstance = async (challengeName) => {
   if (!challengeName) {
     throw new Error('challengeName param is required');
   }
@@ -83,7 +97,7 @@ CertificatesManager.getInstance = async (challengeName) => {
   }
 
   const configDir = path.join(rootDir, `./${challengeName}.d/`);
-  const instance = new CertificatesManager({
+  const instance = new AcmeFactory({
     packageRoot: rootDir,
     configDir,
     email,
@@ -93,9 +107,14 @@ CertificatesManager.getInstance = async (challengeName) => {
   await instance.acme.init();
 
   instances[challengeName] = instance;
-  instance.acme.on('cert.issued', (data) => updateCert(instance, data.subject));
+  instance.acme.on('cert.issued', async (data) => {
+    const { subject, ...certData } = data;
+    await certificateState.insert({ domain: subject, ...certData });
+
+    await updateCert(subject);
+  });
 
   return instance;
 };
 
-module.exports = CertificatesManager;
+module.exports = AcmeFactory;

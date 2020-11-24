@@ -9,7 +9,7 @@ if (!process.env.BLOCKLET_DATA_DIR || !fs.existsSync(process.env.BLOCKLET_DATA_D
 
 class Base {
   constructor(name) {
-    this.db = new DataStore({
+    const _db = new DataStore({
       filename: path.join(process.env.BLOCKLET_DATA_DIR, `${name}.db`),
       autoload: true,
       timestampData: true,
@@ -20,7 +20,7 @@ class Base {
       },
     });
 
-    this.asyncDB = new Proxy(this.db, {
+    this.db = new Proxy(_db, {
       get(target, property) {
         return util.promisify(target[property]).bind(target);
       },
@@ -28,27 +28,32 @@ class Base {
   }
 
   insert(...args) {
-    return this.asyncDB.insert(...args);
+    return this.db.insert(...args);
   }
 
   find(...args) {
     if (args.length === 0) {
-      return this.asyncDB.find({});
+      return this.db.find({});
     }
 
-    return this.asyncDB.find(...args);
+    return this.db.find(...args);
   }
 
   findOne(...args) {
     if (args.length === 0) {
-      return this.asyncDB.findOne({});
+      return this.db.findOne({});
     }
 
-    return this.asyncDB.findOne(...args);
+    return this.db.findOne(...args);
   }
 
   remove(...args) {
-    return this.asyncDB.remove(...args);
+    return this.db.remove(...args);
+  }
+
+  async exists(name) {
+    const tmp = await this.db.findOne({ name });
+    return !!tmp;
   }
 }
 

@@ -104,7 +104,9 @@ export default function DomainList({ ...props }) {
                 {!domainsDnsStatusMap[row.domain] && <TableCell />}
                 <TableCell>{row.createdAt}</TableCell>
                 <TableCell>
-                  <Button onClick={() => handleRemoveDomain(row.domain)}>Remove</Button>
+                  <Button rounded variant="contained" color="danger" onClick={() => handleRemoveDomain(row.domain)}>
+                    Remove
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
