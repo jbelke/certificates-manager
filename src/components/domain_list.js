@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useAsync from 'react-use/lib/useAsync';
 import styled from 'styled-components';
 import Table from '@material-ui/core/Table';
@@ -21,6 +21,24 @@ export default function DomainList({ ...props }) {
   const [confirmSetting, setConfirmSetting] = useState(null);
   const [removeError, setRemoveError] = useState('');
   const [removeSuccess, setRemoveSuccess] = useState('');
+  const [domainsDnsStatusMap, setDomainsDnsStatusMap] = useState({});
+
+  useEffect(async () => {
+    if (state.value) {
+      const domainsStatus = await api.post('/dns-status', { domains: state.value.map((x) => x.domain) });
+      try {
+        const domainsMap = (domainsStatus.data || []).reduce((acc, cur) => {
+          acc[cur.domain] = cur;
+          return acc;
+        }, {});
+
+        console.log(domainsStatus);
+        setDomainsDnsStatusMap(domainsMap);
+      } catch (error) {
+        console.error('load domain status error:', error);
+      }
+    }
+  }, [state.value]);
 
   if (state.loading) {
     return <CircularProgress />;
@@ -70,6 +88,7 @@ export default function DomainList({ ...props }) {
             <TableRow>
               <TableCell>Subject</TableCell>
               <TableCell>Challenge</TableCell>
+              <TableCell>DNS Status</TableCell>
               <TableCell>Created At</TableCell>
               <TableCell>Operation</TableCell>
             </TableRow>
@@ -79,6 +98,10 @@ export default function DomainList({ ...props }) {
               <TableRow key={row.domain}>
                 <TableCell>{row.domain}</TableCell>
                 <TableCell>{row.challenge}</TableCell>
+                {domainsDnsStatusMap[row.domain] && (
+                  <TableCell>{domainsDnsStatusMap[row.domain].resolved ? 'Normal' : 'Not Resolved'}</TableCell>
+                )}
+                {!domainsDnsStatusMap[row.domain] && <TableCell />}
                 <TableCell>{row.createdAt}</TableCell>
                 <TableCell>
                   <Button onClick={() => handleRemoveDomain(row.domain)}>Remove</Button>

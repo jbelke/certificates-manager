@@ -3,6 +3,7 @@ require('@greenlock/manager');
 const { parseDomain, ParseResultType } = require('parse-domain');
 
 const Manager = require('../libs/manager');
+const { getDomainsDnsStatus } = require('../libs/util');
 const DomainState = require('../states/domain');
 
 const domainState = new DomainState();
@@ -79,6 +80,14 @@ module.exports = {
 
       console.log('remove result', removeResult);
       return res.json('ok');
+    });
+
+    app.post('/api/dns-status', async (req, res) => {
+      const { domains } = req.body;
+
+      const result = await getDomainsDnsStatus(domains || []);
+
+      return res.json(result);
     });
   },
 };
