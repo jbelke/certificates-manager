@@ -55,7 +55,13 @@ export default function AddDomain({ onConfirm, ...props }) {
 
   return (
     <React.Fragment>
-      <Button color="primary" variant="contained" rounded onClick={() => setConfirmSetting(setting)} {...props}>
+      <Button
+        size="small"
+        color="primary"
+        variant="contained"
+        rounded
+        onClick={() => setConfirmSetting(setting)}
+        {...props}>
         Add Domain
       </Button>
       {confirmSetting && (

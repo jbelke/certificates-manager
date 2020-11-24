@@ -8,6 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
 
 import Button from '@arcblock/ux/lib/Button';
 import Toast from '@arcblock/ux/lib/Toast';
@@ -83,7 +84,9 @@ export default function DomainList({ ...props }) {
 
   return (
     <Container {...props}>
-      <div className="title">Domain List</div>
+      <Typography className="title" variant="h5">
+        Domain List
+      </Typography>
       <AddDomain onConfirm={state.retry} />
       <div>
         <TableContainer className="table">
@@ -148,7 +151,6 @@ const Container = styled.div`
   .title {
     text-align: center;
     color: #000;
-    font-size: 1.2rem;
   }
 
   .table {
