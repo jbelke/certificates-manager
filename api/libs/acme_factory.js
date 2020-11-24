@@ -101,8 +101,7 @@ AcmeFactory.getInstance = async (challengeName) => {
     packageRoot: rootDir,
     configDir,
     email,
-    // staging: process.env.NODE_ENV !== 'production',
-    staging: false,
+    staging: typeof process.env.STAGING === 'undefined' ? process.env.NODE_ENV !== 'production' : !!process.env.STAGING,
   });
 
   await instance.acme.init();
@@ -112,7 +111,7 @@ AcmeFactory.getInstance = async (challengeName) => {
     const { subject, ...certData } = data;
     await certificateState.update({ domain: subject }, { $set: { domain: subject, ...certData } }, { upsert: true });
 
-    // await updateCert(subject);
+    await updateCert(subject);
   });
 
   return instance;

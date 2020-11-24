@@ -43,12 +43,13 @@ abtnode deploy .
 
 ## TODO
 
+- [ ] 只更新将要过期的证书，以防更新频率过高 [高优先级]
+- [ ] 证书维护者，订阅者邮件 [高优先级]
 - [ ] save account [高优先级]
 - [ ] renewal
 - [ ] revoke
 - [ ] cron
-- [ ] logger
-- [x] better http-01 memory plugin, base on `acme-http-01-standalone` plugin
+- [x] better http-01 memory plugin
 - [ ] 检查项目中的 TODO/FIXME
 - [ ] DNS(CNAME) configuration checking
-- [ ] Domain List
+- [x] Domain List

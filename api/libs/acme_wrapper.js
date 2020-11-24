@@ -107,11 +107,6 @@ class AcmeWrapper extends EventEmitter {
 
       console.info('certificates generated!');
 
-      fs.writeFileSync(path.join(certDir, 'privkey.pem'), serverPem, 'ascii');
-      fs.writeFileSync(path.join(certDir, 'cert.pem'), pems.cert, 'ascii');
-      fs.writeFileSync(path.join(certDir, 'chain.pem'), pems.chain, 'ascii');
-      fs.writeFileSync(path.join(certDir, 'fullchain.pem'), fullchain, 'ascii');
-
       this.emit('cert.issued', {
         subject,
         privkey: serverPem,
