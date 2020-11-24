@@ -25,6 +25,7 @@ export default function ConfirmDialog({
   params: initialParams,
   onCancel,
   onConfirm,
+  focus,
 }) {
   const [params, setParams] = useState(initialParams);
   const [open, setOpen] = useState(true);
@@ -75,10 +76,10 @@ export default function ConfirmDialog({
             e.stopPropagation();
             onCallback(onCancel);
           }}
-          variant="contained"
-          color="primary"
+          variant={focus === 'cancel' ? 'contained' : undefined}
+          color={focus === 'cancel' ? 'primary' : undefined}
+          autoFocus={focus === 'cancel'}
           rounded
-          autoFocus
           size="small">
           {cancel || changeLocale('common.cancel')}
         </Button>
@@ -87,6 +88,9 @@ export default function ConfirmDialog({
             e.stopPropagation();
             onCallback(onConfirm);
           }}
+          color={focus === 'confirm' ? 'primary' : undefined}
+          variant={focus === 'confirm' ? 'contained' : undefined}
+          autoFocus={focus === 'confirm'}
           size="small" // eslint-disable-next-line no-underscore-dangle
           disabled={params.__disableConfirm || loading}
           rounded>
@@ -106,6 +110,7 @@ ConfirmDialog.propTypes = {
   params: PropTypes.object, // This object holds states managed in the dialog
   onCancel: PropTypes.func,
   onConfirm: PropTypes.func.isRequired,
+  focus: PropTypes.string,
 };
 
 ConfirmDialog.defaultProps = {
@@ -113,6 +118,7 @@ ConfirmDialog.defaultProps = {
   cancel: '',
   confirm: 'Confirm',
   params: {},
+  focus: 'confirm',
 };
 
 const StyledDialog = styled(Dialog)`

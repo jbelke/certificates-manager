@@ -30,7 +30,7 @@ export default function DnsConfigReminder({ domain, onClose, ...props }) {
     const subDomain = parseResult.subDomains.join('.');
     content = (
       <React.Fragment>
-        添加一个指向 {nodeDomain} 的 {subDomain} 记录:
+        添加一个指向节点地址 {nodeDomain} 的 {subDomain} 记录:
         <CodeBlock className="dns-configration" style={{ overflow: 'auto', marginTop: theme.spacing(2) }}>
           {`${subDomain} CNAME ${nodeDomain}`}
         </CodeBlock>

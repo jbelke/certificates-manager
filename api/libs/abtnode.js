@@ -12,7 +12,7 @@ const fixCert = (pem) => pem.split('\n').join('|');
 const updateAbtNodeCert = async (cert) => {
   try {
     const { domain } = cert;
-    const certificate = cert.chain;
+    const certificate = cert.fullchain;
     const privateKey = cert.privkey;
 
     const result = await client.updateNginxHttpsCert({

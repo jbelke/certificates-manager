@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import useAsync from 'react-use/lib/useAsync';
+import useAsyncRetry from 'react-use/lib/useAsyncRetry';
 import styled from 'styled-components';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,12 +12,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@arcblock/ux/lib/Button';
 import Toast from '@arcblock/ux/lib/Toast';
 
+import AddDomain from './add_domain';
 import ConfirmDialog from './confirm';
 
 import api from '../libs/api';
+import { formatError } from '../libs/util';
 
 export default function DomainList({ ...props }) {
-  const state = useAsync(() => api.get('/domains').then((resp) => resp.data));
+  const state = useAsyncRetry(() => api.get('/domains').then((resp) => resp.data));
   const [confirmSetting, setConfirmSetting] = useState(null);
   const [removeError, setRemoveError] = useState('');
   const [removeSuccess, setRemoveSuccess] = useState('');
@@ -47,8 +49,9 @@ export default function DomainList({ ...props }) {
     try {
       await api.delete(`/domains/${domain}`);
       setRemoveSuccess('Remove domain successfully!');
+      state.retry();
     } catch (error) {
-      setRemoveError('Remove domain error:', error.message);
+      setRemoveError(`Remove domain error: ${formatError(error)}`);
     }
 
     setConfirmSetting(null);
@@ -79,64 +82,69 @@ export default function DomainList({ ...props }) {
   };
 
   return (
-    <Div {...props}>
+    <Container {...props}>
       <div className="title">Domain List</div>
-      <TableContainer className="table">
-        <Table aria-label="domain list">
-          <TableHead>
-            <TableRow>
-              <TableCell>Subject</TableCell>
-              <TableCell>Challenge</TableCell>
-              <TableCell>DNS Status</TableCell>
-              <TableCell>Certificate</TableCell>
-              <TableCell>Created At</TableCell>
-              <TableCell>Operation</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {(state.value || []).map((row) => (
-              <TableRow key={row.domain}>
-                <TableCell>{row.domain}</TableCell>
-                <TableCell>{row.challenge}</TableCell>
-                {domainsDnsStatusMap[row.domain] && (
-                  <TableCell>{domainsDnsStatusMap[row.domain].resolved ? 'Normal' : 'Not Resolved'}</TableCell>
-                )}
-                {!domainsDnsStatusMap[row.domain] && <TableCell />}
-                <TableCell>{row.certificate ? 'Exists' : 'Not Exists'}</TableCell>
-                <TableCell>{row.createdAt}</TableCell>
-                <TableCell>
-                  <Button rounded variant="contained" color="danger" onClick={() => handleRemoveDomain(row.domain)}>
-                    Remove
-                  </Button>
-                </TableCell>
+      <AddDomain onConfirm={state.retry} />
+      <div>
+        <TableContainer className="table">
+          <Table aria-label="domain list">
+            <TableHead>
+              <TableRow>
+                <TableCell>Subject</TableCell>
+                <TableCell>Challenge</TableCell>
+                <TableCell>DNS Status</TableCell>
+                <TableCell>Certificate</TableCell>
+                <TableCell>Created At</TableCell>
+                <TableCell>Operation</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {confirmSetting && (
-        <ConfirmDialog
-          title={confirmSetting.title}
-          description={confirmSetting.description}
-          confirm={confirmSetting.confirm}
-          cancel={confirmSetting.cancel}
-          onConfirm={confirmSetting.onConfirm}
-          onCancel={confirmSetting.onCancel}
-        />
-      )}
-      {!!removeError && <Toast variant="error" message={removeError} onClose={() => setRemoveError('')} />}
-      {!!removeSuccess && (
-        <Toast variant="success" duration={3000} message={removeSuccess} onClose={() => setRemoveSuccess('')} />
-      )}
-    </Div>
+            </TableHead>
+            <TableBody>
+              {(state.value || []).map((row) => (
+                <TableRow key={row.domain}>
+                  <TableCell>{row.domain}</TableCell>
+                  <TableCell>{row.challenge}</TableCell>
+                  {domainsDnsStatusMap[row.domain] && (
+                    <TableCell>{domainsDnsStatusMap[row.domain].resolved ? 'Normal' : 'Not Resolved'}</TableCell>
+                  )}
+                  {!domainsDnsStatusMap[row.domain] && <TableCell />}
+                  <TableCell>{row.certificate ? 'Exists' : 'Not Exists'}</TableCell>
+                  <TableCell>{row.createdAt}</TableCell>
+                  <TableCell>
+                    <Button
+                      size="small"
+                      rounded
+                      variant="contained"
+                      color="danger"
+                      onClick={() => handleRemoveDomain(row.domain)}>
+                      Remove
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        {confirmSetting && (
+          <ConfirmDialog
+            title={confirmSetting.title}
+            description={confirmSetting.description}
+            confirm={confirmSetting.confirm}
+            cancel={confirmSetting.cancel}
+            onConfirm={confirmSetting.onConfirm}
+            onCancel={confirmSetting.onCancel}
+            focus="cancel"
+          />
+        )}
+        {!!removeError && <Toast variant="error" message={removeError} onClose={() => setRemoveError('')} />}
+        {!!removeSuccess && (
+          <Toast variant="success" duration={3000} message={removeSuccess} onClose={() => setRemoveSuccess('')} />
+        )}
+      </div>
+    </Container>
   );
 }
 
-const Div = styled.div`
-  width: 80%;
-  border: 1px solid #000;
-  padding: ${(props) => props.theme.spacing(5)}px;
-
+const Container = styled.div`
   .title {
     text-align: center;
     color: #000;

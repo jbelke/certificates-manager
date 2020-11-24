@@ -79,9 +79,9 @@ class AcmeWrapper extends EventEmitter {
     const encoding = 'der';
     const typ = 'CERTIFICATE REQUEST';
 
-    const serverKeypair = await Keypairs.generate({ kty: 'EC', format: 'jwk' });
+    const serverKeypair = await Keypairs.generate({ kty: 'RSA', format: 'jwk' });
     const serverKey = serverKeypair.private;
-    const serverPem = await Keypairs.export({ jwk: serverKey });
+    const serverPem = await Keypairs.export({ jwk: serverKey, encoding: 'pem' });
 
     const csrDer = await CSR.csr({ jwk: serverKey, domains, encoding });
     const csr = PEM.packBlock({ type: typ, bytes: csrDer });
@@ -106,6 +106,11 @@ class AcmeWrapper extends EventEmitter {
       const fullchain = `${pems.cert}\n${pems.chain}\n`;
 
       console.info('certificates generated!');
+
+      fs.writeFileSync(path.join(certDir, 'privkey.pem'), serverPem, 'ascii');
+      fs.writeFileSync(path.join(certDir, 'cert.pem'), pems.cert, 'ascii');
+      fs.writeFileSync(path.join(certDir, 'chain.pem'), pems.chain, 'ascii');
+      fs.writeFileSync(path.join(certDir, 'fullchain.pem'), fullchain, 'ascii');
 
       this.emit('cert.issued', {
         subject,

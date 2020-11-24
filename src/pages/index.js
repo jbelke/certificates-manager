@@ -4,7 +4,6 @@ import { LocaleContext } from '@arcblock/ux/lib/Locale/context';
 
 import Layout from '../components/layout';
 import DomainList from '../components/domain_list';
-import AddDomain from '../components/add_domain';
 
 export default function IndexPage() {
   const { changeLocale, t } = useContext(LocaleContext);
@@ -20,7 +19,6 @@ export default function IndexPage() {
       <Main>
         <h1>{appName}</h1>
         <p style={{ fontSize: '1.2rem' }}>{t('description')}</p>
-        <AddDomain className="block" />
         <DomainList className="block" />
       </Main>
     </Layout>
@@ -31,7 +29,7 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-with: ${(props) => props.theme.breakpoints.values.sm}px;
+  min-with: ${(props) => props.theme.breakpoints.values.md}px;
   margin-top: ${(props) => `${props.theme.spacing(5)}px`};
 
   .block {

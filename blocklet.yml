@@ -1,44 +1,67 @@
 name: certificates-manager
-description: Manage ABT Node SSL certificates
-specVersion: 1.0.0
-did: z8iZuGaHf4BxN4XxFWhjuX1zP99ySPmZUFNJf
-group: dapp
-version: 0.1.0
-main: api/index.js
 title: Certificates Manager
-publicUrl: ''
-adminUrl: /
-configUrl: ''
-docUrl: ''
-logo: logo.png
-author: 'polunzh <polunzh@gmail.com> (http://github.com/polunzh)'
-charging:
-  price: 0
-color: primary
-community: 'https://community.arcblockio.cn'
+description: Manage ABT Node SSL certificates
+version: 0.1.0
 keywords:
   - dapp
   - certificate
+files:
+  - api/
+  - build
+  - screenshots
+  - logo.png
+  - blocklet.md
+  - blocklet.js
+  - README.md
+author:
+  name: polunzh
+  email: polunzh@gmail.com
+  url: 'http://github.com/polunzh'
 repository:
   type: git
   url: >-
     https://github.com/ArcBlock/abt-node/tree/master/blocklets/certificates-manager
+license: Apache-2.0
+specVersion: 1.0.1
+did: z8iZtEerb5YvuaTrkkryeAMexfVTk7EaUnmVU
+group: dapp
+main: api/index.js
+logo: logo.png
+community: 'https://community.arcblockio.cn'
 support: support@arcblock.io
-# hooks:
-  # pre-deploy: npm run bundle
-hookFiles: []
 environments:
   - name: NODE_ACCESS_KEY
     description: Access key of ABT Node
     required: true
+    default: ''
+    secure: false
   - name: NODE_ACCESS_SECRET
     description: Access key of ABT Node
     required: true
     secure: true
+    default: ''
   - name: NODE_DOMAIN
     description: Domain name of current production node
     required: true
-capabilities:
-  dynamicPathPrefix: true
+    default: ''
+    secure: false
 scripts:
   dev: npm run start
+documentation: ''
+homepage: ''
+timeout:
+  start: 10
+interfaces:
+  - type: web
+    name: adminUrl
+    path: /
+    prefix: '*'
+    port: BLOCKLET_PORT
+    protocol: tcp
+  - type: web
+    name: wellknownUrl
+    path: /.wellknown/acme-challenge
+    prefix: '/.wellknown/acme-challenge'
+    port: BLOCKLET_PORT
+    protocol: tcp
+screenshots: []

@@ -6,6 +6,10 @@ export const formatError = (error) => {
     return error.errors.map((x) => x.message).join('\n');
   }
 
+  if (error.response) {
+    return error.response.data;
+  }
+
   return error.message;
 };
 
