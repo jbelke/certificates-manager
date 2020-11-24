@@ -32,7 +32,6 @@ export default function DomainList({ ...props }) {
           return acc;
         }, {});
 
-        console.log(domainsStatus);
         setDomainsDnsStatusMap(domainsMap);
       } catch (error) {
         console.error('load domain status error:', error);
@@ -89,6 +88,7 @@ export default function DomainList({ ...props }) {
               <TableCell>Subject</TableCell>
               <TableCell>Challenge</TableCell>
               <TableCell>DNS Status</TableCell>
+              <TableCell>Certificate</TableCell>
               <TableCell>Created At</TableCell>
               <TableCell>Operation</TableCell>
             </TableRow>
@@ -102,6 +102,7 @@ export default function DomainList({ ...props }) {
                   <TableCell>{domainsDnsStatusMap[row.domain].resolved ? 'Normal' : 'Not Resolved'}</TableCell>
                 )}
                 {!domainsDnsStatusMap[row.domain] && <TableCell />}
+                <TableCell>{row.certificate ? 'Exists' : 'Not Exists'}</TableCell>
                 <TableCell>{row.createdAt}</TableCell>
                 <TableCell>
                   <Button rounded variant="contained" color="danger" onClick={() => handleRemoveDomain(row.domain)}>
@@ -132,7 +133,7 @@ export default function DomainList({ ...props }) {
 }
 
 const Div = styled.div`
-  width: 60%;
+  width: 80%;
   border: 1px solid #000;
   padding: ${(props) => props.theme.spacing(5)}px;
 

@@ -60,7 +60,7 @@ export default function AddDomain({ ...props }) {
 }
 
 const Div = styled.div`
-  width: 60%;
+  width: 80%;
   border: 1px solid #000;
   padding: ${(props) => props.theme.spacing(5)}px;
 

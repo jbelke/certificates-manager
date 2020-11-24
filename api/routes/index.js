@@ -5,6 +5,7 @@ const { parseDomain, ParseResultType } = require('parse-domain');
 const Manager = require('../libs/acme_factory');
 const { getDomainsDnsStatus } = require('../libs/util');
 const domainState = require('../states/domain');
+const certificateState = require('../states/certificate');
 
 const initializeManager = async () => {
   const domains = await domainState.find();
@@ -22,6 +23,14 @@ module.exports = {
 
     app.get('/api/domains', async (req, res) => {
       const domains = await domainState.find();
+      // eslint-disable-next-line no-restricted-syntax
+      for (const domain of domains) {
+        // eslint-disable-next-line no-await-in-loop
+        const cert = await certificateState.findOne({ domain: domain.domain }, { fullchain: 1 });
+        if (cert) {
+          domain.certificate = cert;
+        }
+      }
 
       return res.json(domains);
     });

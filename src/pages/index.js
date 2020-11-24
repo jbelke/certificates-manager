@@ -31,7 +31,7 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  with: 768px;
+  min-with: ${(props) => props.theme.breakpoints.values.sm}px;
   margin-top: ${(props) => `${props.theme.spacing(5)}px`};
 
   .block {

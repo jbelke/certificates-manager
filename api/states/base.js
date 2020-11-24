@@ -51,9 +51,13 @@ class Base {
     return this.db.remove(...args);
   }
 
-  async exists(name) {
-    const tmp = await this.db.findOne({ name });
+  async exists(...args) {
+    const tmp = await this.db.findOne(...args);
     return !!tmp;
+  }
+
+  async update(...args) {
+    return this.db.update(...args);
   }
 }
 

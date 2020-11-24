@@ -109,7 +109,7 @@ AcmeFactory.getInstance = async (challengeName) => {
   instances[challengeName] = instance;
   instance.acme.on('cert.issued', async (data) => {
     const { subject, ...certData } = data;
-    await certificateState.insert({ domain: subject, ...certData });
+    await certificateState.update({ domain: subject }, { $set: { domain: subject, ...certData } }, { upsert: true });
 
     await updateCert(subject);
   });
