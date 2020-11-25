@@ -1,5 +1,7 @@
 const { lookup } = require('dns');
+const crypto = require('crypto');
 const { promisify } = require('util');
+const fs = require('fs');
 
 const getDomainDnsStatus = async (domain) => {
   if (!domain) {
@@ -25,4 +27,15 @@ const getDomainsDnsStatus = async (domains) => {
   return result;
 };
 
-module.exports = { getDomainsDnsStatus };
+const md5 = (str) => crypto.createHash('md5').update(str).digest('hex');
+
+const ensureDir = (dir) => {
+  if (fs.existsSync(dir)) {
+    return dir;
+  }
+
+  fs.mkdirSync(dir, { recursive: true });
+  return dir;
+};
+
+module.exports = { getDomainsDnsStatus, md5, ensureDir };

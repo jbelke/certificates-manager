@@ -1,5 +1,4 @@
 const { EventEmitter } = require('events');
-const fs = require('fs');
 const path = require('path');
 const url = require('url');
 const ACME = require('@root/acme');
@@ -9,18 +8,10 @@ const PEM = require('@root/pem');
 const punycode = require('punycode/');
 const http01 = require('./http_01').create({});
 const accountState = require('../states/account');
+const { ensureDir } = require('./util');
 
 const DIRECTORY_URL = 'https://acme-v02.api.letsencrypt.org/directory';
 const DIRECTORY_URL_STAGING = 'https://acme-staging-v02.api.letsencrypt.org/directory';
-
-const ensureDir = (dir) => {
-  if (fs.existsSync(dir)) {
-    return dir;
-  }
-
-  fs.mkdirSync(dir, { recursive: true });
-  return dir;
-};
 
 class AcmeWrapper extends EventEmitter {
   constructor({ configDir, maintainerEmail, packageAgent, staging = false }) {
@@ -37,12 +28,14 @@ class AcmeWrapper extends EventEmitter {
       // 5. challenge_status
       notify: (event, details) => {
         if (event === 'error') {
-          console.error(details);
+          console.error('issue with error:', details);
+          this.emit('cert.error', { error: details });
           return;
         }
 
         if (event === 'warning') {
-          console.warn(details);
+          console.warn('issue with warning', { details });
+          this.emit('cert.warning', { details });
           return;
         }
 
@@ -50,7 +43,7 @@ class AcmeWrapper extends EventEmitter {
           console.info(`notify ${event} details:`, details);
         }
 
-        this.emit('notify event:', event);
+        this.emit('cert.event:', event);
       },
     });
 
@@ -73,7 +66,7 @@ class AcmeWrapper extends EventEmitter {
     await this._createAccount();
   }
 
-  async add({ subject, subscriberEmail, agreeToTerms = true }) {
+  async create({ subject, subscriberEmail, agreeToTerms = true }) {
     const domains = [subject].map((name) => punycode.toASCII(name));
     const certDir = path.join(this.certDir, subject);
     ensureDir(certDir);
@@ -118,7 +111,8 @@ class AcmeWrapper extends EventEmitter {
         challenges: { 'http-01': { module: 'http_01' } },
       });
     } catch (error) {
-      console.error(error);
+      console.error('create certificate error', { domain: subject, error });
+      this.emit('cert.error', { domain: subject, error_message: error.message });
     }
   }
 
@@ -128,7 +122,7 @@ class AcmeWrapper extends EventEmitter {
       return account;
     }
 
-    if (accountState) await this.acme.init(this.directoryUrl);
+    await this.acme.init(this.directoryUrl);
 
     // TODO: kty 可以是 RSA? 和 EC 有什么区别？
     const accountKeypair = await Keypairs.generate({ kty: 'EC', format: 'jwk' });
@@ -145,8 +139,12 @@ class AcmeWrapper extends EventEmitter {
   }
 
   async _readAccountKey() {
-    const result = await fs.promises.readFile(path.join(this.accountDir, 'account_key.pem'), 'ascii');
-    return JSON.parse(result);
+    const account = await accountState.findOne({ directoryUrl: this.directoryUrl });
+    if (!account) {
+      throw new Error('no account found');
+    }
+
+    return account.private_key;
   }
 }
 

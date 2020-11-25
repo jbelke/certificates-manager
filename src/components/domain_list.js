@@ -94,9 +94,8 @@ export default function DomainList({ ...props }) {
             <TableHead>
               <TableRow>
                 <TableCell>Subject</TableCell>
-                <TableCell>Challenge</TableCell>
+                <TableCell>Status</TableCell>
                 <TableCell>DNS Status</TableCell>
-                <TableCell>Certificate</TableCell>
                 <TableCell>Created At</TableCell>
                 <TableCell>Operation</TableCell>
               </TableRow>
@@ -105,12 +104,11 @@ export default function DomainList({ ...props }) {
               {(state.value || []).map((row) => (
                 <TableRow key={row.domain}>
                   <TableCell>{row.domain}</TableCell>
-                  <TableCell>{row.challenge}</TableCell>
+                  <TableCell>{row.status}</TableCell>
                   {domainsDnsStatusMap[row.domain] && (
                     <TableCell>{domainsDnsStatusMap[row.domain].resolved ? 'Normal' : 'Not Resolved'}</TableCell>
                   )}
                   {!domainsDnsStatusMap[row.domain] && <TableCell />}
-                  <TableCell>{row.certificate ? 'Generated' : 'Not Generated'}</TableCell>
                   <TableCell>{row.createdAt}</TableCell>
                   <TableCell>
                     <Button

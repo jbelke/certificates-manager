@@ -9,7 +9,6 @@ const create = (config = {}) => {
 
   return {
     init() {
-      console.log('---init');
       return Promise.resolve(null);
     },
 
@@ -18,7 +17,7 @@ const create = (config = {}) => {
         const ch = data.challenge;
         const key = ch.token;
         memdb[key] = ch.keyAuthorization;
-        console.log('---set', key);
+        console.log('set key:', key);
 
         return null;
       });
@@ -28,7 +27,7 @@ const create = (config = {}) => {
       return Promise.resolve().then(() => {
         const ch = data.challenge;
         const key = ch.token;
-        console.log('---get', key);
+        console.log('get key', key);
 
         if (memdb[key]) {
           return { keyAuthorization: memdb[key] };
@@ -42,7 +41,7 @@ const create = (config = {}) => {
       return Promise.resolve().then(() => {
         const ch = data.challenge;
         const key = ch.token;
-        console.log('---remove', key);
+        console.log('remove key', key);
 
         delete memdb[key];
         return null;

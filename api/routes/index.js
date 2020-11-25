@@ -59,11 +59,10 @@ module.exports = {
         challenge,
       });
 
-      console.log('add domain', { domain });
-
       const manager = await Manager.getInstance(challenge);
-
       manager.add(domain);
+
+      console.log('add domain', { domain });
 
       return res.json('ok');
     });
