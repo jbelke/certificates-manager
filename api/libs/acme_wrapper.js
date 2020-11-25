@@ -8,6 +8,7 @@ const CSR = require('@root/csr');
 const PEM = require('@root/pem');
 const punycode = require('punycode/');
 const http01 = require('./http_01').create({});
+const accountState = require('../states/account');
 
 const DIRECTORY_URL = 'https://acme-v02.api.letsencrypt.org/directory';
 const DIRECTORY_URL_STAGING = 'https://acme-staging-v02.api.letsencrypt.org/directory';
@@ -56,6 +57,7 @@ class AcmeWrapper extends EventEmitter {
     this.staging = staging;
     this.directoryUrl = this.staging === true ? DIRECTORY_URL_STAGING : DIRECTORY_URL;
     this.configDir = configDir;
+    this.maintainerEmail = maintainerEmail;
     ensureDir(this.configDir);
 
     this.accountDir = path.join(this.configDir, 'accounts', url.parse(this.directoryUrl).host);
@@ -121,11 +123,25 @@ class AcmeWrapper extends EventEmitter {
   }
 
   async _createAccount() {
-    await this.acme.init(this.directoryUrl);
+    const account = await accountState.findOne({ directoryUrl: this.directoryUrl });
+    if (account) {
+      return account;
+    }
 
+    if (accountState) await this.acme.init(this.directoryUrl);
+
+    // TODO: kty 可以是 RSA? 和 EC 有什么区别？
     const accountKeypair = await Keypairs.generate({ kty: 'EC', format: 'jwk' });
     const accountKey = accountKeypair.private;
-    await fs.promises.writeFile(path.join(this.accountDir, 'account_key.pem'), JSON.stringify(accountKey));
+
+    await accountState.update(
+      { directoryUrl: this.directoryUrl },
+      { directoryUrl: this.directoryUrl, private_key: accountKey, maintainer_email: this.maintainerEmail },
+      { upsert: true }
+    );
+
+    console.info('account was created', { directoryUrl: this.directoryUrl, maintainerEmail: this.maintainerEmail });
+    return accountState.findOne({ directoryUrl: this.directoryUrl });
   }
 
   async _readAccountKey() {

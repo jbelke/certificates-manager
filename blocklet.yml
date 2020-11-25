@@ -45,6 +45,9 @@ environments:
     required: true
     default: ''
     secure: false
+  - name: MAINTAINER_EMAIL
+    description: The maintainer's email
+    required: true
 scripts:
   dev: npm run start
 documentation: ''

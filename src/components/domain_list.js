@@ -110,7 +110,7 @@ export default function DomainList({ ...props }) {
                     <TableCell>{domainsDnsStatusMap[row.domain].resolved ? 'Normal' : 'Not Resolved'}</TableCell>
                   )}
                   {!domainsDnsStatusMap[row.domain] && <TableCell />}
-                  <TableCell>{row.certificate ? 'Generated' : 'Not Exists'}</TableCell>
+                  <TableCell>{row.certificate ? 'Generated' : 'Not Generated'}</TableCell>
                   <TableCell>{row.createdAt}</TableCell>
                   <TableCell>
                     <Button

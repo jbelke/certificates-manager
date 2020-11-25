@@ -6,6 +6,7 @@ const pkg = require('../../package.json');
 const http01 = require('./http_01').create();
 const AcmeWrapper = require('./acme_wrapper');
 const certificateState = require('../states/certificate');
+const { maintainerEmail } = require('./env');
 
 const AGENT_NAME = 'abtnode';
 
@@ -63,8 +64,6 @@ const challengeMap = new Map([['http-01', () => ({ 'http-01': http01 })]]);
 
 const instances = {};
 
-const email = 'polunzh@qq.com';
-
 const updateCert = async (domain) => {
   if (!domain) {
     throw new Error('domain param is required');
@@ -100,7 +99,7 @@ AcmeFactory.getInstance = async (challengeName) => {
   const instance = new AcmeFactory({
     packageRoot: rootDir,
     configDir,
-    email,
+    email: maintainerEmail,
     staging: typeof process.env.STAGING === 'undefined' ? process.env.NODE_ENV !== 'production' : !!process.env.STAGING,
   });
 
