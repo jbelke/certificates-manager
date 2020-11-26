@@ -63,7 +63,7 @@ interfaces:
     protocol: tcp
   - type: web
     name: wellknownUrl
-    path: /.wellknown/acme-challenge
+    path: /
     prefix: '/.wellknown/acme-challenge'
     port: BLOCKLET_PORT
     protocol: tcp

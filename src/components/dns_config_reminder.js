@@ -13,7 +13,7 @@ import { parseDomain, ParseResultType } from 'parse-domain';
 
 export default function DnsConfigReminder({ domain, onClose, ...props }) {
   const theme = useTheme();
-  const { nodeDomain = '' } = window.env;
+  const { nodeDomain = '' } = window.env || {};
 
   const [open, setOpen] = useState(true);
   const handleClose = () => {

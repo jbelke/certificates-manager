@@ -43,9 +43,10 @@ abtnode deploy .
 
 ## TODO
 
-- [ ] 更详细的生成证书状态信息
-- [ ] 可以使用 websocket 监听添加证书事件
-- [ ] 只更新将要过期的证书，以防更新频率过高 [高优先级]
+- [ ] 在 Reminder 添加更详细的解释
+- [x] 更详细的生成证书状态信息
+- [ ] 可以使用 websocket 监听添加证书事件 [次高优先级]
+- [x] 只更新将要过期的证书，以防更新频率过高 [高优先级]
 - [x] 证书维护者，订阅者邮箱 [高优先级]
 - [x] save account [高优先级]
 - [ ] 轮训生成证书失败队列 [次高优先级]
@@ -58,3 +59,4 @@ abtnode deploy .
 - [ ] 检查项目中的 TODO/FIXME
 - [ ] DNS(CNAME) configuration checking
 - [x] Domain List
+- [ ] 可以在界面上展示 well-known 地址
