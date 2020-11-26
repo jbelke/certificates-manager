@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@abtnode/client": "^1.0.32",
+    "@abtnode/cron": "^1.0.35",
     "@abtnode/nedb": "^1.0.32",
     "@abtnode/passport": "^1.0.35",
     "@abtnode/queue": "^1.0.35",

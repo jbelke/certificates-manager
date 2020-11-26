@@ -24,6 +24,14 @@
     phoenix-channels "^1.0.0"
     react-app-polyfill "^1.0.6"
 
+"@abtnode/cron@^1.0.35":
+  version "1.0.35"
+  resolved "https://registry.yarnpkg.com/@abtnode/cron/-/cron-1.0.35.tgz#156579371d16506f29c7d6f528f017ed49f5d338"
+  integrity sha512-YmTCUN+yGi329p5VoBnUpRhd+1Uzq1mD6wfSUBo1ogJhfgf91y6xPNEC8zX4FDZ4u+Ni3ofqtUw8Ko1tPIFKsg==
+  dependencies:
+    "@abtnode/logger" "^1.0.35"
+    cron "^1.8.2"
+
 "@abtnode/logger@^1.0.35":
   version "1.0.35"
   resolved "https://registry.yarnpkg.com/@abtnode/logger/-/logger-1.0.35.tgz#c4aecaa475863d6880930e1e16a5b30a1e594944"

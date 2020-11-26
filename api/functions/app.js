@@ -9,9 +9,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const fallback = require('express-history-api-fallback');
 const passport = require('@abtnode/passport');
+const Cron = require('@abtnode/cron');
 
 const Manager = require('../libs/acme_manager');
-const Cron = require('../libs/cron');
 
 const isProduction = process.env.NODE_ENV === 'production' || !!process.env.ABT_NODE;
 
