@@ -8,6 +8,7 @@ const serverless = require('serverless-http');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const fallback = require('express-history-api-fallback');
+const passport = require('@abtnode/passport');
 
 const Manager = require('../libs/acme_manager');
 const Cron = require('../libs/cron');
@@ -44,6 +45,16 @@ app.use(
 );
 
 const router = express.Router();
+
+if (process.env.ABT_NODE_PORT && process.env.NODE_ENV !== 'development') {
+  router.use(
+    passport({
+      nodeHost: `http://127.0.0.1:${process.env.ABT_NODE_PORT}`,
+      blockletSk: process.env.BLOCKLET_APP_SK,
+      blockletRoutes: [/^\/api\//],
+    })
+  );
+}
 
 require('../routes/well_known').init(router);
 require('../routes/session').init(router);

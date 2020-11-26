@@ -29,7 +29,6 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-with: ${(props) => props.theme.breakpoints.values.md}px;
   margin-top: ${(props) => `${props.theme.spacing(5)}px`};
 
   .block {

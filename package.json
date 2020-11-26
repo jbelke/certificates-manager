@@ -24,6 +24,7 @@
   "dependencies": {
     "@abtnode/client": "^1.0.32",
     "@abtnode/nedb": "^1.0.32",
+    "@abtnode/passport": "^1.0.35",
     "@abtnode/queue": "^1.0.35",
     "@arcblock/ux": "^0.78.19",
     "@fidm/x509": "^1.2.1",

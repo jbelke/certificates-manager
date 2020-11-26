@@ -158,7 +158,23 @@ Manager.getInstance = async () => {
 
   instance.acme.on('cert.issued', async (data) => {
     const { subject, ...certData } = data;
+    const info = Certificate.fromPEM(certData.fullchain);
+
     await certificateState.update({ domain: subject }, { $set: { domain: subject, ...certData } }, { upsert: true });
+    await domainState.update(
+      { domain: subject },
+      {
+        $set: {
+          certificate: {
+            validFrom: info.validFrom,
+            validTo: info.validTo,
+            issuer: info.issuer,
+            email: info.emailAddresses,
+          },
+        },
+      },
+      { upsert: true }
+    );
 
     await domainState.updateStatus(subject, DOMAIN_STATUS.generated);
     await updateCert(subject);
@@ -176,7 +192,10 @@ Manager.getInstance = async () => {
 Manager.initInstance = Manager.getInstance;
 
 const addCreateJob = async () => {
-  const domains = await domainState.find({ status: { $in: [DOMAIN_STATUS.added, DOMAIN_STATUS.error] } });
+  const domains = await domainState.find({
+    status: { $in: [DOMAIN_STATUS.added, DOMAIN_STATUS.generated, DOMAIN_STATUS.error] },
+    'certificate.validTo': { $lte: moment().add(RENEWAL_OFFSET_IN_HOUR, 'hours') },
+  });
 
   if (domains.length) {
     const acmeInstance = await Manager.getInstance();
