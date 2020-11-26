@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import React, { useEffect, useState } from 'react';
 import useAsyncRetry from 'react-use/lib/useAsyncRetry';
 import styled from 'styled-components';
@@ -9,15 +11,19 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
+import WarningIcon from '@material-ui/icons/Warning';
+import Link from '@material-ui/core/Link';
 
 import Button from '@arcblock/ux/lib/Button';
 import Toast from '@arcblock/ux/lib/Toast';
+import Tag from '@arcblock/ux/lib/Tag';
 
 import AddDomain from './add_domain';
 import ConfirmDialog from './confirm';
+import DnsConfigReminder from './dns_config_reminder';
 
 import api from '../libs/api';
-import { formatError } from '../libs/util';
+import { formatError, domainStatusMap } from '../libs/util';
 
 export default function DomainList({ ...props }) {
   const state = useAsyncRetry(() => api.get('/domains').then((resp) => resp.data));
@@ -25,6 +31,7 @@ export default function DomainList({ ...props }) {
   const [removeError, setRemoveError] = useState('');
   const [removeSuccess, setRemoveSuccess] = useState('');
   const [domainsDnsStatusMap, setDomainsDnsStatusMap] = useState({});
+  const [domainReminder, setDomainReminder] = useState();
 
   useEffect(async () => {
     if (state.value) {
@@ -104,9 +111,24 @@ export default function DomainList({ ...props }) {
               {(state.value || []).map((row) => (
                 <TableRow key={row.domain}>
                   <TableCell>{row.domain}</TableCell>
-                  <TableCell>{row.status}</TableCell>
+                  <TableCell>
+                    <Tag type={domainStatusMap[row.status]}>{row.status}</Tag>
+                  </TableCell>
                   {domainsDnsStatusMap[row.domain] && (
-                    <TableCell>{domainsDnsStatusMap[row.domain].resolved ? 'Normal' : 'Not Resolved'}</TableCell>
+                    <TableCell>
+                      <Typography className="dns-status">
+                        {domainsDnsStatusMap[row.domain].resolved ? (
+                          <Tag type="success">resolved</Tag>
+                        ) : (
+                          <React.Fragment>
+                            <Link component="button" onClick={() => setDomainReminder(row.domain)}>
+                              Check DNS
+                            </Link>
+                            <WarningIcon />
+                          </React.Fragment>
+                        )}
+                      </Typography>
+                    </TableCell>
                   )}
                   {!domainsDnsStatusMap[row.domain] && <TableCell />}
                   <TableCell>{row.createdAt}</TableCell>
@@ -140,6 +162,7 @@ export default function DomainList({ ...props }) {
         {!!removeSuccess && (
           <Toast variant="success" duration={3000} message={removeSuccess} onClose={() => setRemoveSuccess('')} />
         )}
+        {domainReminder && <DnsConfigReminder domain={domainReminder} onClose={() => setDomainReminder('')} />}
       </div>
     </Container>
   );
@@ -153,6 +176,18 @@ const Container = styled.div`
 
   .table {
     margin-top: ${(props) => props.theme.spacing(3)}px;
+  }
+
+  .dns-status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & > svg {
+      margin-left: 5px;
+      font-size: 16px;
+      color: rgb(255, 207, 113);
+    }
   }
 `;
 

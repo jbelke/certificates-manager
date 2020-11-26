@@ -6,35 +6,43 @@ const moment = require('moment');
 
 const { updateAbtNodeCert } = require('./abtnode');
 const pkg = require('../../package.json');
-const http01 = require('./http_01').create();
 const AcmeWrapper = require('./acme_wrapper');
 const certificateState = require('../states/certificate');
 const domainState = require('../states/domain');
-const { md5 } = require('./util');
-const createQueue = require('./queue');
-const { maintainerEmail } = require('./env');
+const { maintainerEmail: email } = require('./env');
 const { DOMAIN_STATUS } = require('./constant');
+const createQueue = require('./queue');
+const { md5 } = require('./util');
 
 const AGENT_NAME = 'abtnode';
 
 const RENEWAL_OFFSET_IN_HOUR = 10 * 24; // 10 day
 
-class AcmeFactory extends EventEmitter {
-  constructor({ configDir, email, staging = false }) {
+class Manager extends EventEmitter {
+  constructor({ dataDir, maintainerEmail, staging = false }) {
     super();
-
+    console.info('initialize manager in data dir:', dataDir);
     this.acme = new AcmeWrapper({
-      configDir,
-      maintainerEmail: email,
       packageAgent: `${AGENT_NAME}/${pkg.version}`,
       staging,
+      maintainerEmail,
     });
 
-    this.configDir = configDir;
+    this.maintainerEmail = maintainerEmail;
+    this.dataDir = dataDir;
     this.queue = createQueue({
       name: 'create-cert-queue',
-      dataDir: this.configDir,
-      onJob: async (job) => this._createCert(job),
+      dataDir,
+      onJob: async (job) => {
+        const data = await domainState.findOne({ domain: job.domain });
+        if (data) {
+          await this._createCert({
+            domain: data.domain,
+            subscriberEmail: data.subscriberEmail,
+            challenge: data.challenge,
+          });
+        }
+      },
       options: {
         maxRetries: 0,
         retryDelay: 5000, // retry after 5 seconds
@@ -49,7 +57,7 @@ class AcmeFactory extends EventEmitter {
       throw new Error('domain is required when add domain');
     }
 
-    this.queue.push({ domain, challenge });
+    this.queue.push({ domain, challenge, subscriberEmail: this.maintainerEmail });
   }
 
   getCertState(domain) {
@@ -77,8 +85,7 @@ class AcmeFactory extends EventEmitter {
     };
   }
 
-  // TODO: polish add domain
-  async _createCert({ domain, challenge, force = false }) {
+  async _createCert({ domain, subscriberEmail, challenge, force = false }) {
     try {
       if (!domain) {
         throw new Error('domain is required when create certificate');
@@ -93,7 +100,7 @@ class AcmeFactory extends EventEmitter {
 
         if (force === false && hours > RENEWAL_OFFSET_IN_HOUR) {
           console.info(`no need to renewal ${domain}, the certificate will expires more than ${hours} hours`);
-          await domainState.updateStatus(domain, DOMAIN_STATUS.created);
+          await domainState.updateStatus(domain, DOMAIN_STATUS.generated);
           await updateCert(domain);
           return;
         }
@@ -104,7 +111,7 @@ class AcmeFactory extends EventEmitter {
       await domainState.updateStatus(domain, domainStatus);
       await this.acme.create({
         subject: domain,
-        altnames: [domain],
+        subscriberEmail,
         challenge,
       });
     } catch (error) {
@@ -114,9 +121,7 @@ class AcmeFactory extends EventEmitter {
   }
 }
 
-const challengeMap = new Map([['http-01', () => ({ 'http-01': http01 })]]);
-
-const instances = {};
+let instance = null;
 
 const updateCert = async (domain) => {
   if (!domain) {
@@ -131,50 +136,59 @@ const updateCert = async (domain) => {
   await updateAbtNodeCert(cert);
 };
 
-AcmeFactory.getInstance = async (challengeName) => {
-  if (!challengeName) {
-    throw new Error('challengeName param is required');
+Manager.getInstance = async () => {
+  if (instance) {
+    return instance;
   }
 
-  if (!challengeMap.has(challengeName)) {
-    throw new Error(`currently ${challengeName} is not support`);
-  }
-
-  if (instances[challengeName]) {
-    return instances[challengeName];
-  }
-
-  const rootDir = process.env.BLOCKLET_DATA_DIR || path.join(__dirname, '..');
+  const rootDir = path.join(__dirname, '..');
   if (!fs.existsSync(rootDir)) {
     fs.mkdirSync(rootDir);
   }
 
-  const configDir = path.join(rootDir, `./${challengeName}.d/`);
-  const instance = new AcmeFactory({
+  const dataDir = process.env.BLOCKLET_DATA_DIR || path.join(rootDir, '.data');
+  instance = new Manager({
     packageRoot: rootDir,
-    configDir,
-    email: maintainerEmail,
+    dataDir,
+    maintainerEmail: email,
     staging: typeof process.env.STAGING === 'undefined' ? process.env.NODE_ENV !== 'production' : !!process.env.STAGING,
   });
 
   await instance.acme.init();
 
-  instances[challengeName] = instance;
   instance.acme.on('cert.issued', async (data) => {
     const { subject, ...certData } = data;
     await certificateState.update({ domain: subject }, { $set: { domain: subject, ...certData } }, { upsert: true });
 
-    await domainState.updateStatus(subject, DOMAIN_STATUS.created);
+    await domainState.updateStatus(subject, DOMAIN_STATUS.generated);
     await updateCert(subject);
   });
 
   instance.acme.on('cert.error', async (data) => {
     if (data.domain) {
-      await domainState.updateStatus(data.domain, DOMAIN_STATUS.errorr);
+      await domainState.updateStatus(data.domain, DOMAIN_STATUS.error);
     }
   });
 
   return instance;
 };
 
-module.exports = AcmeFactory;
+Manager.initInstance = Manager.getInstance;
+
+const addCreateJob = async () => {
+  const domains = await domainState.find({ status: { $in: [DOMAIN_STATUS.added, DOMAIN_STATUS.error] } });
+
+  if (domains.length) {
+    const acmeInstance = await Manager.getInstance();
+    // 加入前判断是否已存在
+    domains.forEach((domain) => acmeInstance.queue.push(domain));
+  }
+};
+
+Manager.getJobSchedular = () => ({
+  name: 'add-create-cert-job',
+  time: process.env.NODE_ENV === 'development' ? '0 * * * * *' : '0 */5 * * * *', // every 5 minutes
+  fn: addCreateJob,
+});
+
+module.exports = Manager;

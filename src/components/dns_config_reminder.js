@@ -26,13 +26,22 @@ export default function DnsConfigReminder({ domain, onClose, ...props }) {
   let content = '';
   if (parseResult.type !== ParseResultType.Listed) {
     content = 'invlaid domain';
-  } else {
+  } else if (parseResult.subDomains.length) {
     const subDomain = parseResult.subDomains.join('.');
     content = (
       <React.Fragment>
-        添加一个指向节点地址 {nodeDomain} 的 {subDomain} 记录:
+        添加一个指向节点地址 {nodeDomain} 的 {subDomain} CNAME 记录:
         <CodeBlock className="dns-configration" style={{ overflow: 'auto', marginTop: theme.spacing(2) }}>
           {`${subDomain} CNAME ${nodeDomain}`}
+        </CodeBlock>
+      </React.Fragment>
+    );
+  } else {
+    content = (
+      <React.Fragment>
+        添加一个指向节点 IP 的 A 记录:
+        <CodeBlock className="dns-configration" style={{ overflow: 'auto', marginTop: theme.spacing(2) }}>
+          {`${domain} A <你的 ABT Node IP>`}
         </CodeBlock>
       </React.Fragment>
     );

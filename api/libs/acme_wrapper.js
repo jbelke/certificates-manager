@@ -1,6 +1,4 @@
 const { EventEmitter } = require('events');
-const path = require('path');
-const url = require('url');
 const ACME = require('@root/acme');
 const Keypairs = require('@root/keypairs');
 const CSR = require('@root/csr');
@@ -8,13 +6,12 @@ const PEM = require('@root/pem');
 const punycode = require('punycode/');
 const http01 = require('./http_01').create({});
 const accountState = require('../states/account');
-const { ensureDir } = require('./util');
 
 const DIRECTORY_URL = 'https://acme-v02.api.letsencrypt.org/directory';
 const DIRECTORY_URL_STAGING = 'https://acme-staging-v02.api.letsencrypt.org/directory';
 
 class AcmeWrapper extends EventEmitter {
-  constructor({ configDir, maintainerEmail, packageAgent, staging = false }) {
+  constructor({ maintainerEmail, packageAgent, staging = false }) {
     super();
 
     this.acme = ACME.create({
@@ -49,27 +46,17 @@ class AcmeWrapper extends EventEmitter {
 
     this.staging = staging;
     this.directoryUrl = this.staging === true ? DIRECTORY_URL_STAGING : DIRECTORY_URL;
-    this.configDir = configDir;
     this.maintainerEmail = maintainerEmail;
-    ensureDir(this.configDir);
-
-    this.accountDir = path.join(this.configDir, 'accounts', url.parse(this.directoryUrl).host);
-    this.certDir = path.join(this.configDir, this.staging ? 'staging' : 'live');
-    ensureDir(this.accountDir);
-    ensureDir(this.certDir);
 
     console.info('directory url:', this.directoryUrl);
   }
 
   async init() {
     await this.acme.init(this.directoryUrl);
-    await this._createAccount();
   }
 
   async create({ subject, subscriberEmail, agreeToTerms = true }) {
     const domains = [subject].map((name) => punycode.toASCII(name));
-    const certDir = path.join(this.certDir, subject);
-    ensureDir(certDir);
 
     const encoding = 'der';
     const typ = 'CERTIFICATE REQUEST';
@@ -82,16 +69,12 @@ class AcmeWrapper extends EventEmitter {
     const csr = PEM.packBlock({ type: typ, bytes: csrDer });
     console.info(`validating domain authorization for ${domains.join(' ')}`);
 
-    const accountKey = await this._readAccountKey();
-    const account = await this.acme.accounts.create({
-      subscriberEmail,
-      agreeToTerms,
-      accountKey,
-    });
+    const dbAccount = await this._createAccount(subscriberEmail, agreeToTerms);
+    const accountKey = dbAccount.private_key;
 
     try {
       const pems = await this.acme.certificates.create({
-        account,
+        account: dbAccount.account,
         accountKey,
         csr,
         domains,
@@ -116,35 +99,30 @@ class AcmeWrapper extends EventEmitter {
     }
   }
 
-  async _createAccount() {
-    const account = await accountState.findOne({ directoryUrl: this.directoryUrl });
-    if (account) {
-      return account;
+  async _createAccount(subscriberEmail, agreeToTerms) {
+    const dbAccount = await accountState.findOne({ directoryUrl: this.directoryUrl });
+    if (dbAccount) {
+      return dbAccount;
     }
-
-    await this.acme.init(this.directoryUrl);
 
     // TODO: kty 可以是 RSA? 和 EC 有什么区别？
     const accountKeypair = await Keypairs.generate({ kty: 'EC', format: 'jwk' });
     const accountKey = accountKeypair.private;
 
+    const account = await this.acme.accounts.create({
+      subscriberEmail,
+      agreeToTerms,
+      accountKey,
+    });
+
     await accountState.update(
       { directoryUrl: this.directoryUrl },
-      { directoryUrl: this.directoryUrl, private_key: accountKey, maintainer_email: this.maintainerEmail },
+      { directoryUrl: this.directoryUrl, private_key: accountKey, account, maintainer_email: this.maintainerEmail },
       { upsert: true }
     );
 
     console.info('account was created', { directoryUrl: this.directoryUrl, maintainerEmail: this.maintainerEmail });
     return accountState.findOne({ directoryUrl: this.directoryUrl });
-  }
-
-  async _readAccountKey() {
-    const account = await accountState.findOne({ directoryUrl: this.directoryUrl });
-    if (!account) {
-      throw new Error('no account found');
-    }
-
-    return account.private_key;
   }
 }
 

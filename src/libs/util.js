@@ -36,3 +36,11 @@ export const appendPassportParams = (url) => {
   const params = Object.assign({}, oldParams, extraParams);
   return `${pathname}?${qs.stringify(params)}`;
 };
+
+export const domainStatusMap = {
+  added: 'primary',
+  creating: 'warning',
+  generated: 'success',
+  renewaling: 'warning',
+  error: 'error',
+};

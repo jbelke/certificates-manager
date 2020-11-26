@@ -2,8 +2,8 @@ module.exports = Object.freeze({
   DOMAIN_STATUS: {
     added: 'added',
     creating: 'creating',
-    created: 'created',
+    generated: 'generated',
     renewaling: 'renewaling',
-    errorr: 'errorr',
+    error: 'error',
   },
 });

@@ -21,3 +21,4 @@ _test
 greenlock.d/
 greenlockrc
 **/*.db
+.data/

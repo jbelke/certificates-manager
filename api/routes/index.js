@@ -2,24 +2,15 @@
 require('@greenlock/manager');
 const { parseDomain, ParseResultType } = require('parse-domain');
 
-const Manager = require('../libs/acme_factory');
+const Manager = require('../libs/acme_manager');
 const { getDomainsDnsStatus } = require('../libs/util');
 const domainState = require('../states/domain');
 const certificateState = require('../states/certificate');
-
-const initializeManager = async () => {
-  const domains = await domainState.find();
-
-  // eslint-disable-next-line no-restricted-syntax
-  for (const domain of domains) {
-    // eslint-disable-next-line no-await-in-loop
-    await Manager.getInstance(domain.challenge);
-  }
-};
+const { maintainerEmail } = require('../libs/env');
 
 module.exports = {
   init(app) {
-    initializeManager();
+    Manager.initInstance();
 
     app.get('/api/domains', async (req, res) => {
       const domains = await domainState.find();
@@ -57,9 +48,10 @@ module.exports = {
       await domainState.insert({
         domain,
         challenge,
+        subscriberEmail: maintainerEmail,
       });
 
-      const manager = await Manager.getInstance(challenge);
+      const manager = await Manager.getInstance();
       manager.add(domain);
 
       console.log('add domain', { domain });
