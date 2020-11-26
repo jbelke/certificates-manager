@@ -44,19 +44,19 @@ abtnode deploy .
 ## TODO
 
 - [ ] 在 Reminder 添加更详细的解释
-- [x] 更详细的生成证书状态信息
 - [ ] 可以使用 websocket 监听添加证书事件 [次高优先级]
+- [ ] 轮训生成证书失败队列 [次高优先级]
+- [ ] Let's Encrypt 的速率限制和提醒
+- [ ] revoke
+- [ ] ip.abtnet.io 
+- [ ] 可以在界面上展示 well-known 地址
+- [ ] 检查项目中的 TODO/FIXME
+- [x] 更详细的生成证书状态信息
 - [x] 只更新将要过期的证书，以防更新频率过高 [高优先级]
 - [x] 证书维护者，订阅者邮箱 [高优先级]
 - [x] save account [高优先级]
-- [ ] 轮训生成证书失败队列 [次高优先级]
-- [ ] Let's Encrypt 的速率限制和提醒
-- [ ] renewal
-- [ ] revoke
-- [ ] cron
-- [ ] ip.abtnet.io 
+- [x] renewal
+- [x] cron
 - [x] better http-01 memory plugin
-- [ ] 检查项目中的 TODO/FIXME
-- [ ] DNS(CNAME) configuration checking
+- [x] DNS(CNAME) configuration checking
 - [x] Domain List
-- [ ] 可以在界面上展示 well-known 地址
