@@ -100,6 +100,7 @@ export default function DomainList({ ...props }) {
           <Table aria-label="domain list">
             <TableHead>
               <TableRow>
+                <TableCell>#</TableCell>
                 <TableCell>Subject</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>DNS Status</TableCell>
@@ -108,8 +109,9 @@ export default function DomainList({ ...props }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {(state.value || []).map((row) => (
+              {(state.value || []).map((row, index) => (
                 <TableRow key={row.domain}>
+                  <TableCell>{index + 1}</TableCell>
                   <TableCell>{row.domain}</TableCell>
                   <TableCell>
                     <Tag type={domainStatusMap[row.status]}>{row.status}</Tag>
