@@ -23,7 +23,7 @@ import ConfirmDialog from './confirm';
 import DnsConfigReminder from './dns_config_reminder';
 
 import api from '../libs/api';
-import { formatError, domainStatusMap } from '../libs/util';
+import { domainStatusMap, formatError, formatToDatetime } from '../libs/util';
 
 export default function DomainList({ ...props }) {
   const state = useAsyncRetry(() => api.get('/domains').then((resp) => resp.data));
@@ -133,7 +133,7 @@ export default function DomainList({ ...props }) {
                     </TableCell>
                   )}
                   {!domainsDnsStatusMap[row.domain] && <TableCell />}
-                  <TableCell>{row.createdAt}</TableCell>
+                  <TableCell>{formatToDatetime(row.createdAt)}</TableCell>
                   <TableCell>
                     <Button
                       size="small"

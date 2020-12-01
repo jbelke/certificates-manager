@@ -1,13 +1,15 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
+import moment from 'moment';
 import { LocaleContext } from '@arcblock/ux/lib/Locale/context';
 
 import Layout from '../components/layout';
 import DomainList from '../components/domain_list';
 
 export default function IndexPage() {
-  const { changeLocale, t } = useContext(LocaleContext);
+  const { changeLocale, t, locale } = useContext(LocaleContext);
   const appName = window.env ? window.env.appName : 'Certificates Manager';
+  moment.locale(locale === 'zh' ? 'zh-cn' : locale);
 
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('__blang__') != null) {

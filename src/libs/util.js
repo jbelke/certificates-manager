@@ -1,5 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import qs from 'querystring';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
 
 export const formatError = (error) => {
   if (Array.isArray(error.errors)) {
@@ -44,3 +46,11 @@ export const domainStatusMap = {
   renewaling: 'warning',
   error: 'error',
 };
+
+export function formatToDatetime(date) {
+  if (!date) {
+    return '-';
+  }
+
+  return moment(date).format('lll');
+}
