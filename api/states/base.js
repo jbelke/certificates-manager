@@ -3,8 +3,12 @@ const fs = require('fs');
 const util = require('util');
 const DataStore = require('@abtnode/nedb');
 
-if (!process.env.BLOCKLET_DATA_DIR || !fs.existsSync(process.env.BLOCKLET_DATA_DIR)) {
+if (!process.env.BLOCKLET_DATA_DIR) {
   throw new Error('valid BLOCKLET_DATA_DIR env is required');
+}
+
+if (!fs.existsSync(process.env.BLOCKLET_DATA_DIR)) {
+  fs.mkdirSync(process.env.BLOCKLET_DATA_DIR);
 }
 
 class Base {

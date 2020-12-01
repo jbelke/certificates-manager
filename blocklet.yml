@@ -6,12 +6,10 @@ keywords:
   - dapp
   - certificate
 files:
-  - api/
   - build
   - screenshots
   - logo.png
   - blocklet.md
-  - blocklet.js
   - README.md
 author:
   name: polunzh

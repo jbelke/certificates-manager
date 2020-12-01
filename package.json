@@ -7,15 +7,6 @@
     "dapp",
     "certificate"
   ],
-  "files": [
-    "api/",
-    "build",
-    "screenshots",
-    "logo.png",
-    "blocklet.md",
-    "blocklet.js",
-    "README.md"
-  ],
   "author": "polunzh <polunzh@gmail.com> (http://github.com/polunzh)",
   "repository": {
     "type": "git",
