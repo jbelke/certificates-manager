@@ -22,7 +22,7 @@ repository:
   url: >-
     https://github.com/ArcBlock/abt-node/tree/master/blocklets/certificates-manager
 license: Apache-2.0
-specVersion: 1.0.1
+specVersion: 1.0.2
 did: z8iZtEerb5YvuaTrkkryeAMexfVTk7EaUnmVU
 group: dapp
 main: api/index.js
@@ -48,6 +48,8 @@ environments:
   - name: MAINTAINER_EMAIL
     description: The maintainer's email
     required: true
+    default: ''
+    secure: false
 scripts:
   dev: npm run start
 documentation: ''
@@ -64,7 +66,7 @@ interfaces:
   - type: web
     name: wellknownUrl
     path: /
-    prefix: '/.well-known/acme-challenge'
+    prefix: /.well-known/acme-challenge
     port: BLOCKLET_PORT
     protocol: tcp
 screenshots: []
