@@ -1,16 +1,10 @@
 name: certificates-manager
 title: Certificates Manager
 description: Manage ABT Node SSL certificates
-version: 0.1.0
+version: 0.1.2
 keywords:
   - dapp
   - certificate
-files:
-  - build
-  - screenshots
-  - logo.png
-  - blocklet.md
-  - README.md
 author:
   name: polunzh
   email: polunzh@gmail.com
@@ -20,6 +14,12 @@ repository:
   url: >-
     https://github.com/ArcBlock/abt-node/tree/master/blocklets/certificates-manager
 license: Apache-2.0
+files:
+  - build
+  - screenshots
+  - logo.png
+  - blocklet.md
+  - README.md
 specVersion: 1.0.2
 did: z8iZtEerb5YvuaTrkkryeAMexfVTk7EaUnmVU
 group: dapp
