@@ -1,4 +1,4 @@
-name: Npm deployment
+name: ABT Node deployment
 
 on:
   push:

@@ -14,7 +14,7 @@ npm run bundle
 
 make release
 
-deploy to remote ABT Node
+#deploy to remote ABT Node
 set +e
 NAME=$(cat package.json | grep name | head -n 1 |  awk '{print $2}' | sed 's/"//g' | sed 's/,//g')
 VERSION=$(cat package.json | grep version | head -n 1 |  awk '{print $2}' | sed 's/"//g' | sed 's/,//g')
