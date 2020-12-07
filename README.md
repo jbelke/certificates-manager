@@ -1,10 +1,34 @@
 # Certificates Manager
 
-> Manage certificates in ABT Node.
+> Manage SSL certificates in ABT Node.
 
-**WORK IN PROGRESS**
+## Usage
 
-## Getting started
+Certificates can be generated in two ways: manually by adding a domain name, or automatically when a site is added to the Service Gateway of an ABT Node (to be completed).
+
+### Manually adding domain names
+
+_Manually adding a domain name requires the domain name to be properly serve in the ABT Node, otherwise it will not pass the DNS validation and `http-01` challenge._
+
+1. Go to the Certificate Manager Block Administration page
+1. Click the `Add Domain` button
+1. Enter the domain name to be added
+1. If the domain name resolution is normal, the certificate will be generated successfully and updated to ABT Node in a minute or so.
+
+If the domain name is still resolved, or has not been added to Service Gateway for ABT Node, the application checks every `5 minutes` to see if the domain name is being resolved correctly.
+
+Translated with www.DeepL.com/Translator (free version)
+
+### Automatic Certificate Generation
+
+TODO
+
+## Automatic update mechanism
+
+1. the application will try to renew the certificate `10 days` before it expires.
+1. the application will check for expiring certificates every `5 minutes`.
+
+## Development
 
 ### Configuration
 
@@ -40,23 +64,3 @@ npm run start:client
 ```shell
 abtnode deploy .
 ```
-
-## TODO
-
-- [ ] 在 Reminder 添加更详细的解释
-- [ ] 可以使用 websocket 监听添加证书事件 [次高优先级]
-- [ ] 轮训生成证书失败队列 [次高优先级]
-- [ ] Let's Encrypt 的速率限制和提醒
-- [ ] revoke
-- [ ] ip.abtnet.io 
-- [ ] 可以在界面上展示 well-known 地址
-- [ ] 检查项目中的 TODO/FIXME
-- [x] 更详细的生成证书状态信息
-- [x] 只更新将要过期的证书，以防更新频率过高 [高优先级]
-- [x] 证书维护者，订阅者邮箱 [高优先级]
-- [x] save account [高优先级]
-- [x] renewal
-- [x] cron
-- [x] better http-01 memory plugin
-- [x] DNS(CNAME) configuration checking
-- [x] Domain List
