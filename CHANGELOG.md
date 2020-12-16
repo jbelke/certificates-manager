@@ -1,3 +1,8 @@
+## 0.1.9 (December 16, 2020)
+
+- fix: polish blocklet environments spec
+- [skip ci] Update README.md
+
 ## 0.1.8 (December 16, 2020)
 
 - fix: push blocklet bundle to github release
