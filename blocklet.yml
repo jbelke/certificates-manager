@@ -29,12 +29,12 @@ community: 'https://community.arcblockio.cn'
 support: support@arcblock.io
 environments:
   - name: NODE_ACCESS_KEY
-    description: Access key of ABT Node
+    description: Access key to manage certificates of the ABT Node
     required: true
     default: ''
     secure: false
   - name: NODE_ACCESS_SECRET
-    description: Access key of ABT Node
+    description: Access secret to manage certificates of the ABT Node
     required: true
     secure: true
     default: ''
