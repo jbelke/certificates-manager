@@ -2,6 +2,10 @@
 
 > Manage SSL certificates in ABT Node.
 
+## Install on my ABT Node
+
+[![Install on my ABT Node](https://raw.githubusercontent.com/blocklet/development-guide/main/assets/install_on_abtnode.svg)](https://install.arcblock.io/?action=blocklet-install&meta_url=https%3A%2F%2Fgithub.com%2Fblocklet%2Fcertificates-manager%2Freleases%2Fdownload%2F0.1.8%2Fblocklet.json)
+
 ## Usage
 
 Certificates can be generated in two ways: manually by adding a domain name, or automatically when a site is added to the Service Gateway of an ABT Node (to be completed).
