@@ -1,3 +1,7 @@
+## 0.1.8 (December 16, 2020)
+
+- fix: push blocklet bundle to github release
+
 ## 0.1.7 (December 16, 2020)
 
 - add doc
