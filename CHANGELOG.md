@@ -1,3 +1,7 @@
+## 0.1.7 (December 16, 2020)
+
+- add doc
+
 ## 0.1.6 (December 01, 2020)
 
 - polish ui
