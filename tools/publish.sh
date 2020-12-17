@@ -9,8 +9,8 @@ git config --local user.email "wangshijun2010@gmail.com"
 npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
 
 npm run bundle
-# echo "publishing to npm..."
-# npm publish .blocklet/bundle
+echo "publishing to npm..."
+npm publish .blocklet/bundle
 
 make release
 

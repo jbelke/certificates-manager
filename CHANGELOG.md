@@ -1,3 +1,7 @@
+## 0.1.10 (December 17, 2020)
+
+- support publish to npm
+
 ## 0.1.9 (December 16, 2020)
 
 - fix: polish blocklet environments spec
