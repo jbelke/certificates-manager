@@ -39,4 +39,6 @@ module.exports = {
   abtnodePort: process.env.ABT_NODE_PORT,
   nodeDomain: process.env.NODE_DOMAIN,
   maintainerEmail: process.env.MAINTAINER_EMAIL,
+  echoDnsIpRegex: process.env.ECHO_DNS_IP_REGEX,
+  echoDnsDomain: process.env.ECHO_DNS_DOMAIN,
 };

@@ -6,7 +6,7 @@ const moment = require('moment');
 
 const { updateAbtNodeCert } = require('./abtnode');
 const pkg = require('../../package.json');
-const AcmeWrapper = require('./acme_wrapper');
+const AcmeWrapper = require('./acme-wrapper');
 const certificateState = require('../states/certificate');
 const domainState = require('../states/domain');
 const { maintainerEmail: email } = require('./env');

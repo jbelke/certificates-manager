@@ -11,7 +11,7 @@ const fallback = require('express-history-api-fallback');
 const passport = require('@abtnode/passport');
 const Cron = require('@abtnode/cron');
 
-const Manager = require('../libs/acme_manager');
+const Manager = require('../libs/acme-manager');
 
 const isProduction = process.env.NODE_ENV === 'production' || !!process.env.ABT_NODE;
 
@@ -47,7 +47,7 @@ app.use(
 const router = express.Router();
 
 require('../routes/session').init(router);
-require('../routes/well_known').init(router);
+require('../routes/well-known').init(router);
 
 if (process.env.ABT_NODE_PORT && process.env.NODE_ENV !== 'development') {
   router.use(

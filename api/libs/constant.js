@@ -6,4 +6,5 @@ module.exports = Object.freeze({
     renewaling: 'renewaling',
     error: 'error',
   },
+  DNS_PORT: Number(process.env.BLOCKLET_DNS_PORT) || 5533,
 });

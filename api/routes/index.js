@@ -2,7 +2,7 @@
 require('@greenlock/manager');
 const { parseDomain, ParseResultType } = require('parse-domain');
 
-const Manager = require('../libs/acme_manager');
+const Manager = require('../libs/acme-manager');
 const { getDomainsDnsStatus } = require('../libs/util');
 const domainState = require('../states/domain');
 const certificateState = require('../states/certificate');
