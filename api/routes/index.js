@@ -3,7 +3,7 @@ require('@greenlock/manager');
 const { parseDomain, ParseResultType } = require('parse-domain');
 
 const Manager = require('../libs/acme-manager');
-const { getDomainsDnsStatus, isEchoDnsDomain } = require('../libs/util');
+const { getDomainsDnsStatus, isEchoDnsDomain, isWildcardDomain } = require('../libs/util');
 const domainState = require('../states/domain');
 const certificateState = require('../states/certificate');
 const { maintainerEmail, echoDnsDomain } = require('../libs/env');
@@ -32,6 +32,12 @@ module.exports = {
         return res.status(400).json('invalid request body');
       }
 
+      const tempIsWildcardDomain = isWildcardDomain(domain);
+
+      if (tempIsWildcardDomain && !isEchoDnsDomain(domain, echoDnsDomain)) {
+        return res.status(400).json('unsupported wildcard domain');
+      }
+
       let challenge = 'http-01';
       if (isEchoDnsDomain(domain, echoDnsDomain)) {
         challenge = 'dns-01';
@@ -52,6 +58,7 @@ module.exports = {
         domain,
         challenge,
         subscriberEmail: maintainerEmail,
+        isWildcardDomain: tempIsWildcardDomain,
       });
 
       const manager = await Manager.getInstance();

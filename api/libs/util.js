@@ -50,4 +50,6 @@ const isEchoDnsDomain = (domain = '', echoDnsDomain) => {
   return echoDnsDomain === domain.substr(2);
 };
 
-module.exports = { getDomainsDnsStatus, md5, ensureDir, isEchoDnsDomain };
+const isWildcardDomain = (domain) => (domain || '').includes('*');
+
+module.exports = { getDomainsDnsStatus, md5, ensureDir, isEchoDnsDomain, isWildcardDomain };

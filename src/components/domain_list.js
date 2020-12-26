@@ -116,8 +116,9 @@ export default function DomainList({ ...props }) {
                   <TableCell>
                     <Tag type={domainStatusMap[row.status]}>{row.status}</Tag>
                   </TableCell>
-                  {domainsDnsStatusMap[row.domain] && (
-                    <TableCell>
+                  <TableCell align="center">
+                    {row.isWildcardDomain && '-'}
+                    {!row.isWildcardDomain && domainsDnsStatusMap[row.domain] && (
                       <Typography className="dns-status">
                         {domainsDnsStatusMap[row.domain].resolved ? (
                           <Tag type="success">resolved</Tag>
@@ -130,9 +131,8 @@ export default function DomainList({ ...props }) {
                           </React.Fragment>
                         )}
                       </Typography>
-                    </TableCell>
-                  )}
-                  {!domainsDnsStatusMap[row.domain] && <TableCell />}
+                    )}
+                  </TableCell>
                   <TableCell>{formatToDatetime(row.createdAt)}</TableCell>
                   <TableCell>
                     <Button
