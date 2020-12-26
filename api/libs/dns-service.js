@@ -1,6 +1,8 @@
 const dns = require('dns2');
+
 const { echoDnsIpRegex } = require('./env');
 const { DNS_PORT } = require('./constant');
+const dnsRecordState = require('../states/dns-record');
 
 const { Packet } = dns;
 
@@ -16,7 +18,7 @@ const parseIP = (name = '') => {
   return '';
 };
 
-const server = dns.createServer((request, send) => {
+const server = dns.createServer(async (request, send) => {
   const response = Packet.createResponseFromRequest(request);
   const [question] = request.questions;
   const { name = '' } = question;
@@ -30,6 +32,17 @@ const server = dns.createServer((request, send) => {
       class: Packet.CLASS.IN,
       ttl: 604800, // 7 weeks
       address: parseIP(name),
+    });
+  } else {
+    const records = await dnsRecordState.find({ domainAndRecord: name });
+    records.forEach((record) => {
+      response.answers.push({
+        name,
+        type: Packet.TYPE.TXT,
+        class: Packet.CLASS.IN,
+        ttl: 300,
+        data: record.value,
+      });
     });
   }
 

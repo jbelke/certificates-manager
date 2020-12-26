@@ -31,7 +31,13 @@ module.exports.create = function (config) {
       }
 
       return dnsRecordState
-        .insert({ domainName: ch.dnsZone, rr: ch.dnsPrefix, type: 'TXT', value: ch.dnsAuthorization })
+        .insert({
+          domainName: ch.dnsZone,
+          rr: ch.dnsPrefix,
+          domainAndRecord: `${ch.dnsPrefix}.${ch.dnsZone}`,
+          type: 'TXT',
+          value: ch.dnsAuthorization,
+        })
         .then(() => true)
         .catch(console.error);
     },
