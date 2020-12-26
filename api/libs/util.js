@@ -38,4 +38,16 @@ const ensureDir = (dir) => {
   return dir;
 };
 
-module.exports = { getDomainsDnsStatus, md5, ensureDir };
+const isEchoDnsDomain = (domain = '', echoDnsDomain) => {
+  if (!domain) {
+    return false;
+  }
+
+  if (!domain.startsWith('*.')) {
+    return false;
+  }
+
+  return echoDnsDomain === domain.substr(2);
+};
+
+module.exports = { getDomainsDnsStatus, md5, ensureDir, isEchoDnsDomain };

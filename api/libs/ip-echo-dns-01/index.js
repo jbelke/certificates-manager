@@ -5,10 +5,10 @@
 require('dotenv').config();
 
 module.exports.create = function (config) {
-  const { dnsRecordDB, zone } = config;
+  const { dnsRecordState, zone } = config;
 
-  if (!dnsRecordDB) {
-    throw new Error('dnsRecordDB is required');
+  if (!dnsRecordState) {
+    throw new Error('dnsRecordState is required');
   }
 
   if (!zone) {
@@ -30,7 +30,7 @@ module.exports.create = function (config) {
         throw new Error('No matching zone for ' + ch.dnsHost);
       }
 
-      return dnsRecordDB
+      return dnsRecordState
         .insert({ domainName: ch.dnsZone, rr: ch.dnsPrefix, type: 'TXT', value: ch.dnsAuthorization })
         .then(() => true)
         .catch(console.error);
@@ -38,7 +38,7 @@ module.exports.create = function (config) {
     get: function (data) {
       var ch = data.challenge;
 
-      return dnsRecordDB
+      return dnsRecordState
         .findOne({
           rr: ch.dnsPrefix,
           value: ch.dnsAuthorization,
@@ -56,7 +56,7 @@ module.exports.create = function (config) {
     remove: function (data) {
       var ch = data.challenge;
 
-      return dnsRecordDB
+      return dnsRecordState
         .remove({
           rr: ch.dnsPrefix,
           value: ch.dnsAuthorization,

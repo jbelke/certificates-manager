@@ -7,11 +7,11 @@
 var tester = require('acme-challenge-test');
 require('dotenv').config();
 
-const dnsRecordDB = require('../../states/dns-record');
+const dnsRecordState = require('../../states/dns-record');
 
 // Usage: node ./test.js example.com token account
 var zone = process.env.ECHO_DNS_DOMAIN;
-var challenger = require('./index.js').create({ dnsRecordDB, zone });
+var challenger = require('./index.js').create({ dnsRecordState, zone });
 
 // The dry-run tests can pass on, literally, 'example.com'
 // but the integration tests require that you have control over the domain

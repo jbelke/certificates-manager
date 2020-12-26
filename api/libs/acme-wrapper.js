@@ -4,7 +4,6 @@ const Keypairs = require('@root/keypairs');
 const CSR = require('@root/csr');
 const PEM = require('@root/pem');
 const punycode = require('punycode/');
-const http01 = require('./http-01').create({});
 const accountState = require('../states/account');
 
 const DIRECTORY_URL = 'https://acme-v02.api.letsencrypt.org/directory';
@@ -55,7 +54,7 @@ class AcmeWrapper extends EventEmitter {
     await this.acme.init(this.directoryUrl);
   }
 
-  async create({ subject, subscriberEmail, agreeToTerms = true }) {
+  async create({ subject, subscriberEmail, agreeToTerms = true, challenges }) {
     const domains = [subject].map((name) => punycode.toASCII(name));
 
     const encoding = 'der';
@@ -78,7 +77,7 @@ class AcmeWrapper extends EventEmitter {
         accountKey,
         csr,
         domains,
-        challenges: { 'http-01': http01 },
+        challenges,
       });
 
       const fullchain = `${pems.cert}\n${pems.chain}\n`;
@@ -91,7 +90,7 @@ class AcmeWrapper extends EventEmitter {
         cert: pems.cert,
         chain: pems.chain,
         fullchain,
-        challenges: { 'http-01': { module: 'http-01' } },
+        challenges,
       });
     } catch (error) {
       console.error('create certificate error', { domain: subject, error });

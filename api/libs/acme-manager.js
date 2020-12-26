@@ -9,14 +9,26 @@ const pkg = require('../../package.json');
 const AcmeWrapper = require('./acme-wrapper');
 const certificateState = require('../states/certificate');
 const domainState = require('../states/domain');
+const dnsRecordState = require('../states/dns-record');
 const { maintainerEmail: email } = require('./env');
 const { DOMAIN_STATUS } = require('./constant');
 const createQueue = require('./queue');
 const { md5 } = require('./util');
 
+const http01 = require('./http-01').create({});
+const ipEchoDns01 = require('./ip-echo-dns-01').create({ dnsRecordState, zone: process.env.ECHO_DNS_DOMAIN });
+
 const AGENT_NAME = 'abtnode';
 
 const RENEWAL_OFFSET_IN_HOUR = 10 * 24; // 10 day
+
+const getChallengeModule = (challenge) => {
+  if (challenge === 'dns-01') {
+    return ipEchoDns01;
+  }
+
+  return http01;
+};
 
 class Manager extends EventEmitter {
   constructor({ dataDir, maintainerEmail, staging = false }) {
@@ -39,7 +51,7 @@ class Manager extends EventEmitter {
           await this._createCert({
             domain: data.domain,
             subscriberEmail: data.subscriberEmail,
-            challenge: data.challenge,
+            challenges: { [data.challenge]: getChallengeModule(data.challenge) },
           });
         }
       },
@@ -85,7 +97,7 @@ class Manager extends EventEmitter {
     };
   }
 
-  async _createCert({ domain, subscriberEmail, challenge, force = false }) {
+  async _createCert({ domain, subscriberEmail, force = false, challenges }) {
     try {
       if (!domain) {
         throw new Error('domain is required when create certificate');
@@ -112,7 +124,7 @@ class Manager extends EventEmitter {
       await this.acme.create({
         subject: domain,
         subscriberEmail,
-        challenge,
+        challenges,
       });
     } catch (error) {
       console.error(`create certificate for ${domain} job failed`, error);
