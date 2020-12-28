@@ -87,4 +87,10 @@ interfaces:
       external: 53
     path: /
     prefix: '*'
+  - type: web
+    name: dnsHealth
+    path: /
+    prefix: '*'
+    port: BLOCKLET_PORT
+    protocol: tcp
 screenshots: []

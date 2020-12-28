@@ -23,7 +23,7 @@ import ConfirmDialog from './confirm';
 import DnsConfigReminder from './dns_config_reminder';
 
 import api from '../libs/api';
-import { domainStatusMap, formatError, formatToDatetime } from '../libs/util';
+import { domainStatusMap, formatError, formatToDatetime, isWildcardDomain } from '../libs/util';
 
 export default function DomainList({ ...props }) {
   const state = useAsyncRetry(() => api.get('/domains').then((resp) => resp.data));
@@ -35,7 +35,9 @@ export default function DomainList({ ...props }) {
 
   useEffect(async () => {
     if (state.value) {
-      const domainsStatus = await api.post('/dns-status', { domains: state.value.map((x) => x.domain) });
+      const domainsStatus = await api.post('/dns-status', {
+        domains: state.value.filter((x) => !isWildcardDomain(x.domain)).map((x) => x.domain),
+      });
       try {
         const domainsMap = (domainsStatus.data || []).reduce((acc, cur) => {
           acc[cur.domain] = cur;

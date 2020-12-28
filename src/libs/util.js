@@ -54,3 +54,7 @@ export function formatToDatetime(date) {
 
   return moment(date).format('lll');
 }
+
+export function isWildcardDomain(domain) {
+  return (domain || '').includes('*');
+}
