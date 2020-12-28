@@ -1,7 +1,7 @@
 const { lookup } = require('dns');
 const { promisify } = require('util');
 
-const { parseIP, ipReg } = require('../libs/dns-resolver');
+const { parseIP, ipReg } = require('../libs/dns-service');
 
 const lookupSync = promisify(lookup);
 
