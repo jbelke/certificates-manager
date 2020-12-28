@@ -1,3 +1,11 @@
+## 0.1.11 (December 28, 2020)
+
+- fix cron bug
+- add txt record for echo dns service
+- polish add wildcard domain
+- add wildcard domain support
+- add ip-echo-dns service and dns-01 plugin for ip-echo-dns
+
 ## 0.1.10 (December 17, 2020)
 
 - support publish to npm
