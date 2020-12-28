@@ -48,6 +48,7 @@ const router = express.Router();
 
 require('../routes/session').init(router);
 require('../routes/well-known').init(router);
+require('../routes/health-dns').init(router);
 
 if (process.env.ABT_NODE_PORT && process.env.NODE_ENV !== 'development') {
   router.use(

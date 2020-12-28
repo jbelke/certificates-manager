@@ -1,3 +1,7 @@
+## 0.1.12 (December 28, 2020)
+
+- fix dns health api error
+
 ## 0.1.11 (December 28, 2020)
 
 - fix cron bug
