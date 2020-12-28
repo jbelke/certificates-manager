@@ -13,7 +13,9 @@ if (isDevelopment && process.env.ABT_NODE) {
 
 const port = parseInt(process.env.BLOCKLET_PORT, 10) || 3030;
 
-startDNS();
+if (process.env.ENABLE_ECHO_DNS === 'true') {
+  startDNS();
+}
 
 server.listen(port, (err) => {
   if (err) throw err;

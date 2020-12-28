@@ -1,3 +1,7 @@
+## 0.1.15 (December 28, 2020)
+
+- add 'enable dns service' switch
+
 ## 0.1.14 (December 28, 2020)
 
 - bump version
