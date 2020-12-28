@@ -1,7 +1,7 @@
 name: certificates-manager
 title: Certificates Manager
 description: Manage ABT Node SSL certificates
-version: 0.1.11
+version: 0.1.12
 keywords:
   - dapp
   - ssl
@@ -58,7 +58,7 @@ environments:
   - name: ECHO_DNS_DOMAIN
     description: ip regex string
     required: true
-    default: 'ip.abtnet.io'
+    default: ip.abtnet.io
     secure: false
 scripts:
   dev: npm run start
