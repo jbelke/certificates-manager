@@ -1,3 +1,7 @@
+## 0.1.14 (December 28, 2020)
+
+- bump version
+
 ## 0.1.13 (December 28, 2020)
 
 - add dns health web interface
