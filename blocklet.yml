@@ -50,14 +50,19 @@ environments:
     required: true
     default: ''
     secure: false
+  - name: ENABLE_ECHO_DNS
+    description: Enable echo dns service or not
+    required: true
+    default: "false"
+    secure: false
   - name: ECHO_DNS_IP_REGEX
     description: ip regex string
-    required: true
+    required: false
     default: '(\d{1,3})-(\d{1,3})-(\d{1,3})-(\d{1,3})\.ip\.abtnet\.io'
     secure: false
   - name: ECHO_DNS_DOMAIN
     description: ip regex string
-    required: true
+    required: false
     default: ip.abtnet.io
     secure: false
 scripts:
@@ -87,10 +92,4 @@ interfaces:
       external: 53
     path: /
     prefix: '*'
-  - type: web
-    name: dnsHealth
-    path: /
-    prefix: '*'
-    port: BLOCKLET_PORT
-    protocol: tcp
 screenshots: []

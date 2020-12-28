@@ -34,7 +34,7 @@ const server = dns.createServer(async (request, send) => {
       address: parseIP(name),
     });
   } else {
-    const records = await dnsRecordState.find({ domainAndRecord: name });
+    const records = await dnsRecordState.find({ domainAndRecord: new RegExp(name, 'i') });
     records.forEach((record) => {
       response.answers.push({
         name,
