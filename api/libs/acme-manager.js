@@ -14,6 +14,7 @@ const { maintainerEmail: email } = require('./env');
 const { DOMAIN_STATUS } = require('./constant');
 const createQueue = require('./queue');
 const { md5 } = require('./util');
+const logger = require('./logger');
 
 const http01 = require('./http-01').create({});
 const ipEchoDns01 = require('./ip-echo-dns-01').create({ dnsRecordState, zone: process.env.ECHO_DNS_DOMAIN });
@@ -203,7 +204,8 @@ Manager.getInstance = async () => {
 
 Manager.initInstance = Manager.getInstance;
 
-const addCreateJob = async () => {
+const addCreationJob = async () => {
+  logger.info('run add creation job...');
   const domains = await domainState.find({
     status: { $in: [DOMAIN_STATUS.added, DOMAIN_STATUS.generated, DOMAIN_STATUS.error] },
     'certificate.validTo': { $lte: moment().add(RENEWAL_OFFSET_IN_HOUR, 'hours') },
@@ -219,7 +221,7 @@ const addCreateJob = async () => {
 Manager.getJobSchedular = () => ({
   name: 'add-create-cert-job',
   time: process.env.NODE_ENV === 'development' ? '0 * * * * *' : '0 */5 * * * *', // every 5 minutes
-  fn: addCreateJob,
+  fn: addCreationJob,
 });
 
 module.exports = Manager;

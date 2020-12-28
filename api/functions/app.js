@@ -61,7 +61,7 @@ if (process.env.ABT_NODE_PORT && process.env.NODE_ENV !== 'development') {
 
 require('../routes/index').init(router);
 
-Cron.init({}, [Manager.getJobSchedular()]);
+Cron.init({ context: {}, jobs: [Manager.getJobSchedular()] });
 
 if (isProduction) {
   const staticDir = '../../';
