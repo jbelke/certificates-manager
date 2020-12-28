@@ -4,6 +4,7 @@ process.env.ABT_NODE_LOG_DIR = process.env.BLOCKLET_LOG_DIR;
 require('dotenv').config();
 
 const { server } = require('./functions/app');
+const { start: startDNS } = require('./libs/dns-service');
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 if (isDevelopment && process.env.ABT_NODE) {
@@ -11,6 +12,8 @@ if (isDevelopment && process.env.ABT_NODE) {
 }
 
 const port = parseInt(process.env.BLOCKLET_PORT, 10) || 3030;
+
+startDNS();
 
 server.listen(port, (err) => {
   if (err) throw err;

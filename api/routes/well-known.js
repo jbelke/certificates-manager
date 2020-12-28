@@ -1,4 +1,4 @@
-const { db } = require('../libs/http_01');
+const { db } = require('../libs/http-01');
 
 module.exports = {
   init(app) {

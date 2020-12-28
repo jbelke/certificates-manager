@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
-const util = require('util');
-const DataStore = require('@abtnode/nedb');
+const { promisify } = require('util');
+const DataStore = require('@nedb/core');
 
 if (!process.env.BLOCKLET_DATA_DIR) {
   throw new Error('valid BLOCKLET_DATA_DIR env is required');
@@ -26,7 +26,26 @@ class Base {
 
     this.db = new Proxy(_db, {
       get(target, property) {
-        return util.promisify(target[property]).bind(target);
+        if (typeof target[property] === 'function') {
+          return promisify((...args) => {
+            const cb = args[args.length - 1];
+            const rest = args.slice(0, args.length - 1);
+
+            target[property](...rest, (err, ...result) => {
+              if (err) {
+                return err;
+              }
+
+              if (result.length === 1) {
+                return cb(err, result[0]);
+              }
+
+              return cb(err, result);
+            });
+          }).bind(target);
+        }
+
+        return target[property];
       },
     });
   }
@@ -64,5 +83,33 @@ class Base {
     return this.db.update(...args);
   }
 }
+
+/**
+ * Rename _id field name to id, this method has side effects
+ * @param {object} entities
+ */
+Base.renameIdFiledName = (entities, from = '_id', to = 'id') => {
+  /* eslint-disable  no-underscore-dangle, no-param-reassign */
+
+  if (!entities) {
+    return entities;
+  }
+
+  const mapEntity = (entity) => {
+    if (entity[from]) {
+      entity[to] = entity[from];
+      delete entity[from];
+    }
+  };
+
+  if (!Array.isArray(entities)) {
+    mapEntity(entities);
+    return entities;
+  }
+
+  entities.forEach(mapEntity);
+
+  return entities;
+};
 
 module.exports = Base;

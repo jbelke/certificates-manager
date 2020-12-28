@@ -2,11 +2,11 @@
 require('@greenlock/manager');
 const { parseDomain, ParseResultType } = require('parse-domain');
 
-const Manager = require('../libs/acme_manager');
-const { getDomainsDnsStatus } = require('../libs/util');
+const Manager = require('../libs/acme-manager');
+const { getDomainsDnsStatus, isEchoDnsDomain, isWildcardDomain } = require('../libs/util');
 const domainState = require('../states/domain');
 const certificateState = require('../states/certificate');
-const { maintainerEmail } = require('../libs/env');
+const { maintainerEmail, echoDnsDomain } = require('../libs/env');
 
 module.exports = {
   init(app) {
@@ -32,10 +32,21 @@ module.exports = {
         return res.status(400).json('invalid request body');
       }
 
-      const parseResult = parseDomain(domain);
+      const tempIsWildcardDomain = isWildcardDomain(domain);
 
-      if (parseResult.type !== ParseResultType.Listed) {
-        return res.status(400).json('invalid domain');
+      if (tempIsWildcardDomain && !isEchoDnsDomain(domain, echoDnsDomain)) {
+        return res.status(400).json('unsupported wildcard domain');
+      }
+
+      let challenge = 'http-01';
+      if (isEchoDnsDomain(domain, echoDnsDomain)) {
+        challenge = 'dns-01';
+      } else {
+        const parseResult = parseDomain(domain);
+
+        if (parseResult.type !== ParseResultType.Listed) {
+          return res.status(400).json('invalid domain');
+        }
       }
 
       const exists = !!(await domainState.findOne({ domain }));
@@ -43,12 +54,11 @@ module.exports = {
         return res.status(400).json(`domain ${domain} already exists`);
       }
 
-      // TODO: ip.abtnet.ip dns-01 兼容
-      const challenge = 'http-01';
       await domainState.insert({
         domain,
         challenge,
         subscriberEmail: maintainerEmail,
+        isWildcardDomain: tempIsWildcardDomain,
       });
 
       const manager = await Manager.getInstance();
