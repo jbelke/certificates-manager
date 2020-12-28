@@ -1,3 +1,7 @@
+## 0.1.13 (December 28, 2020)
+
+- add dns health web interface
+
 ## 0.1.12 (December 28, 2020)
 
 - fix dns health api error
