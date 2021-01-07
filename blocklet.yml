@@ -1,7 +1,7 @@
 name: certificates-manager
 title: Certificates Manager
 description: Manage ABT Node SSL certificates
-version: 0.1.14
+version: 0.1.16
 keywords:
   - dapp
   - ssl
@@ -53,7 +53,7 @@ environments:
   - name: ENABLE_ECHO_DNS
     description: Enable echo dns service or not
     required: true
-    default: "false"
+    default: 'false'
     secure: false
   - name: ECHO_DNS_IP_REGEX
     description: ip regex string

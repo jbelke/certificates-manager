@@ -1,3 +1,11 @@
+## 0.1.16 (January 07, 2021)
+
+- trigger blocklet registry build
+- Merge pull request #8 from blocklet/fix-dns-resolve-error
+- modify abtnode command to blocklet command
+- fix dns error handler
+- [skip ci] Update README.md
+
 ## 0.1.15 (December 28, 2020)
 
 - add 'enable dns service' switch
