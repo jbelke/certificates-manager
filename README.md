@@ -66,5 +66,5 @@ npm run start:client
 ### Deploy to local ABT Node
 
 ```shell
-abtnode deploy .
+blocklet deploy .
 ```
