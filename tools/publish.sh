@@ -41,5 +41,5 @@ if [ "${AWS_NODE_ENDPOINT}" != "" ]; then
 fi
 
 # trigger ArcBlock/blocklets repo release
-# echo "trigger ArcBlock/blocklets repo release"
-# .makefiles/trigger_registry_build.sh
+echo "trigger ArcBlock/blocklets repo release"
+.makefiles/trigger_registry_build.sh
