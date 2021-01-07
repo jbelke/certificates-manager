@@ -3,6 +3,7 @@ const dns = require('dns2');
 const { echoDnsIpRegex } = require('./env');
 const { DNS_PORT } = require('./constant');
 const dnsRecordState = require('../states/dns-record');
+const logger = require('./logger');
 
 const { Packet } = dns;
 
@@ -20,33 +21,42 @@ const parseIP = (name = '') => {
 
 const server = dns.createServer(async (request, send) => {
   const response = Packet.createResponseFromRequest(request);
-  const [question] = request.questions;
-  const { name = '' } = question;
+  try {
+    const [question] = request.questions;
+    const { name = '' } = question;
 
-  console.log('query name', { name, ipReg });
+    if (!name) {
+      return send(response);
+    }
 
-  if (ipReg.test(name)) {
-    response.answers.push({
-      name,
-      type: Packet.TYPE.A,
-      class: Packet.CLASS.IN,
-      ttl: 604800, // 7 weeks
-      address: parseIP(name),
-    });
-  } else {
-    const records = await dnsRecordState.find({ domainAndRecord: new RegExp(name, 'i') });
-    records.forEach((record) => {
+    logger.debug('query name', { name });
+
+    if (ipReg.test(name)) {
       response.answers.push({
         name,
-        type: Packet.TYPE.TXT,
+        type: Packet.TYPE.A,
         class: Packet.CLASS.IN,
-        ttl: 300,
-        data: record.value,
+        ttl: 604800, // 7 weeks
+        address: parseIP(name),
       });
-    });
-  }
+    } else {
+      const records = await dnsRecordState.find({ domainAndRecord: new RegExp(name, 'i') });
+      records.forEach((record) => {
+        response.answers.push({
+          name,
+          type: Packet.TYPE.TXT,
+          class: Packet.CLASS.IN,
+          ttl: 300,
+          data: record.value,
+        });
+      });
+    }
 
-  send(response);
+    send(response);
+  } catch (error) {
+    logger.error('resolve dns error', { error, questions: request.questions });
+    send(response);
+  }
 });
 
 const start = () => {
