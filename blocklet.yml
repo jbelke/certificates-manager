@@ -1,7 +1,7 @@
 name: certificates-manager
 title: Certificates Manager
 description: Manage ABT Node SSL certificates
-version: 0.1.17
+version: 0.1.18
 keywords:
   - dapp
   - ssl
@@ -93,5 +93,3 @@ interfaces:
     path: /
     prefix: '*'
 screenshots: []
-requirements:
-  abtnode: ">=1.1.10"
