@@ -93,3 +93,5 @@ interfaces:
     path: /
     prefix: '*'
 screenshots: []
+requirements:
+  abtnode: ">=1.1.10"
