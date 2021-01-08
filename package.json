@@ -13,10 +13,10 @@
     "url": "https://github.com/ArcBlock/abt-node/tree/master/blocklets/certificates-manager"
   },
   "dependencies": {
-    "@abtnode/client": "^1.0.32",
-    "@abtnode/cron": "^1.0.35",
-    "@abtnode/passport": "^1.0.35",
-    "@abtnode/queue": "^1.0.35",
+    "@abtnode/client": "^1.1.9",
+    "@abtnode/cron": "^1.1.9",
+    "@abtnode/passport": "1.1.10-beta.1",
+    "@abtnode/queue": "^1.1.9",
     "@arcblock/ux": "^0.78.19",
     "@fidm/x509": "^1.2.1",
     "@greenlock/manager": "^3.1.0",
