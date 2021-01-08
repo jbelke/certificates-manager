@@ -1,3 +1,7 @@
+## 0.1.17 (January 08, 2021)
+
+- upgrade @abtnode* dep
+
 ## 0.1.16 (January 07, 2021)
 
 - trigger blocklet registry build
