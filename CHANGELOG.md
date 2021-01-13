@@ -1,3 +1,7 @@
+## 0.1.20 (January 13, 2021)
+
+- fix publish script
+
 ## 0.1.19 (January 13, 2021)
 
 - feat: support publish to blocklet registry
