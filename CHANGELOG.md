@@ -1,3 +1,7 @@
+## 0.1.21 (January 13, 2021)
+
+- fix publish script
+
 ## 0.1.20 (January 13, 2021)
 
 - fix publish script
