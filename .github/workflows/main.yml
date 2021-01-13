@@ -30,8 +30,8 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GIT_HUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}
-          BLOCKLET_REGISTRY: ${{secrets.BLOCKLET_REGISTRY}}
-          ABTNODE_DEVELOPER_SK: ${{secrets.ABTNODE_DEVELOPER_SK}}
+          BLOCKLET_REGISTRY: ${{ secrets.BLOCKLET_REGISTRY }}
+          ABTNODE_DEVELOPER_SK: ${{ secrets.ABTNODE_DEVELOPER_SK }}
         run: bash ./tools/publish.sh
 
       - name: Release to Github
