@@ -11,7 +11,7 @@ npm publish .blocklet/bundle
 
 echo "publishing to blocklet registry"
 blocklet config registry ${BLOCKLET_REGISTRY}
-blocklet publish --developer-sk ${ABTNODE_DEVELOPER_SK}
+blocklet publish --developer-sk ${ABTNODE_DEV_SK}
 
 make release
 
