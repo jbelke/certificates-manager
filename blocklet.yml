@@ -69,8 +69,6 @@ scripts:
   dev: npm run start
 documentation: ''
 homepage: ''
-timeout:
-  start: 10
 interfaces:
   - type: web
     name: adminUrl
@@ -93,3 +91,5 @@ interfaces:
     path: /
     prefix: '*'
 screenshots: []
+requirements:
+  abtnode: ">=1.1.10"
