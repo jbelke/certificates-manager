@@ -1,3 +1,10 @@
+## 0.1.22 (January 14, 2021)
+
+- add abtnode version constraints
+- [skip ci] remove empty line
+- [skip ci] add publish notification
+- [skip ci] Update README.md
+
 ## 0.1.21 (January 13, 2021)
 
 - fix publish script
