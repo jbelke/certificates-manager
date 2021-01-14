@@ -43,5 +43,4 @@ if [ "${AWS_NODE_ENDPOINT}" != "" ]; then
   fi
 fi
 
-
 curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"${NAME} v${VERSION} was successfully published\"}" ${SLACK_WEBHOOK}
