@@ -2,7 +2,7 @@
   "name": "certificates-manager",
   "title": "Certificates Manager",
   "description": "Manage SSL certificates",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "keywords": [
     "dapp",
     "certificate"

@@ -1,7 +1,7 @@
 name: certificates-manager
 title: Certificates Manager
 description: Manage ABT Node SSL certificates
-version: 0.2.0
+version: 0.2.1
 keywords:
   - dapp
   - ssl
@@ -80,6 +80,8 @@ interfaces:
       - name: '@abtnode/auth-service'
         config:
           invitedUserOnly: not-first
+          ignoreUrls:
+            - /api/dns/health
   - type: web
     name: wellknownUrl
     path: /

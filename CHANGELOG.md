@@ -1,3 +1,8 @@
+## 0.2.1 (January 26, 2021)
+
+- ignore health check api when from auth service
+- [skip ci] Update README.md
+
 ## 0.2.0 (January 22, 2021)
 
 - migrate auth from @abtnode/passport to @abtnode/auth-service
