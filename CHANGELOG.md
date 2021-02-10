@@ -1,3 +1,7 @@
+## 0.2.2 (February 10, 2021)
+
+- support logout
+
 ## 0.2.1 (January 26, 2021)
 
 - ignore health check api when from auth service
@@ -38,7 +42,7 @@
 
 ## 0.1.17 (January 08, 2021)
 
-- upgrade @abtnode* dep
+- upgrade @abtnode\* dep
 
 ## 0.1.16 (January 07, 2021)
 
