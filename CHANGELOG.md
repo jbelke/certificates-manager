@@ -1,3 +1,7 @@
+## 0.2.2 (February 10, 2021)
+
+- add pre-start hook
+
 ## 0.2.1 (January 26, 2021)
 
 - ignore health check api when from auth service

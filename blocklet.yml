@@ -1,7 +1,7 @@
 name: certificates-manager
 title: Certificates Manager
 description: Manage ABT Node SSL certificates
-version: 0.2.1
+version: 0.2.2
 keywords:
   - dapp
   - ssl
@@ -22,6 +22,7 @@ files:
   - logo.png
   - blocklet.md
   - README.md
+  - hooks
 specVersion: 1.0.2
 did: z8iZtEerb5YvuaTrkkryeAMexfVTk7EaUnmVU
 group: dapp
@@ -67,6 +68,7 @@ environments:
     secure: false
 scripts:
   dev: npm run start
+  preStart: node hooks/pre-start.js
 documentation: ''
 homepage: ''
 interfaces:
