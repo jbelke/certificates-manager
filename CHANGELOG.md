@@ -1,6 +1,10 @@
-## 0.2.2 (February 10, 2021)
+## 0.2.3 (February 10, 2021)
 
 - support logout
+
+## 0.2.2 (February 10, 2021)
+
+- add pre-start hook
 
 ## 0.2.1 (January 26, 2021)
 
