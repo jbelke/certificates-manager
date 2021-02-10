@@ -74,6 +74,24 @@
     through2-map "^3.0.0"
     to-semver "^3.0.0"
 
+"@arcblock/did-react@^1.11.3":
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/@arcblock/did-react/-/did-react-1.11.3.tgz#9bbf4910033cb29668a0fd0d204ad39a033ecf36"
+  integrity sha512-H+nJEAwBH7cCO0RM0eTlbbwRMUxzXFxoquQlSR9xqFOyAaDCX+AkJy6Ony6KQPu+0qWsXrbzQN2g80m25uCuwQ==
+  dependencies:
+    "@arcblock/event-client" "^1.0.23"
+    "@arcblock/react-hooks" "^1.11.3"
+    "@arcblock/ux" "^1.11.3"
+    "@material-ui/core" "^4.10.1"
+    axios "^0.19.2"
+    core-js "^3.6.4"
+    dsbridge "3.1.4"
+    js-cookie "^2.2.1"
+    qrcode.react "^1.0.0"
+    react-load-script "^0.0.6"
+    react-use "^13.22.4"
+    styled-components "^5.0.0"
+
 "@arcblock/did@^1.5.5":
   version "1.5.5"
   resolved "https://registry.yarnpkg.com/@arcblock/did/-/did-1.5.5.tgz#ad97a6f2cf1607a2ed40e1d6e39cb51183b68e85"
@@ -84,6 +102,17 @@
     bn.js "^5.0.0"
     debug "^4.3.1"
     lodash "^4.17.14"
+
+"@arcblock/event-client@^1.0.23":
+  version "1.5.8"
+  resolved "https://registry.yarnpkg.com/@arcblock/event-client/-/event-client-1.5.8.tgz#1b50e315b8ac622daa56cf7d41f7b90aabb79704"
+  integrity sha512-ceEkx+2evWzMHmvi89Rjt2ReWlzCSn1COU2baSsmbRsLQ7nFjnsK7pP09bQFeJRz31y8D+XUQQhOzJotcG2YNg==
+  dependencies:
+    debug "^4.3.1"
+    isomorphic-ws "^4.0.1"
+    phoenix "^1.4.11"
+    wolfy87-eventemitter "^5.2.5"
+    ws "^7.2.0"
 
 "@arcblock/forge-util@^1.5.1", "@arcblock/forge-util@^1.5.5":
   version "1.5.5"
@@ -121,10 +150,10 @@
     randombytes "^2.0.6"
     tweetnacl "^1.0.1"
 
-"@arcblock/react-hooks@^0.78.19":
-  version "0.78.19"
-  resolved "https://registry.yarnpkg.com/@arcblock/react-hooks/-/react-hooks-0.78.19.tgz#b4d1c3746c62a524a8b00954959aa5fef9f5a305"
-  integrity sha512-ydey9o4ua6b6eCFvRmo+cFs/mqADyukPNNoMD6cZ/NEQ7cVQuXjz1/RZSH3O+IfInHsEp3Yiy7DxyDf1Kpk8Ng==
+"@arcblock/react-hooks@^1.11.3":
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/@arcblock/react-hooks/-/react-hooks-1.11.3.tgz#b2b48688f55cb89ba765227f5306b0f4669afed1"
+  integrity sha512-gKBXJu7zhwLOs6f31V3twY2vAHzC4wlpc/zR/2/6/9LQRgEcYc6feVVEU8XeQA0Tg2b6rrATDPPrSbPeuajtjA==
   dependencies:
     core-js "^3.6.4"
     event-target-shim "^5.0.1"
@@ -141,12 +170,12 @@
     lodash.get "^4.4.2"
     lodash.set "^4.3.2"
 
-"@arcblock/ux@^0.78.19":
-  version "0.78.19"
-  resolved "https://registry.yarnpkg.com/@arcblock/ux/-/ux-0.78.19.tgz#0239c3f1719001c3606a3e2b3e9db9e0230fb6c7"
-  integrity sha512-Fr+vEQrHaI3A8FHC5IeFk5ldjn7P0SJkVXr+TsW3/A95/RfMEKHEdEtRr6fLWrWA/14W9d60FzARj+m5s4vsAQ==
+"@arcblock/ux@^1.11.3":
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/@arcblock/ux/-/ux-1.11.3.tgz#9b33c3b36516ca9e2c0e065c32da5084b78137ed"
+  integrity sha512-o0aekP86H6kwOvAR57oTQdSpXlbTGBGk7LR8nHE+3IGJC6Wl42nSGsx92UhmpGd4DEv232z4u0yXE9bzlP0Uvw==
   dependencies:
-    "@arcblock/react-hooks" "^0.78.19"
+    "@arcblock/react-hooks" "^1.11.3"
     "@babel/plugin-syntax-dynamic-import" "^7.8.3"
     "@material-ui/core" "^4.10.1"
     "@material-ui/icons" "4.5.1"
@@ -4921,6 +4950,11 @@ dotenv@8.2.0, dotenv@^8.2.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
+dsbridge@3.1.4:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/dsbridge/-/dsbridge-3.1.4.tgz#2cd598def017df8f729b40d33bc9c72934d44e19"
+  integrity sha512-0PczJDk+SRiJjyfTRIVvAsdmC4CbSb4nbfa/ajr3ZbluCpkIiiftDLBITygj0KIKvNvXHqMdXbBQGn99rWKT9A==
+
 duplexer3@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
@@ -7385,6 +7419,11 @@ isobject@^3.0.0, isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
+isomorphic-ws@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/isomorphic-ws/-/isomorphic-ws-4.0.1.tgz#55fd4cd6c5e6491e76dc125938dd863f5cd4f2dc"
+  integrity sha512-BhBvN2MBpWTaSHdWRb/bwdZJ1WaehQ2L1KngkCkfLUGF0mAWAT1sQUQacEmQ0jXkFw/czDXPNQSL5u2/Krsz1w==
+
 isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
@@ -9620,6 +9659,11 @@ phoenix-channels@^1.0.0:
   dependencies:
     websocket "^1.0.24"
 
+phoenix@^1.4.11:
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.5.7.tgz#86775bc51271e49930fd7d879ec3ec2addd6bf08"
+  integrity sha512-RgVdTRsK5NpnUPkjPyLg9P8qQQvuDaUsazH06t+ARu9EnPryQ7asE76VDjVZ43fqjY/p8er6y6OQb17YViG47g==
+
 picomatch@^2.0.4, picomatch@^2.0.5, picomatch@^2.2.1, picomatch@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.2.2.tgz#21f333e9b6b8eaff02468f5146ea406d345f4dad"
@@ -10468,7 +10512,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.5.4, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.4, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -10572,6 +10616,20 @@ q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
+
+qr.js@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
+  integrity sha1-ys6GOG9ZoNuAUPqQ2baw6IoeNk8=
+
+qrcode.react@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-1.0.1.tgz#2834bb50e5e275ffe5af6906eff15391fe9e38a5"
+  integrity sha512-8d3Tackk8IRLXTo67Y+c1rpaiXjoz/Dd2HpcMdW//62/x8J1Nbho14Kh8x974t9prsLHN6XqVgcnRiBGFptQmg==
+  dependencies:
+    loose-envify "^1.4.0"
+    prop-types "^15.6.0"
+    qr.js "0.0.0"
 
 qs@6.7.0:
   version "6.7.0"
@@ -13489,6 +13547,11 @@ winston@^3.3.3:
     triple-beam "^1.3.0"
     winston-transport "^4.4.0"
 
+wolfy87-eventemitter@^5.2.5:
+  version "5.2.9"
+  resolved "https://registry.yarnpkg.com/wolfy87-eventemitter/-/wolfy87-eventemitter-5.2.9.tgz#e879f770b30fbb6512a8afbb330c388591099c2a"
+  integrity sha512-P+6vtWyuDw+MB01X7UeF8TaHBvbCovf4HPEMF/SV7BdDc1SMTiBy13SRD71lQh4ExFTG1d/WNzDGDCyOKSMblw==
+
 word-wrap@^1.2.3, word-wrap@~1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/word-wrap/-/word-wrap-1.2.3.tgz#610636f6b1f703891bd34771ccb17fb93b47079c"
@@ -13707,6 +13770,11 @@ ws@^6.2.1:
   integrity sha512-GIyAXC2cB7LjvpgMt9EKS2ldqr0MTrORaleiOno6TweZ6r3TKtoFQWay/2PceJ3RuBasOHzXNn5Lrw1X0bEjqA==
   dependencies:
     async-limiter "~1.0.0"
+
+ws@^7.2.0:
+  version "7.4.3"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.3.tgz#1f9643de34a543b8edb124bdcbc457ae55a6e5cd"
+  integrity sha512-hr6vCR76GsossIRsr8OLR9acVVm1jyfEWvhbNjtgPOrfvAlKzvyeg/P6r8RuDjRyrcQoPQT7K0DGEPc7Ae6jzA==
 
 ws@^7.2.3:
   version "7.4.0"

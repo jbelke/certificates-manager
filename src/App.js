@@ -9,6 +9,7 @@ import { LocaleProvider } from '@arcblock/ux/lib/Locale/context';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import HomePage from './pages/index';
 import { translations } from './locales';
+import { SessionProvider } from './contexts/session';
 
 const theme = create({
   typography: {
@@ -29,21 +30,30 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+let apiPrefix = '/';
+if (window.blocklet && window.blocklet.prefix) {
+  apiPrefix = window.blocklet.prefix;
+} else if (window.env && window.env.apiPrefix) {
+  apiPrefix = window.env.apiPrefix;
+}
+
 export const App = () => (
   <MuiThemeProvider theme={theme}>
     <ThemeProvider theme={theme}>
-      <LocaleProvider translations={translations}>
-        <React.Fragment>
-          <CssBaseline />
-          <GlobalStyle />
-          <div className="wrapper">
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Redirect to="/" />
-            </Switch>
-          </div>
-        </React.Fragment>
-      </LocaleProvider>
+      <SessionProvider serviceHost={apiPrefix}>
+        <LocaleProvider translations={translations}>
+          <React.Fragment>
+            <CssBaseline />
+            <GlobalStyle />
+            <div className="wrapper">
+              <Switch>
+                <Route exact path="/" component={HomePage} />
+                <Redirect to="/" />
+              </Switch>
+            </div>
+          </React.Fragment>
+        </LocaleProvider>
+      </SessionProvider>
     </ThemeProvider>
   </MuiThemeProvider>
 );
