@@ -2,7 +2,7 @@
   "name": "certificates-manager",
   "title": "Certificates Manager",
   "description": "Manage SSL certificates",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "keywords": [
     "dapp",
     "certificate"
@@ -67,7 +67,7 @@
     "start:client": "NODE_ENV=development PUBLIC_URL=\"\" react-app-rewired start",
     "start:server": "NODE_ENV=development nodemon api/index.js -w api",
     "build": "yarn clean && npm-run-all build:*",
-    "build:client": "PUBLIC_URL=\"/z8iZtEerb5YvuaTrkkryeAMexfVTk7EaUnmVU\" react-app-rewired build",
+    "build:client": "PUBLIC_URL=\"/.blocklet/proxy\" react-app-rewired build",
     "bundle": "yarn clean && npm run bundle:client && rm -f build/**/**/*.map && npm run bundle:server",
     "bundle:client": "REACT_APP_API_PREFIX=\"\" REACT_APP_APP_NAME=\"Certificates Manager\" yarn build:client",
     "bundle:server": "blocklet bundle --zip --create-release",

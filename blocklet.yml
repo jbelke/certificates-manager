@@ -1,7 +1,7 @@
 name: certificates-manager
 title: Certificates Manager
 description: Manage ABT Node SSL certificates
-version: 0.2.3
+version: 0.2.4
 keywords:
   - dapp
   - ssl
@@ -103,3 +103,4 @@ requirements:
   abtnode: '>=1.1.17'
 timeout:
   start: 60
+children: []
