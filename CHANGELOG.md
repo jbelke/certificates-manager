@@ -1,3 +1,8 @@
+## 0.2.5 (March 26, 2021)
+
+- add logs
+- [skip ci] Update README.md
+
 ## 0.2.4 (March 24, 2021)
 
 - update the prefix of static resource url
