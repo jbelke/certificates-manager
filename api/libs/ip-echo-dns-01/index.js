@@ -47,6 +47,8 @@ module.exports.create = function (config) {
             rr: ch.dnsPrefix,
             domainAndRecord: `${ch.dnsPrefix}.${ch.dnsZone}`,
           });
+
+          return true;
         })
         .catch((error) => {
           logger.error('add record failed', {
@@ -55,6 +57,8 @@ module.exports.create = function (config) {
             domainAndRecord: `${ch.dnsPrefix}.${ch.dnsZone}`,
             error,
           });
+
+          return false;
         });
     },
     get: function (data) {
@@ -87,17 +91,22 @@ module.exports.create = function (config) {
       var ch = data.challenge;
 
       return dnsRecordState
-        .remove({
-          rr: ch.dnsPrefix,
-          value: ch.dnsAuthorization,
-          domainName: ch.dnsZone,
-        })
+        .remove(
+          {
+            rr: ch.dnsPrefix,
+            value: ch.dnsAuthorization,
+            domainName: ch.dnsZone,
+          },
+          { multi: true }
+        )
         .then((result) => {
           logger.info('remove dns-01 record', {
             domainName: ch.dnsZone,
             rr: ch.dnsPrefix,
             result,
           });
+
+          return true;
         })
         .catch((error) => {
           logger.error('remove dns-01 record failed', {
@@ -105,6 +114,8 @@ module.exports.create = function (config) {
             rr: ch.dnsPrefix,
             error,
           });
+
+          return false;
         });
     },
   };
