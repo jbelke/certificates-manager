@@ -29,7 +29,8 @@ const server = dns.createServer(async (request, send) => {
       return send(response);
     }
 
-    logger.debug('query name', { name });
+    // FIXME: 需要添加一个 DEBUG 开关
+    logger.info('query name', { name });
 
     if (ipReg.test(name)) {
       response.answers.push({
@@ -52,10 +53,10 @@ const server = dns.createServer(async (request, send) => {
       });
     }
 
-    send(response);
+    return send(response);
   } catch (error) {
     logger.error('resolve dns error', { error, questions: request.questions });
-    send(response);
+    return send(response);
   }
 });
 

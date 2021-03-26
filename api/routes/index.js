@@ -7,6 +7,7 @@ const { getDomainsDnsStatus, isEchoDnsDomain, isWildcardDomain } = require('../l
 const domainState = require('../states/domain');
 const certificateState = require('../states/certificate');
 const { maintainerEmail, echoDnsDomain } = require('../libs/env');
+const logger = require('../libs/logger');
 
 module.exports = {
   init(app) {
@@ -54,7 +55,7 @@ module.exports = {
         return res.status(400).json(`domain ${domain} already exists`);
       }
 
-      await domainState.insert({
+      const result = await domainState.insert({
         domain,
         challenge,
         subscriberEmail: maintainerEmail,
@@ -64,7 +65,7 @@ module.exports = {
       const manager = await Manager.getInstance();
       manager.add(domain);
 
-      console.log('add domain', { domain });
+      logger.info('add domain', { domain, result });
 
       return res.json('ok');
     });
