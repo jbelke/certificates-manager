@@ -1,3 +1,9 @@
+## 0.2.13 (March 26, 2021)
+
+- change some info logs to debug
+- remove some logs
+- [skip ci] Update README.md
+
 ## 0.2.12 (March 26, 2021)
 
 - modify log
