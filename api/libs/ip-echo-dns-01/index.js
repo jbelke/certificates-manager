@@ -46,6 +46,7 @@ module.exports.create = function (config) {
             domainName: ch.dnsZone,
             rr: ch.dnsPrefix,
             domainAndRecord: `${ch.dnsPrefix}.${ch.dnsZone}`,
+            value: ch.dnsAuthorization,
           });
 
           return true;
