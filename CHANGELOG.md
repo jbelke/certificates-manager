@@ -1,3 +1,9 @@
+## 0.2.12 (March 26, 2021)
+
+- modify log
+- modify log
+- [skip ci] Update README.md
+
 ## 0.2.11 (March 26, 2021)
 
 - fix remove bug in ip-echo-dns-01
