@@ -46,7 +46,6 @@ module.exports.create = function (config) {
             domainName: ch.dnsZone,
             rr: ch.dnsPrefix,
             domainAndRecord: `${ch.dnsPrefix}.${ch.dnsZone}`,
-            value: ch.dnsAuthorization,
           });
 
           return true;
@@ -101,7 +100,6 @@ module.exports.create = function (config) {
           logger.info('remove dns-01 record', {
             domainName: ch.dnsZone,
             rr: ch.dnsPrefix,
-            value: ch.dnsAuthorization,
             result,
           });
 
@@ -110,7 +108,6 @@ module.exports.create = function (config) {
         .catch((error) => {
           logger.error('remove dns-01 record failed', {
             domainName: ch.dnsZone,
-            value: ch.dnsAuthorization,
             rr: ch.dnsPrefix,
             error,
           });

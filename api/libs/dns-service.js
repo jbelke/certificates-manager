@@ -43,7 +43,7 @@ const server = dns.createServer(async (request, send) => {
     } else {
       const records = await dnsRecordState.find({ domainAndRecord: new RegExp(name, 'i') });
       // FIXME: 需要添加一个 DEBUG 开关
-      logger.info('records', { name, records: records.map((x) => x.value).join(',') });
+      logger.info('records', { name, recordsLength: records.length });
 
       records.forEach((record) => {
         response.answers.push({
