@@ -91,14 +91,11 @@ module.exports.create = function (config) {
       var ch = data.challenge;
 
       return dnsRecordState
-        .remove(
-          {
-            rr: ch.dnsPrefix,
-            value: ch.dnsAuthorization,
-            domainName: ch.dnsZone,
-          },
-          { multi: true }
-        )
+        .remove({
+          rr: ch.dnsPrefix,
+          value: ch.dnsAuthorization,
+          domainName: ch.dnsZone,
+        })
         .then((result) => {
           logger.info('remove dns-01 record', {
             domainName: ch.dnsZone,

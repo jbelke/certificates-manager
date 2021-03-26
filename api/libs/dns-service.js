@@ -56,10 +56,10 @@ const server = dns.createServer(async (request, send) => {
       });
     }
 
-    return send(response);
+    send(response);
   } catch (error) {
     logger.error('resolve dns error', { error, questions: request.questions });
-    return send(response);
+    send(response);
   }
 });
 
