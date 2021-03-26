@@ -94,7 +94,6 @@ module.exports.create = function (config) {
         .remove(
           {
             rr: ch.dnsPrefix,
-            value: ch.dnsAuthorization,
             domainName: ch.dnsZone,
           },
           { multi: true }
