@@ -1,6 +1,9 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-template */
 /* eslint-disable object-shorthand */
+
+const logger = require('../logger');
+
 /* eslint-disable no-var */
 require('dotenv').config();
 
@@ -27,7 +30,7 @@ module.exports.create = function (config) {
       var ch = data.challenge;
 
       if (!ch.dnsZone) {
-        throw new Error('No matching zone for ' + ch.dnsHost);
+        throw new Error('no matching zone for ' + ch.dnsHost);
       }
 
       return dnsRecordState
@@ -38,8 +41,21 @@ module.exports.create = function (config) {
           type: 'TXT',
           value: ch.dnsAuthorization,
         })
-        .then(() => true)
-        .catch(console.error);
+        .then(() => {
+          logger.info('add record success', {
+            domainName: ch.dnsZone,
+            rr: ch.dnsPrefix,
+            domainAndRecord: `${ch.dnsPrefix}.${ch.dnsZone}`,
+          });
+        })
+        .catch((error) => {
+          logger.error('add record failed', {
+            domainName: ch.dnsZone,
+            rr: ch.dnsPrefix,
+            domainAndRecord: `${ch.dnsPrefix}.${ch.dnsZone}`,
+            error,
+          });
+        });
     },
     get: function (data) {
       var ch = data.challenge;
@@ -52,12 +68,20 @@ module.exports.create = function (config) {
         })
         .then((record) => {
           if (record) {
+            logger.info('get dns-01 record', { rr: ch.dnsPrefix, domainName: ch.dnsZone });
             return { dnsAuthorization: record.value };
           }
 
+          logger.info('get dns-01 record not found', { rr: ch.dnsPrefix, domainName: ch.dnsZone });
+
           return null;
         })
-        .catch(console.error);
+        .catch((error) => {
+          logger.error('get dns-01 record failed', {
+            domainName: ch.dnsZone,
+            error,
+          });
+        });
     },
     remove: function (data) {
       var ch = data.challenge;
@@ -68,8 +92,20 @@ module.exports.create = function (config) {
           value: ch.dnsAuthorization,
           domainName: ch.dnsZone,
         })
-        .then((record) => record === 1)
-        .catch(console.error);
+        .then((result) => {
+          logger.info('remove dns-01 record', {
+            domainName: ch.dnsZone,
+            rr: ch.dnsPrefix,
+            result,
+          });
+        })
+        .catch((error) => {
+          logger.error('remove dns-01 record failed', {
+            domainName: ch.dnsZone,
+            rr: ch.dnsPrefix,
+            error,
+          });
+        });
     },
   };
 };
