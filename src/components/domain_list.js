@@ -55,9 +55,9 @@ export default function DomainList({ ...props }) {
     return <CircularProgress />;
   }
 
-  const onConfirm = async (domain) => {
+  const onConfirm = async (id) => {
     try {
-      await api.delete(`/domains/${domain}`);
+      await api.delete(`/domains/${id}`);
       setRemoveSuccess('Remove domain successfully!');
       state.retry();
     } catch (error) {
@@ -71,8 +71,8 @@ export default function DomainList({ ...props }) {
     setConfirmSetting(null);
   };
 
-  const handleRemoveDomain = (domain) => {
-    if (!domain) {
+  const handleRemoveDomain = (id, domain) => {
+    if (!id || !domain) {
       console.error('invalid domain');
       return;
     }
@@ -86,7 +86,7 @@ export default function DomainList({ ...props }) {
       ),
       confirm: 'Confirm',
       cancel: 'Cancel',
-      onConfirm: () => onConfirm(domain),
+      onConfirm: () => onConfirm(id),
       onCancel,
     });
   };
@@ -142,7 +142,7 @@ export default function DomainList({ ...props }) {
                       rounded
                       variant="contained"
                       color="danger"
-                      onClick={() => handleRemoveDomain(row.domain)}>
+                      onClick={() => handleRemoveDomain(row._id, row.domain)}>
                       Remove
                     </Button>
                   </TableCell>

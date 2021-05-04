@@ -28,11 +28,12 @@ module.exports = {
     });
 
     app.post('/api/domains', async (req, res) => {
-      const { domain } = req.body;
+      let { domain } = req.body;
       if (!domain) {
         return res.status(400).json('invalid request body');
       }
 
+      domain = domain.trim();
       const tempIsWildcardDomain = isWildcardDomain(domain);
 
       if (tempIsWildcardDomain && !isEchoDnsDomain(domain, echoDnsDomain)) {
@@ -70,19 +71,20 @@ module.exports = {
       return res.json('ok');
     });
 
-    app.delete('/api/domains/:domain', async (req, res) => {
-      const { domain } = req.params;
-      if (!domain) {
+    app.delete('/api/domains/:id', async (req, res) => {
+      const { id } = req.params;
+      if (!id) {
         return res.status(400).json('domain is required');
       }
 
-      const exists = !!(await domainState.findOne({ domain }));
+      const exists = !!(await domainState.findOne({ _id: id }));
       if (!exists) {
-        return res.status(400).json(`domain ${domain} does not exists`);
+        logger.error(`domain id ${id} does not exit`);
+        return res.status(400).json('domain does not exists');
       }
 
       const removeResult = await domainState.remove({
-        domain,
+        _id: id,
       });
 
       console.log('remove result', removeResult);
