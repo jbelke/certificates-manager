@@ -1,3 +1,7 @@
+## 0.2.15 (May 04, 2021)
+
+- bump version
+
 ## 0.2.14 (May 04, 2021)
 
 - fix: remove space when add domain

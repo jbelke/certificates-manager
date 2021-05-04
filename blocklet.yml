@@ -1,7 +1,7 @@
 name: certificates-manager
 title: Certificates Manager
 description: Manage ABT Node SSL certificates
-version: 0.2.14
+version: 0.2.15
 keywords:
   - dapp
   - ssl
@@ -107,5 +107,6 @@ charging:
   price: 0
   tokens: []
   shares: []
-capabilities: {}
+capabilities:
+  clusterMode: false
 children: []
