@@ -1,3 +1,7 @@
+## 0.2.16 (June 12, 2021)
+
+- fix: can not logout
+
 ## 0.2.15 (May 04, 2021)
 
 - bump version

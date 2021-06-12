@@ -74,16 +74,16 @@
     through2-map "^3.0.0"
     to-semver "^3.0.0"
 
-"@arcblock/did-react@^1.11.3":
-  version "1.11.3"
-  resolved "https://registry.yarnpkg.com/@arcblock/did-react/-/did-react-1.11.3.tgz#9bbf4910033cb29668a0fd0d204ad39a033ecf36"
-  integrity sha512-H+nJEAwBH7cCO0RM0eTlbbwRMUxzXFxoquQlSR9xqFOyAaDCX+AkJy6Ony6KQPu+0qWsXrbzQN2g80m25uCuwQ==
+"@arcblock/did-react@^1.14.0":
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/@arcblock/did-react/-/did-react-1.14.0.tgz#062dc5c465fb7ef26aed4e4ba1187771ce4a6312"
+  integrity sha512-nkWmwpOOKmte6FXwcb5KpMdU2STyBx1V8Em2Y5sRftEGy+dlCVZtpjrqAdN3ZFy87KhApOfJlZwUbQrOVEdg+w==
   dependencies:
     "@arcblock/event-client" "^1.0.23"
-    "@arcblock/react-hooks" "^1.11.3"
-    "@arcblock/ux" "^1.11.3"
+    "@arcblock/react-hooks" "^1.14.0"
+    "@arcblock/ux" "^1.14.0"
     "@material-ui/core" "^4.10.1"
-    axios "^0.19.2"
+    axios "^0.21.1"
     core-js "^3.6.4"
     dsbridge "3.1.4"
     js-cookie "^2.2.1"
@@ -150,10 +150,10 @@
     randombytes "^2.0.6"
     tweetnacl "^1.0.1"
 
-"@arcblock/react-hooks@^1.11.3":
-  version "1.11.3"
-  resolved "https://registry.yarnpkg.com/@arcblock/react-hooks/-/react-hooks-1.11.3.tgz#b2b48688f55cb89ba765227f5306b0f4669afed1"
-  integrity sha512-gKBXJu7zhwLOs6f31V3twY2vAHzC4wlpc/zR/2/6/9LQRgEcYc6feVVEU8XeQA0Tg2b6rrATDPPrSbPeuajtjA==
+"@arcblock/react-hooks@^1.14.0":
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/@arcblock/react-hooks/-/react-hooks-1.14.0.tgz#b26516fb50883f7d0200476f1937c0aaae3f0789"
+  integrity sha512-uQqNgYAmHYmT8qILLJCE/W0vQElVzjdxktllztyzSJBsM3ehzvmteFjI4Cj57lW8JaBMWa6eyMqHYchPeJI3og==
   dependencies:
     core-js "^3.6.4"
     event-target-shim "^5.0.1"
@@ -170,16 +170,16 @@
     lodash.get "^4.4.2"
     lodash.set "^4.3.2"
 
-"@arcblock/ux@^1.11.3":
-  version "1.11.3"
-  resolved "https://registry.yarnpkg.com/@arcblock/ux/-/ux-1.11.3.tgz#9b33c3b36516ca9e2c0e065c32da5084b78137ed"
-  integrity sha512-o0aekP86H6kwOvAR57oTQdSpXlbTGBGk7LR8nHE+3IGJC6Wl42nSGsx92UhmpGd4DEv232z4u0yXE9bzlP0Uvw==
+"@arcblock/ux@^1.14.0":
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/@arcblock/ux/-/ux-1.14.0.tgz#78338678504b672a1804354e9191a7855c20a740"
+  integrity sha512-VaY4IajtXC6HJQs81qJdrzNP9j5tfzuDuEZK2jUe3tt+YrTcIVKhC2vegcJ3L4b2Jd1OvMt7vIVjlAY1Qxtm8w==
   dependencies:
-    "@arcblock/react-hooks" "^1.11.3"
+    "@arcblock/react-hooks" "^1.14.0"
     "@babel/plugin-syntax-dynamic-import" "^7.8.3"
     "@material-ui/core" "^4.10.1"
     "@material-ui/icons" "4.5.1"
-    axios "^0.19.2"
+    axios "^0.21.1"
     copy-to-clipboard "^3.2.0"
     core-js "^3.6.4"
     d3-geo "^1.11.6"
@@ -190,9 +190,9 @@
     graphql "^14.6.0"
     highlight.js "^9.15.8"
     js-cookie "^2.2.0"
-    lodash "^4.17.15"
+    lodash "^4.17.21"
     react-helmet "^5.2.1"
-    react-image "^4.0.3"
+    react-intersection-observer "^8.31.1"
     react-load-script "^0.0.6"
     react-player "^1.15.2"
     react-router-dom "^5.1.2"
@@ -2867,13 +2867,6 @@ axe-core@^4.0.2:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.0.2.tgz#c7cf7378378a51fcd272d3c09668002a4990b1cb"
   integrity sha512-arU1h31OGFu+LPrOLGZ7nB45v940NMDMEJeNmbutu57P+UFDVnkZg3e+J1I2HJRZ9hT7gO8J91dn/PMrAiKakA==
 
-axios@^0.19.2:
-  version "0.19.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
-  integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
-  dependencies:
-    follow-redirects "1.5.10"
-
 axios@^0.21.0:
   version "0.21.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.0.tgz#26df088803a2350dff2c27f96fef99fe49442aca"
@@ -4587,13 +4580,6 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@=3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
-  integrity sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g==
-  dependencies:
-    ms "2.0.0"
-
 debug@^3.1.1, debug@^3.2.5, debug@^3.2.6:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
@@ -6000,13 +5986,6 @@ folder-walker@^3.2.0:
   integrity sha512-VjAQdSLsl6AkpZNyrQJfO7BXLo4chnStqb055bumZMbRUPpVuPN3a4ktsnRCmrFZjtMlYLkyXiR5rAs4WOpC4Q==
   dependencies:
     from2 "^2.1.0"
-
-follow-redirects@1.5.10:
-  version "1.5.10"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.10.tgz#7b7a9f9aea2fdff36786a94ff643ed07f4ff5e2a"
-  integrity sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==
-  dependencies:
-    debug "=3.1.0"
 
 follow-redirects@^1.0.0, follow-redirects@^1.10.0:
   version "1.13.0"
@@ -8405,6 +8384,11 @@ lodash.upperfirst@^4.3.1:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
+
+lodash@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 logform@^2.2.0:
   version "2.2.0"
@@ -10816,10 +10800,10 @@ react-helmet@^6.1.0:
     react-fast-compare "^3.1.1"
     react-side-effect "^2.1.0"
 
-react-image@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/react-image/-/react-image-4.0.3.tgz#6fa722877660b67295298a914bff1ed87ad2cf83"
-  integrity sha512-19MUK9u1qaw9xys8XEsVkSpVhHctEBUeYFvrLTe1PN+4w5Co13AN2WA7xtBshPM6SthsOj77SlDrEAeOaJpf7g==
+react-intersection-observer@^8.31.1:
+  version "8.32.0"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-8.32.0.tgz#47249332e12e8bb99ed35a10bb7dd10446445a7b"
+  integrity sha512-RlC6FvS3MFShxTn4FHAy904bVjX5Nn4/eTjUkurW0fHK+M/fyQdXuyCy9+L7yjA+YMGogzzSJNc7M4UtfSKvtw==
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1:
   version "16.13.1"

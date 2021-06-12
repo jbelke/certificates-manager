@@ -1,7 +1,7 @@
 name: certificates-manager
 title: Certificates Manager
 description: Manage ABT Node SSL certificates
-version: 0.2.15
+version: 0.2.16
 keywords:
   - dapp
   - ssl
@@ -13,8 +13,7 @@ author:
   url: 'http://github.com/polunzh'
 repository:
   type: git
-  url: >-
-    https://github.com/ArcBlock/abt-node/tree/master/blocklets/certificates-manager
+  url: 'git+https://github.com/ArcBlock/abt-node.git#master'
 license: Apache-2.0
 files:
   - build
