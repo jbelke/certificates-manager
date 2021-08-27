@@ -1,3 +1,7 @@
+## 0.2.17 (August 27, 2021)
+
+- chore: replace did-react with did-connect
+
 ## 0.2.16 (June 12, 2021)
 
 - fix: can not logout

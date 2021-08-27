@@ -1,4 +1,4 @@
-import { createAuthServiceSessionContext } from '@arcblock/did-react/lib/Session';
+import { createAuthServiceSessionContext } from '@arcblock/did-connect/lib/Session';
 
 const { SessionProvider, SessionContext, SessionConsumer, withSession } = createAuthServiceSessionContext();
 
