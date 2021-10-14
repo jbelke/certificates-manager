@@ -65,6 +65,11 @@ environments:
     required: false
     default: ip.abtnet.io
     secure: false
+  - name: DAYS_BEFORE_EXPIRE_TO_RENEWAL
+    description: Days to renew the certificate before expires
+    required: false
+    default: 30
+    secure: false
 scripts:
   dev: npm run start
   preStart: node hooks/pre-start.js

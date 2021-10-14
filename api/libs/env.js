@@ -1,6 +1,8 @@
 /* eslint-disable operator-linebreak */
 
-const notExistEnvs = ['NODE_ACCESS_KEY', 'NODE_ACCESS_SECRET', 'NODE_DOMAIN', 'MAINTAINER_EMAIL'].filter((x) => !process.env[x]);
+const notExistEnvs = ['NODE_ACCESS_KEY', 'NODE_ACCESS_SECRET', 'NODE_DOMAIN', 'MAINTAINER_EMAIL'].filter(
+  (x) => !process.env[x]
+);
 if (notExistEnvs.length) {
   throw new Error(`${notExistEnvs.join(', ')} are required`);
 }
@@ -41,4 +43,5 @@ module.exports = {
   maintainerEmail: process.env.MAINTAINER_EMAIL,
   echoDnsIpRegex: process.env.ECHO_DNS_IP_REGEX,
   echoDnsDomain: process.env.ECHO_DNS_DOMAIN,
+  daysBeforeExpireToRenewal: process.env.DAYS_BEFORE_EXPIRE_TO_RENEWAL,
 };

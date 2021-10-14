@@ -15,13 +15,14 @@ const { DOMAIN_STATUS } = require('./constant');
 const createQueue = require('./queue');
 const { md5 } = require('./util');
 const logger = require('./logger');
+const env = require('./env');
 
 const http01 = require('./http-01').create({});
 const ipEchoDns01 = require('./ip-echo-dns-01').create({ dnsRecordState, zone: process.env.ECHO_DNS_DOMAIN });
 
 const AGENT_NAME = 'abtnode';
 
-const RENEWAL_OFFSET_IN_HOUR = 10 * 24; // 10 day
+const RENEWAL_OFFSET_IN_HOUR = parseInt(env.daysBeforeExpireToRenewal, 10) * 24;
 
 const getChallengeModule = (challenge) => {
   if (challenge === 'dns-01') {
