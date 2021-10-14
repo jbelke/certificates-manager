@@ -1,3 +1,7 @@
+## 0.2.18 (October 14, 2021)
+
+- modify the days to renewal the cert before expires
+
 ## 0.2.17 (August 27, 2021)
 
 - chore: replace did-react with did-connect

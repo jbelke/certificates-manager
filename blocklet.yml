@@ -1,7 +1,7 @@
 name: certificates-manager
 title: Certificates Manager
 description: Manage ABT Node SSL certificates
-version: 0.2.17
+version: 0.2.18
 keywords:
   - dapp
   - ssl
@@ -68,7 +68,7 @@ environments:
   - name: DAYS_BEFORE_EXPIRE_TO_RENEWAL
     description: Days to renew the certificate before expires
     required: false
-    default: 30
+    default: '30'
     secure: false
 scripts:
   dev: npm run start
