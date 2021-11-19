@@ -1,3 +1,7 @@
+## 0.2.19 (November 08, 2021)
+
+- chore: update deps to latest
+
 ## 0.2.18 (October 14, 2021)
 
 - modify the days to renewal the cert before expires

@@ -2,7 +2,7 @@
   "name": "certificates-manager",
   "title": "Certificates Manager",
   "description": "Manage SSL certificates",
-  "version": "0.2.18",
+  "version": "0.2.19",
   "keywords": [
     "dapp",
     "certificate"
@@ -13,11 +13,12 @@
     "url": "https://github.com/ArcBlock/abt-node/tree/master/blocklets/certificates-manager"
   },
   "dependencies": {
-    "@abtnode/client": "^1.4.7",
-    "@abtnode/cron": "^1.4.7",
-    "@abtnode/queue": "^1.4.7",
-    "@arcblock/did-connect": "^1.14.44",
-    "@arcblock/ux": "^1.14.44",
+    "@abtnode/client": "^1.5.14",
+    "@abtnode/cron": "^1.5.14",
+    "@abtnode/queue": "^1.5.14",
+    "@blocklet/sdk": "^1.5.14",
+    "@arcblock/did-connect": "^1.15.7",
+    "@arcblock/ux": "^1.15.7",
     "@fidm/x509": "^1.2.1",
     "@greenlock/manager": "^3.1.0",
     "@material-ui/core": "^4.11.0",
