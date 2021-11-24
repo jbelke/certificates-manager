@@ -1,3 +1,7 @@
+## 0.2.21 (November 24, 2021)
+
+- disable publish to npm
+
 ## 0.2.20 (November 24, 2021)
 
 - upgrade arcblock related dependencies
