@@ -5,10 +5,6 @@ echo "publish version ${VERSION}"
 
 npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
 
-npm run bundle
-echo "publishing to npm..."
-npm publish .blocklet/bundle
-
 echo "publishing to blocklet registry"
 blocklet config registry ${BLOCKLET_REGISTRY}
 blocklet publish --developer-sk ${ABTNODE_DEV_SK}
