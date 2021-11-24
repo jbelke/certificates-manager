@@ -1,3 +1,7 @@
+## 0.2.22 (November 24, 2021)
+
+- fix: blocklet.yml files use glob to match js file
+
 ## 0.2.21 (November 24, 2021)
 
 - disable publish to npm
