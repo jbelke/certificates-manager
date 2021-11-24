@@ -3,7 +3,9 @@ set -e
 VERSION=$(cat version | awk '{$1=$1;print}')
 echo "publish version ${VERSION}"
 
-npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+# bundle
+
+npm run bundle
 
 echo "publishing to blocklet registry"
 blocklet config registry ${BLOCKLET_REGISTRY}
