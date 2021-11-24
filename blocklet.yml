@@ -21,7 +21,7 @@ files:
   - logo.png
   - blocklet.md
   - README.md
-  - hooks
+  - hooks/*.js
 specVersion: 1.1.1
 did: z8iZtEerb5YvuaTrkkryeAMexfVTk7EaUnmVU
 group: dapp
