@@ -1,3 +1,6 @@
+## 0.3.1 (November 28, 2021)
+- chore: bump versions to latest
+
 ## 0.3.0 (November 28, 2021)
 - feat: upgrade wellknown interface
 
