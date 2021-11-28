@@ -1,7 +1,7 @@
 name: certificates-manager
 title: Certificates Manager
 description: Manage ABT Node SSL certificates
-version: 0.2.22
+version: 0.3.0
 keywords:
   - dapp
   - ssl
@@ -88,8 +88,8 @@ interfaces:
           invitedUserOnly: not-first
           ignoreUrls:
             - /api/dns/health
-  - type: web
-    name: wellknownUrl
+  - type: wellknown
+    name: acmeChallenge
     path: /
     prefix: /.well-known/acme-challenge
     port: BLOCKLET_PORT

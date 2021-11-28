@@ -1,3 +1,6 @@
+## 0.3.0 (November 28, 2021)
+- feat: upgrade wellknown interface
+
 ## 0.2.22 (November 24, 2021)
 
 - fix: blocklet.yml files use glob to match js file
