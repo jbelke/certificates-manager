@@ -1,3 +1,7 @@
+## 0.3.3 (十二月 01, 2021)
+
+- feat: use blocklet/action-workflow
+
 ## 0.3.2 (十二月 01, 2021)
 
 - feat: use craco to minimize bundle size
