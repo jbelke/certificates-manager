@@ -1,7 +1,13 @@
+## 0.3.2 (十二月 01, 2021)
+
+- feat: use craco to minimize bundle size
+
 ## 0.3.1 (November 28, 2021)
+
 - chore: bump versions to latest
 
 ## 0.3.0 (November 28, 2021)
+
 - feat: upgrade wellknown interface
 
 ## 0.2.22 (November 24, 2021)

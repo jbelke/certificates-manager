@@ -2,7 +2,7 @@
   "name": "certificates-manager",
   "title": "Certificates Manager",
   "description": "Manage SSL certificates",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "keywords": [
     "dapp",
     "certificate"
@@ -13,16 +13,16 @@
     "url": "https://github.com/ArcBlock/abt-node/tree/master/blocklets/certificates-manager"
   },
   "dependencies": {
-    "@abtnode/client": "^1.5.16",
-    "@abtnode/cron": "^1.5.16",
-    "@abtnode/queue": "^1.5.16",
-    "@blocklet/sdk": "^1.5.16",
-    "@arcblock/did-connect": "^1.15.15",
-    "@arcblock/ux": "^1.15.15",
+    "@abtnode/client": "^1.5.19",
+    "@abtnode/cron": "^1.5.19",
+    "@abtnode/queue": "^1.5.19",
+    "@arcblock/did-connect": "^1.15.19",
+    "@arcblock/ux": "^1.15.19",
+    "@blocklet/sdk": "^1.5.19",
     "@fidm/x509": "^1.2.1",
     "@greenlock/manager": "^3.1.0",
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/icons": "4.9.1",
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@nedb/core": "^1.1.0",
     "@root/acme": "^3.1.0",
@@ -65,15 +65,16 @@
     "prepush": "yarn lint",
     "clean": "rm -rf build api/dist .blocklet",
     "start": "npm-run-all --parallel start:*",
-    "start:client": "NODE_ENV=development PUBLIC_URL=\"\" react-app-rewired start",
+    "start:client": "NODE_ENV=development PUBLIC_URL=\"\" craco start",
     "start:server": "NODE_ENV=development nodemon api/index.js -w api",
+    "analyze:client": "NEED_ANALYZE=true craco build",
     "build": "yarn clean && npm-run-all build:*",
-    "build:client": "PUBLIC_URL=\"/.blocklet/proxy\" react-app-rewired build",
+    "build:client": "PUBLIC_URL=\"/.blocklet/proxy\" craco build",
     "bundle": "yarn clean && npm run bundle:client && rm -f build/**/**/*.map && npm run bundle:server",
     "bundle:client": "REACT_APP_API_PREFIX=\"\" REACT_APP_APP_NAME=\"Certificates Manager\" yarn build:client",
     "bundle:server": "blocklet bundle --zip --create-release",
     "deploy": "npm run bundle && blocklet deploy .blocklet/bundle",
-    "test": "react-app-rewired test --env=jsdom --passWithNoTests",
+    "test": "craco test --env=jsdom --passWithNoTests",
     "eject": "react-app-rewired eject"
   },
   "eslintConfig": {
@@ -92,6 +93,7 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^6.4.2",
     "acme-challenge-test": "^3.3.2",
     "babel-eslint": "^10.1.0",
     "eslint": "7.13.0",
@@ -102,9 +104,9 @@
     "mutationobserver-shim": "^0.3.7",
     "nodemon": "^2.0.6",
     "npm-run-all": "^4.1.5",
-    "react-app-rewired": "^2.1.6",
     "react-dev-utils": "^11.0.0",
-    "react-scripts": "^4.0.0"
+    "react-scripts": "^4.0.0",
+    "webpack-bundle-analyzer": "^4.5.0"
   },
   "license": "Apache-2.0"
 }
