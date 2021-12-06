@@ -1,3 +1,7 @@
+## 0.3.4 (December 03, 2021)
+
+- chore: update arcblock-related deps
+
 ## 0.3.3 (十二月 01, 2021)
 
 - feat: use blocklet/action-workflow

@@ -2,7 +2,7 @@
   "name": "certificates-manager",
   "title": "Certificates Manager",
   "description": "Manage SSL certificates",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "keywords": [
     "dapp",
     "certificate"
@@ -16,8 +16,8 @@
     "@abtnode/client": "^1.5.19",
     "@abtnode/cron": "^1.5.19",
     "@abtnode/queue": "^1.5.19",
-    "@arcblock/did-connect": "^1.15.19",
-    "@arcblock/ux": "^1.15.19",
+    "@arcblock/did-connect": "^1.15.21",
+    "@arcblock/ux": "^1.15.21",
     "@blocklet/sdk": "^1.5.19",
     "@fidm/x509": "^1.2.1",
     "@greenlock/manager": "^3.1.0",
