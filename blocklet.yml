@@ -1,7 +1,7 @@
 name: certificates-manager
 title: Certificates Manager
 description: Manage ABT Node SSL certificates
-version: 0.3.4
+version: 0.3.5
 keywords:
   - dapp
   - ssl
@@ -22,7 +22,7 @@ files:
   - blocklet.md
   - README.md
   - hooks/*.js
-specVersion: 1.1.1
+specVersion: 1.2.0
 did: z8iZtEerb5YvuaTrkkryeAMexfVTk7EaUnmVU
 group: dapp
 main: api/index.js
@@ -107,10 +107,9 @@ requirements:
   abtnode: '>=1.1.17'
 timeout:
   start: 60
-charging:
-  price: 0
-  tokens: []
-  shares: []
 capabilities:
   clusterMode: false
 children: []
+payment:
+  price: []
+  share: []

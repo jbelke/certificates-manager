@@ -1,3 +1,7 @@
+## 0.3.5 (十二月 07, 2021)
+
+- chore: upgrade blocklet.yml
+
 ## 0.3.4 (December 03, 2021)
 
 - chore: update arcblock-related deps
