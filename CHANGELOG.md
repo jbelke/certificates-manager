@@ -1,3 +1,8 @@
+## 0.4.0 (December 23, 2021)
+
+- remove ip echo dns service
+- [skip ci] Update README.md
+
 ## 0.3.5 (十二月 07, 2021)
 
 - chore: upgrade blocklet.yml
