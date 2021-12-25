@@ -1,29 +1,21 @@
 # Certificates Manager
 
-> Manage SSL certificates in ABT Node.
-
-## Install on my ABT Node
-
-[![Install on my ABT Node](https://raw.githubusercontent.com/blocklet/development-guide/main/assets/install_on_abtnode.svg)](https://install.arcblock.io/?action=blocklet-install&meta_url=https%3A%2F%2Fgithub.com%2Fblocklet%2Fcertificates-manager%2Freleases%2Fdownload%2Fv0.3.5%2Fblocklet.json)
-
-## Install on my ABT Node
-
-[![Install on my ABT Node](https://raw.githubusercontent.com/blocklet/development-guide/main/assets/install_on_abtnode.svg)](https://install.arcblock.io/?action=blocklet-install&meta_url=https%3A%2F%2Fgithub.com%2Fblocklet%2Fcertificates-manager%2Freleases%2Fdownload%2F0.3.2%2Fblocklet.json)
+> Manage SSL certificates in Blocklet Server.
 
 ## Usage
 
-Certificates can be generated in two ways: manually by adding a domain name, or automatically when a site is added to the Service Gateway of an ABT Node (to be completed).
+Certificates can be generated in two ways: manually by adding a domain name, or automatically when a site is added to the Service Gateway of an Blocklet Server (to be completed).
 
 ### Manually adding domain names
 
-_Manually adding a domain name requires the domain name to be properly serve in the ABT Node, otherwise it will not pass the DNS validation and `http-01` challenge._
+_Manually adding a domain name requires the domain name to be properly serve in the Blocklet Server, otherwise it will not pass the DNS validation and `http-01` challenge._
 
 1. Go to the Certificate Manager Block Administration page
 1. Click the `Add Domain` button
 1. Enter the domain name to be added
-1. If the domain name resolution is normal, the certificate will be generated successfully and updated to ABT Node in a minute or so.
+1. If the domain name resolution is normal, the certificate will be generated successfully and updated to Blocklet Server in a minute or so.
 
-If the domain name is still resolved, or has not been added to Service Gateway for ABT Node, the application checks every `5 minutes` to see if the domain name is being resolved correctly.
+If the domain name is still resolved, or has not been added to Service Gateway for Blocklet Server, the application checks every `5 minutes` to see if the domain name is being resolved correctly.
 
 Translated with www.DeepL.com/Translator (free version)
 
@@ -67,7 +59,7 @@ npm run start:server
 npm run start:client
 ```
 
-### Deploy to local ABT Node
+### Deploy to local Blocklet Server
 
 ```shell
 blocklet deploy .

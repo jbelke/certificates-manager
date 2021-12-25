@@ -1,6 +1,6 @@
 # Certificates Manager
 
-> Manage certificates in ABT Node.
+> Manage certificates in Blocklet Server.
 
 ## Getting started
 
@@ -33,7 +33,7 @@ npm run start:server
 npm run start:client
 ```
 
-### Deploy to local ABT Node
+### Deploy to local Blocklet Server
 
 ```shell
 blocklet deploy .

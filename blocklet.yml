@@ -1,7 +1,7 @@
 name: certificates-manager
 title: Certificates Manager
-description: Manage ABT Node SSL certificates
-version: 0.3.5
+description: Manage Blocklet Server SSL certificates
+version: 0.3.6
 keywords:
   - dapp
   - ssl
@@ -31,12 +31,12 @@ community: 'https://community.arcblockio.cn'
 support: support@arcblock.io
 environments:
   - name: NODE_ACCESS_KEY
-    description: Access key to manage certificates of the ABT Node
+    description: Access key to manage certificates of the Blocklet Server
     required: true
     default: ''
     secure: false
   - name: NODE_ACCESS_SECRET
-    description: Access secret to manage certificates of the ABT Node
+    description: Access secret to manage certificates of the Blocklet Server
     required: true
     secure: true
     default: ''
@@ -102,7 +102,9 @@ interfaces:
       external: 53
     path: /
     prefix: '*'
-screenshots: []
+screenshots:
+  - domain_list.png
+  - add-domain.png
 requirements:
   abtnode: '>=1.1.17'
 timeout:

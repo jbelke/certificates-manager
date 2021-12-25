@@ -15,11 +15,11 @@ github-action-init: install dep setenv
 
 install:
 	@echo "Install software required for this repo..."
-	@sudo npm install -g @abtnode/cli
+	@sudo npm install -g @blocklet/cli
 
 github-action-install:
 	@echo "Install software required for this repo..."
-	@sudo npm install -g @abtnode/cli
+	@sudo npm install -g @blocklet/cli
 
 dep:
 	@echo "Install dependencies required for this repo..."

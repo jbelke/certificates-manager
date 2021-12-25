@@ -19,27 +19,27 @@ jobs:
         run: make github-action-init
 
       - name: Blocklet workflow
-        uses: blocklet/action-workflow@v1.1
+        uses: blocklet/action-workflow@v1
         with:
           skip-upload: false
           skip-deploy: false
           bundle-command: yarn bundle
           store-endpoint: ${{ secrets.STORE_ENDPOINT_PROD }}
           store-access-token: ${{ secrets.STORE_ACCESS_TOKEN_PROD }}
-          abtnode-endpoint: ${{ secrets.AWS_NODE_ENDPOINT }}
-          access-key: ${{ secrets.AWS_NODE_ACCESS_KEY }}
-          access-secret: ${{ secrets.AWS_NODE_ACCESS_SECRET }}
+          server-endpoint: ${{ secrets.AWS_NODE_ENDPOINT }}
+          server-access-key: ${{ secrets.AWS_NODE_ACCESS_KEY }}
+          server-access-secret: ${{ secrets.AWS_NODE_ACCESS_SECRET }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to Aliyun
-        uses: blocklet/action-workflow@v1.1
+        uses: blocklet/action-workflow@v1
         with:
           skip-abtnode: true
           skip-bundle: true
           skip-deploy: false
           skip-release: true
-          abtnode-endpoint: ${{ secrets.ALIYUN_NODE_ENDPOINT }}
-          access-key: ${{ secrets.ALIYUN_NODE_ACCESS_KEY }}
-          access-secret: ${{ secrets.ALIYUN_NODE_ACCESS_SECRET }}
+          server-endpoint: ${{ secrets.ALIYUN_NODE_ENDPOINT }}
+          server-access-key: ${{ secrets.ALIYUN_NODE_ACCESS_KEY }}
+          server-access-secret: ${{ secrets.ALIYUN_NODE_ACCESS_SECRET }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
