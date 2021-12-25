@@ -2,6 +2,10 @@
 
 > Manage SSL certificates in Blocklet Server.
 
+## Launch on Blocklet Server
+
+[![Launch on Blocklet Server](https://assets.arcblock.io/icons/launch_on_blocklet_server.svg)](https://install.arcblock.io/?action=blocklet-install&meta_url=https%3A%2F%2Fgithub.com%2Fblocklet%2Fcertificates-manager%2Freleases%2Fdownload%2Fv0.3.6%2Fblocklet.json)
+
 ## Usage
 
 Certificates can be generated in two ways: manually by adding a domain name, or automatically when a site is added to the Service Gateway of an Blocklet Server (to be completed).
